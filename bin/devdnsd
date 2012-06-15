@@ -1,0 +1,85 @@
+#!/usr/bin/env ruby
+#
+# This file is part of the devdnsd gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
+# Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
+#
+
+require "rubygems"
+require "rubydns"
+require "gli"
+require "rexec/daemon"
+require "plist"
+require "pathname"
+
+require "lib/devdnsd/application"
+require "lib/devdnsd/configuration"
+require "lib/devdnsd/version"
+require "lib/devdnsd/rule"
+
+# TODO: Replace GLI with your library.
+
+include GLI
+program_desc("A small DNS server to enable local domain resolution.")
+version(Devdnsd::Version::STRING)
+
+desc("Do not ask any confirmation.")
+switch([:f, :force])
+
+desc("The TLD to handle.")
+default_value("dev")
+arg_name("TLD")
+flag([:t,:tld])
+
+desc("The port to bind.")
+default_value(7771)
+arg_name("PORT")
+flag([:p,:port])
+
+desc("The default configuration file.")
+default_value("~/.devdnsd_config")
+arg_name("FILE")
+flag([:c, :config])
+
+desc("The default log file. Not used if run in foreground.")
+default_value("/var/log/devdnsd.log")
+arg_name("LOG")
+flag([:l, :log])
+
+desc("The default log level. Valid values are from 0 to 5 where 0 means \"all messages\".")
+default_value(1)
+arg_name("LEVEL")
+flag([:L, :log_level])
+
+desc("Starts the server.")
+command [:s, :start] do |c|
+  c.desc("Do not daemonize.")
+  c.switch [:n, :foreground]
+
+  c.action do |globals, locals, args|
+    DevDnsd::Application.instance(globals, locals, args).action_start()
+  end
+end
+
+desc("Stops the server.")
+command [:t, :stop] do |c|
+  c.action do |globals, locals, args|
+    DevDnsd::Application.instance(globals, locals, args).action_stop()
+  end
+end
+
+desc("Install the server.")
+command [:i, :install] do |c|
+  c.action do |globals, locals, args|
+    DevDnsd::Application.instance(globals, locals, args).action_install()
+  end
+end
+
+desc("Uninstall the server.")
+command [:u, :uninstall] do |c|
+  c.action do |globals, locals, args|
+    DevDnsd::Application.instance(globals, locals, args).action_uninstall()
+  end
+end
+
+ARGV << "help" if ARGV.length == 0
+exit(GLI.run(ARGV))

@@ -1,0 +1,19 @@
+config.port = 7771
+config.daemonize = true
+config.tld = "dev"
+
+config.add_rule("match.dev", :A, "127.0.0.1")
+
+config.add_rule(/^match(\d+)/, :A) do |match, transaction|
+  "127.0.0.#{match[1]}"
+end
+
+config.add_rule(/^match/, :A) do |match, transaction|
+  "127.0.0.2"
+end
+
+config.add_rule("unmatch1.dev", :A) do |match, transaction|
+  false
+end
+
+config.add_rule(/^unmatch/, false, :A)
