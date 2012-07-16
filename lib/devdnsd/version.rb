@@ -1,14 +1,23 @@
+# encoding: utf-8
 #
 # This file is part of the devdns gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
-module Devdnsd
+module DevDNSd
+  # The current version of DevDNSd.
+  # For version, semantic version is used. See: http://semver.org/
   module Version
-    MAJOR = 0
-    MINOR = 0
-    PATCH = 1
+    # The major version.
+    MAJOR = 1
 
+    # The minor version.
+    MINOR = 0
+
+    # The patch version.
+    PATCH = 0
+
+    # The current version number of DevDNSd.
     STRING = [MAJOR, MINOR, PATCH].compact.join(".")
   end
 end

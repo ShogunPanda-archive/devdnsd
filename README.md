@@ -46,18 +46,22 @@ You can add rules by calling `config.add_rule(...)` into the configuration file.
 
 The first argument of the function is the name you want to match. You can use regular expressions and this is highly recommended if you want to pass a block to the method (see below).
 
-The second argument should be the IP associated to the name. You can use `false` to reject matching for this nameserver. In this case the next nameserver for the system will be used. You can skip this argument if you pass a block to the function.
+The second argument should be the IP associated to the name. If the first argument is a regexp with groups, you can use the standard Ruby `String#gsub` substitution syntax for the reply.
+You can also use `false` to reject matching for this nameserver. In this case the next nameserver for the system will be used. You can skip this argument if you pass a block to the function.
+If you return `nil` from the block, then you'll be responsible to set the response via the [`transaction`](http://rubydoc.info/gems/rubydns/RubyDNS/Transaction) variable.
 
 The third argument can optionally be the record type for the resolv. By default is `:A`.
 This argument is ignored if you pass the block, as it assumes that the second argument is the record type.
 
-If you pass a block to the method, its return code will be taken as the result of the resolving. So if you return `false` then the resolving will be rejected. The block takes two arguments, `match` and `transaction`. If you used regular expression for the first argument, then `match` will contain all the match information for the name.
+If you pass a block to the method, its return code will be taken as the result of the resolving. So if you return `false` then the resolving will be rejected. The block takes three arguments, `match`, `type` and `transaction`. If you used regular expression for the first argument, then `match` will contain all the match information for the name.
 
 For some examples of rules, see the `config/devdnsd_config.sample` file into the repository.
 
 ## Remarks
 
-DevDNSd is tightly coupled with the OSX name resolution system, so it is only available for MacOSX.
+DevDNSd as a local resolver is tightly coupled with the OSX name resolution system, so it is only available for MacOSX.
+
+You can, anyway, run the software as DNS server.
 
 ## Contributing to devdns
 

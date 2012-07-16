@@ -1,12 +1,12 @@
 PATH
   remote: .
   specs:
-    devdnsd (0.0.1)
-      cowtech-extensions
-      gli
-      plist
-      rexec
-      rubydns
+    devdnsd (1.0.0)
+      cowtech-extensions (~> 2.1.0)
+      gli (~> 1.6.0)
+      rainbow (~> 1.1.0)
+      rexec (~> 1.4.1)
+      rubydns (~> 0.4.0)
 
 GEM
   remote: http://rubygems.org/
@@ -28,35 +28,66 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     builder (3.0.0)
-    cowtech-extensions (2.1.0)
+    coderay (1.0.7)
+    cowtech-extensions (2.1.3)
       actionpack (~> 3.0)
       tzinfo (~> 0.3.33)
+    diff-lcs (1.1.3)
     erubis (2.7.0)
     eventmachine (0.12.10)
+    github-markup (0.7.2)
     gli (1.6.0)
     hike (1.2.1)
     i18n (0.6.0)
-    journey (1.0.3)
+    journey (1.0.4)
+    method_source (0.8)
     multi_json (1.3.6)
-    plist (3.1.0)
+    net-dns (0.7.1)
+    pry (0.9.10)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.3.1)
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
     rack-test (0.6.1)
       rack (>= 1.0)
+    rainbow (1.1.4)
+    redcarpet (2.1.1)
     rexec (1.4.1)
-    rubydns (0.4.0)
+    rspec (2.11.0)
+      rspec-core (~> 2.11.0)
+      rspec-expectations (~> 2.11.0)
+      rspec-mocks (~> 2.11.0)
+    rspec-core (2.11.0)
+    rspec-expectations (2.11.1)
+      diff-lcs (~> 1.1.3)
+    rspec-mocks (2.11.1)
+    rubydns (0.4.1)
       eventmachine
       rexec
+    simplecov (0.6.4)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.5.3)
+    simplecov-html (0.5.3)
+    slop (3.3.2)
     sprockets (2.1.3)
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     tilt (1.3.3)
     tzinfo (0.3.33)
+    yard (0.8.2.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   devdnsd!
+  github-markup (~> 0.7.0)
+  net-dns (~> 0.7.0)
+  pry (~> 0.9.9)
+  redcarpet (~> 2.1.0)
+  rspec (~> 2.11.0)
+  simplecov (~> 0.6.0)
+  yard (~> 0.8.0)

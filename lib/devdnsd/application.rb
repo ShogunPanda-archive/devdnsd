@@ -1,166 +1,366 @@
+# encoding: utf-8
 #
 # This file is part of the devdns gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
-# TODO: Fix offline behavior
-
-module DevDnsd
+# A small DNS server to enable local .dev domain resolution.
+module DevDNSd
+  # The main DevDNSd application.
   class Application < RExec::Daemon::Base
-    def self.instance(globals = {}, locals = {}, args = [])
-      @@instance ||= Application.new(globals, locals, args)
-    end
+    # Class for ANY DNS request.
+    ANY_REQUEST = Resolv::DNS::Resource::IN::ANY
 
-    attr_reader :config, :args, :logger
+    # List of classes handled in case of DNS request with resource class ANY.
+    ANY_CLASSES = [Resolv::DNS::Resource::IN::A, Resolv::DNS::Resource::IN::AAAA, Resolv::DNS::Resource::IN::ANY, Resolv::DNS::Resource::IN::CNAME, Resolv::DNS::Resource::IN::HINFO, Resolv::DNS::Resource::IN::MINFO, Resolv::DNS::Resource::IN::MX, Resolv::DNS::Resource::IN::NS, Resolv::DNS::Resource::IN::PTR, Resolv::DNS::Resource::IN::SOA, Resolv::DNS::Resource::IN::TXT]
 
-    def initialize(globals, locals, args)
+    # The {Configuration Configuration} of this application.
+    attr_reader :config
+
+    # The arguments passed via command-line.
+    attr_reader :args
+
+    # The {Logger Logger} for this application.
+    attr_accessor :logger
+
+    # Creates a new application.
+    #
+    # @param globals [Hash] Global options.
+    # @param locals [Hash] Local command options.
+    # @param args [Array] Extra arguments.
+    def initialize(globals = {}, locals = {}, args = [])
       @args = {
-          :global => globals,
-          :local => locals,
-          :args => args
+        :global => globals,
+        :local => locals,
+        :args => args
       }
 
       # Setup logger
-      @log_start = Time.now.to_f
-      @log_formatter = Proc.new {|severity, datetime, progname, msg|
-        log = "[%s.%s] %s: %s\n" % [datetime.strftime("%Y-%m-%d %H:%M:%S"), datetime.usec, severity, msg]
-      }
-      @logger = self.create_logger($stdout, Logger::INFO, @log_formatter)
-      @logger.info("Starting DevDNSd ...")
+      DevDNSd::Logger.start_time = Time.now
+      @logger = DevDNSd::Logger.create(DevDNSd::Logger.get_real_file(@args[:global][:log_file]) || DevDNSd::Logger.default_file, Logger::INFO)
 
       # Open configuration
-      @config = DevDnsd::Configuration.new(@args[:global][:config], self, {:foreground => @args[:local][:foreground], :log_file => @args[:global][:log_file], :log_level => @args[:global][:log_level], :tld => @args[:global][:tld]})
+      begin
+        @config = DevDNSd::Configuration.new(@args[:global][:config], self, {
+          :foreground => @args[:local][:foreground],
+          :log_file => @args[:global][:log_file],
+          :log_level => @args[:global][:log_level],
+          :tld => @args[:global][:tld],
+          :port => @args[:global][:port]
+        })
+        @logger = nil
+        @logger = self.get_logger
+
+      rescue DevDNSd::Errors::InvalidConfiguration, DevDNSd::Errors::InvalidRule => e
+        @logger.fatal(e.message)
+        raise SystemExit
+      end
 
       self
     end
 
-    def self.run
-      self.instance.perform_server
+    # Check if we are running on MacOS X.
+    # System services are only available on that platform.
+    #
+    # @return [Boolean] `true` if the current platform is MacOS X, `false` otherwise.
+    def is_osx?
+      Config::CONFIG['host_os'] =~ /^darwin/
     end
 
-    def create_logger(file = $stdout, level = Logger::INFO, formatter = nil)
-      rv = Logger.new(file)
-      rv.level = level.to_i
-      rv.formatter = formatter if !formatter.nil?
-      rv
+    # Gets the current logger of the application.
+    #
+    # @return [Logger] The current logger of the application.
+    def get_logger
+      @logger ||= DevDNSd::Logger.create(@config.foreground ? DevDNSd::Logger.default_file : @config.log_file, @config.log_level, @log_formatter)
     end
 
+    # Gets the path for the resolver file.
+    #
+    # @param tld [String] The TLD to manage.
+    # @return [String] The path for the resolver file.
+    def resolver_path(tld = nil)
+      tld ||= @config.tld
+      "/etc/resolver/#{tld}"
+    end
+
+    # Gets the path for the launch agent file.
+    #
+    # @param name [String] The base name for the agent.
+    # @return [String] The path for the launch agent file.
+    def launch_agent_path(name = "it.cowtech.devdnsd")
+      ENV["HOME"] + "/Library/LaunchAgents/#{name}.plist"
+    end
+
+    # Executes a shell command.
+    #
+    # @param command [String] The command to execute.
+    # @return [Boolean] `true` if command succeeded, `false` otherwise.
+    def execute_command(command)
+      system(command)
+    end
+
+    # Updates DNS cache.
+    #
+    # @return [Boolean] `true` if command succeeded, `false` otherwise.
+    def dns_update
+      @logger.info("Flushing DNS cache and resolvers ...")
+      self.execute_command("dscacheutil -flushcache")
+    end
+
+    # Starts the DNS server.
+    #
+    # @return [Object] The result of stop callbacks.
     def perform_server
-      server = RubyDNS::run_server(:listen => [[:udp, @config.address, @config.port]]) do
-        @logger = Application.instance.logger
+      RubyDNS::run_server(:listen => [[:udp, @config.address, @config.port.to_integer]]) do
+        self.logger = Application.instance.logger
 
-        Application.instance.config.rules.each do |rule|
-          match(rule.match, rule.type) do |match_data, transaction|
+        match(/.+/, Application::ANY_REQUEST) do |match_data, transaction|
+          transaction.append_question!
+
+          Application.instance.config.rules.each do |rule|
             begin
-              @logger.debug("Found match on #{rule.match} with type #{rule.type}")
-              reply = rule.block.nil? ? rule.reply : rule.block.call(match_data, transaction)
-              @logger.debug(reply ? "Reply is #{reply}." : "No reply found.")
-              transaction.respond!(reply) if reply
+              # Get the subset of handled class that is valid for the rule
+              resource_classes = Application::ANY_CLASSES & rule.resource_class.ensure_array
+
+              if resource_classes.present? then
+                resource_classes.each do |resource_class| # Now for every class
+                  matches = rule.match_host(match_data[0])
+                  Application.instance.process_rule(rule, resource_class, rule.is_regexp? ? matches : nil, transaction) if matches
+                end
+              end
             rescue Exception => e
+              raise e
             end
           end
         end
 
         # Default DNS handler
         otherwise do |transaction|
-          transaction.passthrough!(Resolv::DNS.new)
+          transaction.failure!(:NXDomain)
+        end
+
+        # Attach event handlers
+        self.on(:start) do
+          Application.instance.on_start
+        end
+
+        self.on(:stop) do
+          Application.instance.on_stop
         end
       end
     end
 
-    def dns_update
-      @logger.info("Flushing DNS cache and resolvers ...")
-      system("dscacheutil -flushcache")
+    # Processes a DNS rule.
+    #
+    # @param rule [Rule] The rule to process.
+    # @param type [Class] The type of request.
+    # @param match_or_transaction [MatchData|nil] If the rule pattern was a Regexp, then this holds the match data, otherwise `nil` is passed.
+    # @param transaction [Transaction] The current DNS transaction (http://rubydoc.info/gems/rubydns/RubyDNS/Transaction).
+    # @return A reply for the request if matched, otherwise `false` or `nil`.
+    def process_rule(rule, type, match_data, transaction)
+      is_regex = rule.match.is_a?(Regexp)
+      type = DevDNSd::Rule.resource_class_to_symbol(type)
+
+      Application.instance.logger.debug("Found match on #{rule.match} with type #{type}.")
+
+      if !rule.block.nil? then
+        reply = rule.block.call(match_data, type, transaction)
+      else
+        reply = rule.reply
+      end
+
+      if is_regex && reply && match_data[0] then
+        reply = match_data[0].gsub(rule.match, reply.gsub("$", "\\"))
+      end
+
+      Application.instance.logger.debug(reply ? "Reply is #{reply} with type #{type}." : "No reply found.")
+
+      if reply then
+        options = rule.options
+
+        final_reply = []
+
+        case type
+          when :MX
+            preference = options.delete(:preference)
+            preference = 10 if !preference.is_integer?
+            final_reply << preference
+        end
+
+        if [:A, :AAAA].include?(type) then
+          final_reply << reply
+        else
+          final_reply << Resolv::DNS::Name.create(reply)
+        end
+
+        final_reply << options.merge({:resource_class => DevDNSd::Rule.symbol_to_resource_class(type)})
+        transaction.respond!(*final_reply)
+      elsif reply == false then
+        false
+      else
+        reply
+      end
     end
 
+    # Starts the server in background.
+    #
+    # @return [Boolean] `true` if action succedeed, `false` otherwise.
     def action_start
-      @logger = self.create_logger(@config.foreground ? $stdout : @config.log_file, @config.log_level, @log_formatter)
+      logger = self.get_logger
+
+      logger.info("Starting DevDNSd ...")
 
       if @config.foreground then
         self.perform_server
       else
-        RExec::Daemon::Controller.start(DevDnsd::Application)
+        RExec::Daemon::Controller.start(self.class)
       end
+
+      true
     end
 
+    # Stops the server in background.
+    #
+    # @return [Boolean] `true` if action succedeed, `false` otherwise.
     def action_stop
-      RExec::Daemon::Controller.stop(DevDnsd::Application)
+      RExec::Daemon::Controller.stop(self.class)
+
+      true
     end
 
+    # Installs the server into the system.
+    #
+    # @return [Boolean] `true` if action succedeed, `false` otherwise.
     def action_install
-      @logger = self.create_logger($stdout, @config.log_level, @log_formatter)
+      logger = get_logger
 
-      resolver_file = "/etc/resolver/#{@config.tld}"
-      launch_agent = ENV["HOME"] + "/Library/LaunchAgents/it.cowtech.devdnsd.plist"
+      if !self.is_osx? then
+        logger.fatal("Install DevDNSd as a local resolver is only available on MacOSX.")
+        return false
+      end
 
-      # Install the resolver
+      resolver_file = self.resolver_path
+      launch_agent = self.launch_agent_path
+
+      # Installs the resolver
       begin
-        @logger.info("Installing the resolver in #{resolver_file} ...")
+        logger.info("Installing the resolver in #{resolver_file} ...")
 
         open(resolver_file, "w") {|f|
           f.write("nameserver 127.0.0.1\n")
           f.write("port #{@config.port}")
+          f.flush
         }
       rescue => e
-        @logger.error("Cannot create the resolver file.")
-        return
+        logger.error("Cannot create the resolver file.")
+        return false
       end
 
       begin
-        @logger.info("Creating the launch agent in #{launch_agent} ...")
+        logger.info("Creating the launch agent in #{launch_agent} ...")
 
-        args = $ARGV[0, $ARGV.length - 1]
+        args = $ARGV ? $ARGV[0, $ARGV.length - 1] : ["A"]
 
         plist = {"KeepAlive" => true, "Label" => "it.cowtech.devdnsd", "Program" => (Pathname.new(Dir.pwd) + $0).to_s, "ProgramArguments" => args, "RunAtLoad" => true}
-        plist.save_plist(launch_agent)
+        File.open(launch_agent, "w") {|f|
+          f.write(plist.to_json)
+          f.flush
+        }
+        self.execute_command("plutil -convert binary1 \"#{launch_agent}\"")
       rescue => e
-        @logger.error("Cannot create the launch agent.")
-        return
+        logger.error("Cannot create the launch agent.")
+        return false
       end
 
       begin
-        @logger.info("Loading the launch agent ...")
-        system("launchctl load -w \"#{launch_agent}\"")
+        logger.info("Loading the launch agent ...")
+        self.execute_command("launchctl load -w \"#{launch_agent}\" > /dev/null 2>&1")
       rescue => e
-        @logger.error("Cannot load the agent.")
-        return
+        logger.error("Cannot load the launch agent.")
+        return false
       end
 
       self.dns_update
+
+      true
     end
 
+    # Uninstalls the server from the system.
+    #
+    # @return [Boolean] `true` if action succedeed, `false` otherwise.
     def action_uninstall
-      @logger = self.create_logger($stdout, @config.log_level, @log_formatter)
+      logger = self.get_logger
 
-      resolver_file = "/etc/resolver/#{@config.tld}"
-      launch_agent = ENV["HOME"] + "/Library/LaunchAgents/it.cowtech.devdnsd.plist"
+      if !self.is_osx? then
+        logger.fatal("Install DevDNSd as a local resolver is only available on MacOSX.")
+        return false
+      end
+
+      resolver_file = self.resolver_path
+      launch_agent = self.launch_agent_path
 
       # Remove the resolver
       begin
-        @logger.info("Deleting the resolver #{resolver_file} ...")
+        logger.info("Deleting the resolver #{resolver_file} ...")
         File.delete(resolver_file)
       rescue => e
-        @logger.error("Cannot delete the resolver file.")
-        return
+        logger.warn("Cannot delete the resolver file.")
+        return false
       end
 
       # Unload the launch agent.
       begin
-        system("launchctl unload -w \"#{launch_agent}\"")
+        self.execute_command("launchctl unload -w \"#{launch_agent}\" > /dev/null 2>&1")
       rescue => e
-        @logger.error("Cannot unload the launch agent.")
-        return
+        logger.warn("Cannot unload the launch agent.")
       end
 
+      # Delete the launch agent.
       begin
-        @logger.info("Deleting the launch agent #{launch_agent} ...")
+        logger.info("Deleting the launch agent #{launch_agent} ...")
         File.delete(launch_agent)
       rescue => e
-        @logger.error("Cannot delete the launch agent.")
-        return
+        logger.warn("Cannot delete the launch agent.")
+        return false
       end
 
       self.dns_update
+
+      true
+    end
+
+    # This method is called when the server starts. By default is a no-op.
+    #
+    # @return [NilClass] `nil`.
+    def on_start
+    end
+
+    # This method is called when the server stop.
+    #
+    # @return [NilClass] `nil`.
+    def on_stop
+    end
+
+    # Returns a unique (singleton) instance of the application.
+    # @param globals [Hash] Global options.
+    # @param locals [Hash] Local command options.
+    # @param args [Array] Extra arguments.
+    # @return [Application] The unique (singleton) instance of the application.
+    def self.instance(globals = {}, locals = {}, args = [], force = false)
+      @@instance = nil if force
+      @@instance ||= Application.new(globals, locals, args)
+    end
+
+    # Runs the application in foreground.
+    #
+    # @see #perform_server
+    def self.run
+      self.instance.perform_server
+    end
+
+    # Stops the application.
+    def self.quit
+      EventMachine.stop
     end
   end
 end

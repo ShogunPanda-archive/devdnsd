@@ -1,26 +1,18 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 #
 # This file is part of the devdnsd gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
 require "rubygems"
-require "rubydns"
-require "gli"
-require "rexec/daemon"
-require "plist"
-require "pathname"
+require "devdnsd"
 
-require "lib/devdnsd/application"
-require "lib/devdnsd/configuration"
-require "lib/devdnsd/version"
-require "lib/devdnsd/rule"
-
-# TODO: Replace GLI with your library.
+# TODO: Replace GLI with another library.
 
 include GLI
 program_desc("A small DNS server to enable local domain resolution.")
-version(Devdnsd::Version::STRING)
+version(DevDNSd::Version::STRING)
 
 desc("Do not ask any confirmation.")
 switch([:f, :force])
@@ -56,28 +48,28 @@ command [:s, :start] do |c|
   c.switch [:n, :foreground]
 
   c.action do |globals, locals, args|
-    DevDnsd::Application.instance(globals, locals, args).action_start()
+    DevDNSd::Application.instance(globals, locals, args).action_start()
   end
 end
 
 desc("Stops the server.")
 command [:t, :stop] do |c|
   c.action do |globals, locals, args|
-    DevDnsd::Application.instance(globals, locals, args).action_stop()
+    DevDNSd::Application.instance(globals, locals, args).action_stop()
   end
 end
 
 desc("Install the server.")
 command [:i, :install] do |c|
   c.action do |globals, locals, args|
-    DevDnsd::Application.instance(globals, locals, args).action_install()
+    DevDNSd::Application.instance(globals, locals, args).action_install()
   end
 end
 
 desc("Uninstall the server.")
 command [:u, :uninstall] do |c|
   c.action do |globals, locals, args|
-    DevDnsd::Application.instance(globals, locals, args).action_uninstall()
+    DevDNSd::Application.instance(globals, locals, args).action_uninstall()
   end
 end
 
