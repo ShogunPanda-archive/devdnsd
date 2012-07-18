@@ -32,7 +32,7 @@ describe DevDNSd::Application do
     end
   end
 
-  describe "#run" do
+  describe "::run" do
     it "should run the server" do
       application.should_receive(:perform_server)
 

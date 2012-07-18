@@ -11,7 +11,7 @@ describe DevDNSd::Logger do
     Sickill::Rainbow.enabled = false
   end
 
-  describe "#create" do
+  describe "::create" do
     it("should create a new default logger") do
       logger = DevDNSd::Logger.create
       logger.device.should == DevDNSd::Logger.default_file
@@ -35,7 +35,7 @@ describe DevDNSd::Logger do
     end
   end
 
-  describe "#default_formatter" do
+  describe "::default_formatter" do
     let(:output) { StringIO.new }
     let(:logger) { DevDNSd::Logger.create(output, Logger::DEBUG) }
 
@@ -74,13 +74,13 @@ describe DevDNSd::Logger do
     end
   end
 
-  describe "#get_real_file" do
+  describe "::get_real_file" do
     it("should return the standard ouput") do DevDNSd::Logger.get_real_file("STDOUT").should == $stdout end
     it("should return the standard error") do DevDNSd::Logger.get_real_file("STDERR").should == $stderr end
     it("should return the file") do DevDNSd::Logger.get_real_file("/dev/null").should == "/dev/null" end
   end
 
-  describe "#default_file" do
+  describe "::default_file" do
     it("should return the standard output") do DevDNSd::Logger.default_file.should == $stdout end
   end
 end

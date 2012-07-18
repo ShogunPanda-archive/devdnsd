@@ -58,7 +58,7 @@ describe DevDNSd::Rule do
     end
   end
 
-  describe "#create" do
+  describe "::create" do
     it("should not allow rules without sufficient arguments") do
       expect{ DevDNSd::Rule.create("RULE") }.to raise_error(DevDNSd::Errors::InvalidRule)
       expect{ DevDNSd::Rule.create("RULE", "REPLY", "TYPE", "ARG") }.to raise_error(DevDNSd::Errors::InvalidRule)
@@ -97,14 +97,14 @@ describe DevDNSd::Rule do
     it("should fail for a invalid class") do expect { DevDNSd::Rule.create("MATCH", "REPLY", :INVALID).resource_class }.to raise_error(DevDNSd::Errors::InvalidRule) end
   end
 
-  describe "#resource_class_to_symbol" do
+  describe "::resource_class_to_symbol" do
     it("should convert a class a symbol") do
       DevDNSd::Rule.resource_class_to_symbol(Resolv::DNS::Resource::IN::A).should == :A
       DevDNSd::Rule.resource_class_to_symbol(Resolv).should == :Resolv
     end
   end
 
-  describe "#symbol_to_resource_class" do
+  describe "::symbol_to_resource_class" do
     it("should convert a symbol to a resource class") do DevDNSd::Rule.symbol_to_resource_class(:A).should == Resolv::DNS::Resource::IN::A end
     it("should fail for a invalid class") do expect { DevDNSd::Rule.symbol_to_resource_class(:Invalid) }.to raise_error(DevDNSd::Errors::InvalidRule) end
   end
