@@ -73,7 +73,7 @@ module DevDNSd
 
     # Matches a hostname to the rule.
     #
-    # @param [String] The hostname to match.
+    # @param hostname [String] The hostname to match.
     # @return [MatchData|Boolean|Nil] Return `true` or MatchData (if the pattern is a regexp) if the rule matches, `false` or `nil` otherwise.
     def match_host(hostname)
       self.is_regexp? ? self.match.match(hostname) : (self.match == hostname)

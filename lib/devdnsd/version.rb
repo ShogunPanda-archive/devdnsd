@@ -5,8 +5,9 @@
 #
 
 module DevDNSd
-  # The current version of DevDNSd.
-  # For version, semantic version is used. See: http://semver.org/
+  # The current version of DevDNSd, according to semantic versioning.
+  #
+  # @see http://semver.org
   module Version
     # The major version.
     MAJOR = 1

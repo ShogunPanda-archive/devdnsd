@@ -154,7 +154,7 @@ module DevDNSd
     #
     # @param rule [Rule] The rule to process.
     # @param type [Class] The type of request.
-    # @param match_or_transaction [MatchData|nil] If the rule pattern was a Regexp, then this holds the match data, otherwise `nil` is passed.
+    # @param match_data [MatchData|nil] If the rule pattern was a Regexp, then this holds the match data, otherwise `nil` is passed.
     # @param transaction [Transaction] The current DNS transaction (http://rubydoc.info/gems/rubydns/RubyDNS/Transaction).
     # @return A reply for the request if matched, otherwise `false` or `nil`.
     def process_rule(rule, type, match_data, transaction)
