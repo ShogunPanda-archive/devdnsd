@@ -23,7 +23,7 @@ Gem::Specification.new do |gem|
   #gem.platform = Gem::Platform::CURRENT
 
   gem.add_dependency("rubydns", "~> 0.4.0")
-  gem.add_dependency("cowtech-extensions", "~> 2.1.0")
+  gem.add_dependency("cowtech-extensions", "~> 2.7.0")
   gem.add_dependency("gli", "~> 1.6.0")
   gem.add_dependency("rexec", "~> 1.4.1")
   gem.add_dependency("rainbow", "~> 1.1.0")
