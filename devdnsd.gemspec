@@ -29,7 +29,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency("rainbow", "~> 1.1.0")
 
   gem.add_development_dependency("rspec", "~> 2.11.0")
-  gem.add_development_dependency("rspec", "~> 0.9.0")
+  gem.add_development_dependency("rake", "~> 0.9.0")
   gem.add_development_dependency("simplecov", "~> 0.6.0")
   gem.add_development_dependency("pry", "~> 0.9.10")
   gem.add_development_dependency("net-dns", "~> 0.7.0")
