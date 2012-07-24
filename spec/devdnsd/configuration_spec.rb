@@ -14,11 +14,14 @@ describe DevDNSd::Configuration do
     end
   end
 
+  let(:log_file) { "/tmp/devdnsd-test-log-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}" }
+
   let(:new_application) {
-    app = DevDNSd::Application.new
+    app = DevDNSd::Application.new({:log_file => log_file})
     app.logger = DevDNSd::Logger.create("/dev/null", DevDNSd::Logger::DEBUG)
     app
   }
+
   describe "#initialize" do
     it "sets default arguments and rules" do
       config = DevDNSd::Configuration.new

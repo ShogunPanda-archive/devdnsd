@@ -11,7 +11,8 @@ describe DevDNSd::Application do
     DevDNSd::Logger.stub(:default_file).and_return("/dev/null")
   end
 
-  let(:application){ app = DevDNSd::Application.instance }
+  let(:log_file) { "/tmp/devdnsd-test-log-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}" }
+  let(:application){ app = DevDNSd::Application.instance(:log_file => log_file) }
   let(:executable) { Pathname.new(File.dirname((__FILE__))) + "../../bin/devdnsd" }
   let(:sample_config) { Pathname.new(File.dirname((__FILE__))) + "../../config/devdnsd_config.sample" }
   let(:resolver_path) { "/tmp/devdnsd-test-resolver-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}" }
@@ -27,7 +28,7 @@ describe DevDNSd::Application do
       file.write("config.port = ")
       file.close
 
-      expect { DevDNSd::Application.new({:config => file.path}) }.to raise_error(SystemExit)
+      expect { DevDNSd::Application.new({:config => file.path, :log_file => log_file}) }.to raise_error(SystemExit)
       File.unlink(path)
     end
   end
@@ -240,7 +241,7 @@ describe DevDNSd::Application do
     end
 
     it "should start the daemon" do
-      DevDNSd::Application.instance({}, {}, [], true)
+      DevDNSd::Application.instance({:log_file => log_file}, {}, [], true)
       RExec::Daemon::Controller.should_receive(:start)
       application.action_start
     end
