@@ -1,3 +1,5 @@
+config.log_file = "/tmp/devdnsd-test-log.log"
+
 config.add_rule("match_1.dev", "10.0.1.1")
 
 config.add_rule("match_2.dev", "10.0.2.1", :MX)
