@@ -52,7 +52,7 @@ module DevDNSd
         @logger = self.get_logger
 
       rescue DevDNSd::Errors::InvalidConfiguration, DevDNSd::Errors::InvalidRule => e
-        @logger.fatal(e.message)
+        @logger ? @logger.fatal(e.message) : DevDNSd::Logger.create("STDERR").fatal("Cannot log to #{config.log_file}. Exiting...")
         raise ::SystemExit
       end
 
@@ -345,10 +345,11 @@ module DevDNSd
     # @param globals [Hash] Global options.
     # @param locals [Hash] Local command options.
     # @param args [Array] Extra arguments.
+    # @param force [Boolean] If to force recreation of the instance.
     # @return [Application] The unique (singleton) instance of the application.
     def self.instance(globals = {}, locals = {}, args = [], force = false)
-      @@instance = nil if force
-      @@instance ||= DevDNSd::Application.new(globals, locals, args)
+      @instance = nil if force
+      @instance ||= DevDNSd::Application.new(globals, locals, args)
     end
 
     # Runs the application in foreground.

@@ -33,6 +33,10 @@ describe DevDNSd::Logger do
       logger.level.should == ::Logger::WARN
       logger.formatter.should == formatter
     end
+
+    it("should raise exceptions for invalid files") do
+      expect { DevDNSd::Logger.create("/invalid/file") }.to raise_error(DevDNSd::Errors::InvalidConfiguration)
+    end
   end
 
   describe ".default_formatter" do

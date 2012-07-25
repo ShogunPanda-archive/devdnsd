@@ -11,12 +11,12 @@ describe DevDNSd::Application do
     DevDNSd::Logger.stub(:default_file).and_return("/dev/null")
   end
 
-  let(:log_file) { "/tmp/devdnsd-test-log-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}" }
-  let(:application){ DevDNSd::Application.instance(:log_file => log_file) }
+  let(:log_file) { "/tmp/devdnsd-test-log-#{Time.now.strftime("%Y%m%d-%H%M%S")}" }
+  let(:application){ DevDNSd::Application.instance({:log_file => log_file}, {}, {}, true) }
   let(:executable) { ::Pathname.new(::File.dirname((__FILE__))) + "../../bin/devdnsd" }
   let(:sample_config) { ::Pathname.new(::File.dirname((__FILE__))) + "../../config/devdnsd_config.sample" }
-  let(:resolver_path) { "/tmp/devdnsd-test-resolver-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}" }
-  let(:launch_agent_path) { "/tmp/devdnsd-test-agent-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}" }
+  let(:resolver_path) { "/tmp/devdnsd-test-resolver-#{Time.now.strftime("%Y%m%d-%H%M%S")}" }
+  let(:launch_agent_path) { "/tmp/devdnsd-test-agent-#{Time.now.strftime("%Y%m%d-%H%M%S")}" }
 
   describe "#initialize" do
     it("should setup the logger") do application.logger.should_not be_nil end
@@ -36,110 +36,115 @@ describe DevDNSd::Application do
   describe ".run" do
     it "should run the server" do
       application.should_receive(:perform_server)
-
-      ::Thread.start {
-        devdnsd_resolv("match.dev")
-        DevDNSd::Application.quit
-      }
-
       DevDNSd::Application.run
     end
   end
 
+  describe ".quit" do
+    it "should quit the application" do
+      ::EventMachine.should_receive(:stop)
+      DevDNSd::Application.quit
+    end
+  end
+
   describe "#perform_server" do
+    let(:application){ DevDNSd::Application.instance({:log_file => log_file, :config => sample_config}, {}, {}, true) }
+
     before(:each) do
       DevDNSd::Logger.stub(:default_file).and_return($stdout)
+
+      class DevDNSd::Application
+        def on_start
+          Thread.main[:resolver].wakeup if Thread.main[:resolver].try(:alive?)
+        end
+      end
+    end
+
+    def test_resolve(host = "match_1.dev", type = "ANY", nameserver = "127.0.0.1", port = 7771, logger = nil)
+      host ||= "match.dev"
+
+      Thread.current[:resolver] = Thread.start {
+        Thread.stop
+        Thread.main[:result] = devdnsd_resolv(host, type, nameserver, port, logger)
+      }
+
+      Thread.current[:server] = Thread.start {
+        sleep(0.1)
+
+        if block_given? then
+          yield
+        else
+          application.perform_server
+        end
+      }
+
+      Thread.current[:resolver].join
+      Thread.kill(Thread.current[:server])
+      Thread.main[:running] = false
+      Thread.main[:result]
     end
 
     it "should run the server" do
-      class DevDNSd::Application
-        def on_start
-          ::EventMachine.add_periodic_timer(1) do
-            devdnsd_resolv("match.dev")
-            DevDNSd::Application.quit
-          end
-        end
-      end
-
       RubyDNS.should_receive(:run_server)
-      DevDNSd::Application.instance.perform_server
+      application.perform_server
+    end
+
+    it "should stop the server" do
+      application.should_receive(:on_stop)
+
+      Thread.new {
+        sleep(1)
+        application.class.quit
+      }
+
+      application.perform_server
     end
 
     it "should iterate the rules" do
-      class DevDNSd::Application
-        def on_start
-          ::EventMachine.add_periodic_timer(1) do
-            devdnsd_resolv("match.dev")
-            DevDNSd::Application.quit
-          end
-        end
+      test_resolve do
+        application.config.rules.should_receive(:each).at_least(1)
+        application.perform_server
       end
-
-      DevDNSd::Application.instance.config.rules.should_receive(:each).at_least(1)
-      DevDNSd::Application.instance.perform_server
     end
 
     it "should call process_rule" do
-      class DevDNSd::Application
-        def on_start
-          ::EventMachine.add_periodic_timer(1) do
-            devdnsd_resolv("match.dev")
-            DevDNSd::Application.quit
-          end
-        end
+      test_resolve do
+        application.should_receive(:process_rule).at_least(1)
+        application.perform_server
       end
-
-      DevDNSd::Application.instance.should_receive(:process_rule).at_least(1)
-      DevDNSd::Application.instance.perform_server
     end
 
     it "should complain about wrong rules" do
-      class DevDNSd::Application
-        def on_start
-          ::EventMachine.add_periodic_timer(1) do
-            devdnsd_resolv("invalid.dev")
-            DevDNSd::Application.quit
-          end
-        end
+      test_resolve do
+        application.stub(:process_rule).and_raise(::Exception)
+        expect { application.perform_server }.to raise_exception
       end
-
-      DevDNSd::Application.instance.stub(:process_rule).and_raise(::Exception)
-      expect { DevDNSd::Application.instance.perform_server }.to raise_exception
     end
 
     describe "should correctly resolve hostnames" do
-      before(:all) do
-        system("bundle exec ruby \"#{executable}\" -L 0 -l /dev/null -c \"#{sample_config}\" start")# > /dev/null 2>&1")
-      end
-
-      after(:all) do
-        system("bundle exec ruby \"#{executable}\" -L 0 -l /dev/null stop")# > /dev/null 2>&1")
-      end
-
       it "basing on a exact pattern" do
-        devdnsd_resolv("match_1.dev").should == ["10.0.1.1", :A]
-        devdnsd_resolv("match_2.dev").should == ["10.0.2.1", :MX]
-        devdnsd_resolv("match_3.dev").should == ["10.0.3.1", :A]
-        devdnsd_resolv("match_4.dev").should == ["10.0.4.1", :CNAME]
+        test_resolve("match_1.dev").should == ["10.0.1.1", :A]
+        test_resolve("match_2.dev").should == ["10.0.2.1", :MX]
+        test_resolve("match_3.dev").should == ["10.0.3.1", :A]
+        test_resolve("match_4.dev").should == ["10.0.4.1", :CNAME]
       end
 
       it "basing on a regexp pattern" do
-        devdnsd_resolv("match_5_11.dev").should == ["10.0.5.11", :A]
-        devdnsd_resolv("match_5_22.dev").should == ["10.0.5.22", :A]
-        devdnsd_resolv("match_6_33.dev").should == ["10.0.6.33", :PTR]
-        devdnsd_resolv("match_6_44.dev").should == ["10.0.6.44", :PTR]
-        devdnsd_resolv("match_7_55.dev").should == ["10.0.7.55", :A]
-        devdnsd_resolv("match_7_66.dev").should == ["10.0.7.66", :A]
-        devdnsd_resolv("match_8_77.dev").should == ["10.0.8.77", :PTR]
-        devdnsd_resolv("match_8_88.dev").should == ["10.0.8.88", :PTR]
-
+        test_resolve("match_5_11.dev").should == ["10.0.5.11", :A]
+        test_resolve("match_5_22.dev").should == ["10.0.5.22", :A]
+        test_resolve("match_6_33.dev").should == ["10.0.6.33", :PTR]
+        test_resolve("match_6_44.dev").should == ["10.0.6.44", :PTR]
+        test_resolve("match_7_55.dev").should == ["10.0.7.55", :A]
+        test_resolve("match_7_66.dev").should == ["10.0.7.66", :A]
+        test_resolve("match_8_77.dev").should == ["10.0.8.77", :PTR]
+        test_resolve("match_8_88.dev").should == ["10.0.8.88", :PTR]
       end
 
-      it "and return multiple answsers" do devdnsd_resolv("match_10.dev").should == [["10.0.10.1", :A], ["10.0.10.2", :MX]] end
+      it "and return multiple answsers" do test_resolve("match_10.dev").should == [["10.0.10.1", :A], ["10.0.10.2", :MX]] end
 
       it "and reject invalid matches (with or without rules)" do
-        devdnsd_resolv("match_9.dev").should be_nil
-        devdnsd_resolv("invalid.dev").should be_nil
+        test_resolve("match_9.dev").should be_nil
+        test_resolve("invalid.dev").should be_nil
       end
     end
   end
@@ -157,7 +162,7 @@ describe DevDNSd::Application do
       end
     end
 
-    let(:application){ DevDNSd::Application.new({:config => Pathname.new(::File.dirname((__FILE__))) + "../../config/devdnsd_config.sample" }) }
+    let(:application){ DevDNSd::Application.instance({:log_file => log_file, :config => sample_config}, {}, {}, true) }
     let(:transaction){ FakeTransaction.new }
 
     it "should match a valid string request" do
@@ -179,7 +184,6 @@ describe DevDNSd::Application do
       rule = application.config.rules[3]
       application.process_rule(rule, rule.resource_class, nil, transaction).should be_true
     end
-
 
     it "should match a valid regexp request" do
       rule = application.config.rules[4]
@@ -229,19 +233,20 @@ describe DevDNSd::Application do
     it "should return the resolver file basing on the argument" do application.resolver_path("foo").should == "/etc/resolver/foo" end
   end
 
-  describe "launch_agent_path" do
+  describe "#launch_agent_path" do
     it "should return the agent file with a default name" do application.launch_agent_path.should == ENV["HOME"] + "/Library/LaunchAgents/it.cowtech.devdnsd.plist" end
     it "should return the agent file with a specified name" do application.launch_agent_path("foo").should == ENV["HOME"] + "/Library/LaunchAgents/foo.plist" end
   end
 
   describe "#action_start" do
     it "should call perform_server in foreground" do
-      DevDNSd::Application.instance({}, {:foreground => true}, [], true).should_receive(:perform_server)
+      application = DevDNSd::Application.instance({:log_file => log_file}, {:foreground => true}, [], true)
+      application.should_receive(:perform_server)
       application.action_start
     end
 
     it "should start the daemon" do
-      DevDNSd::Application.instance({:log_file => log_file}, {}, [], true)
+      application = DevDNSd::Application.instance({:log_file => log_file}, {}, [], true)
       ::RExec::Daemon::Controller.should_receive(:start)
       application.action_start
     end

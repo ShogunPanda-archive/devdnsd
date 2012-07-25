@@ -32,7 +32,13 @@ module DevDNSd
     # @return [Logger] The new logger.
     def self.create(file = nil, level = Logger::INFO, formatter = nil)
       file ||= self.default_file
-      rv = self.new(self.get_real_file(file))
+
+      begin
+        rv = self.new(self.get_real_file(file))
+      rescue
+        raise DevDNSd::Errors::InvalidConfiguration
+      end
+
       rv.level = level.to_i
       rv.formatter = formatter || self.default_formatter
       rv
