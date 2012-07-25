@@ -109,11 +109,11 @@ describe DevDNSd::Application do
 
     describe "should correctly resolve hostnames" do
       before(:all) do
-        system("ruby \"#{executable}\" -L 0 -l /dev/null -c \"#{sample_config}\" start > /dev/null 2>&1")
+        system("bundle exec ruby \"#{executable}\" -L 0 -l /dev/null -c \"#{sample_config}\" start > /dev/null 2>&1")
       end
 
       after(:all) do
-        system("ruby \"#{executable}\" -L 0 -l /dev/null stop > /dev/null 2>&1")
+        system("bundle exec ruby \"#{executable}\" -L 0 -l /dev/null stop > /dev/null 2>&1")
       end
 
       it "basing on a exact pattern" do
@@ -431,7 +431,7 @@ describe DevDNSd::Application do
         File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
       end
     end
-    
+
     it "should raise an exception if not running on OSX" do
       application.stub(:is_osx?).and_return(false)
       application.get_logger.should_receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
