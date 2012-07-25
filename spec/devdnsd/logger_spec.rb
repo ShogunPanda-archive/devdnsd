@@ -15,28 +15,28 @@ describe DevDNSd::Logger do
     it("should create a new default logger") do
       logger = DevDNSd::Logger.create
       logger.device.should == DevDNSd::Logger.default_file
-      logger.level.should == Logger::INFO
+      logger.level.should == ::Logger::INFO
       logger.formatter.should == DevDNSd::Logger.default_formatter
     end
 
     it("should create a logger with a custom file and level") do
-      logger = DevDNSd::Logger.create("/dev/null", Logger::WARN)
+      logger = DevDNSd::Logger.create("/dev/null", ::Logger::WARN)
       logger.device.should == "/dev/null"
-      logger.level.should == Logger::WARN
+      logger.level.should == ::Logger::WARN
       logger.formatter.should == DevDNSd::Logger.default_formatter
     end
 
     it("should create a logger with a custom formatter") do
       formatter = Proc.new {|severity, datetime, progname, msg| msg }
-      logger = DevDNSd::Logger.create("/dev/null", Logger::WARN, formatter)
+      logger = DevDNSd::Logger.create("/dev/null", ::Logger::WARN, formatter)
       logger.device.should == "/dev/null"
-      logger.level.should == Logger::WARN
+      logger.level.should == ::Logger::WARN
       logger.formatter.should == formatter
     end
   end
 
   describe ".default_formatter" do
-    let(:output) { StringIO.new }
+    let(:output) { ::StringIO.new }
     let(:logger) { DevDNSd::Logger.create(output, Logger::DEBUG) }
 
     def get_last_line(buffer)
@@ -45,32 +45,32 @@ describe DevDNSd::Logger do
 
     it "should correctly format a DEBUG message" do
       logger.debug("Message.")
-      get_last_line(output).should == "[#{Time.now.strftime("%Y/%b/%d %H:%M:%S")}] DEBUG: Message."
+      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}] DEBUG: Message."
     end
 
     it "should correctly format a INFO message" do
       logger.info("Message.")
-      get_last_line(output).should == "[#{Time.now.strftime("%Y/%b/%d %H:%M:%S")}]  INFO: Message."
+      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}]  INFO: Message."
     end
 
     it "should correctly format a WARN message" do
       logger.warn("Message.")
-      get_last_line(output).should == "[#{Time.now.strftime("%Y/%b/%d %H:%M:%S")}]  WARN: Message."
+      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}]  WARN: Message."
     end
 
     it "should correctly format a ERROR message" do
       logger.error("Message.")
-      get_last_line(output).should == "[#{Time.now.strftime("%Y/%b/%d %H:%M:%S")}] ERROR: Message."
+      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}] ERROR: Message."
     end
 
     it "should correctly format a FATAL message" do
       logger.fatal("Message.")
-      get_last_line(output).should == "[#{Time.now.strftime("%Y/%b/%d %H:%M:%S")}] FATAL: Message."
+      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}] FATAL: Message."
     end
 
     it "should correctly format a INVALID message" do
-      logger.log(Logger::UNKNOWN, "Message.")
-      get_last_line(output).should == "[#{Time.now.strftime("%Y/%b/%d %H:%M:%S")}]   ANY: Message."
+      logger.log(::Logger::UNKNOWN, "Message.")
+      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}]   ANY: Message."
     end
   end
 

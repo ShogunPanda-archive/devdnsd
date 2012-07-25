@@ -29,13 +29,13 @@ describe DevDNSd::Configuration do
       config.port.should == 7771
       config.tld.should == "dev"
       config.log_file.should == "/var/log/devdnsd.log"
-      config.log_level.should == Logger::INFO
+      config.log_level.should == ::Logger::INFO
       config.rules.count.should == 1
       config.foreground.should == false
     end
 
     it "reads a valid configuration file" do
-      file = Tempfile.new('devdnsd-test')
+      file = ::Tempfile.new('devdnsd-test')
       file.write("config.port = 7772")
       file.close
 
@@ -45,7 +45,7 @@ describe DevDNSd::Configuration do
     end
 
     it "reject an invalid configuration" do
-      file = Tempfile.new('devdnsd-test')
+      file = ::Tempfile.new('devdnsd-test')
       file.write("config.port = ")
       file.close
 
@@ -54,7 +54,7 @@ describe DevDNSd::Configuration do
     end
 
     it "allows overrides" do
-      file = Tempfile.new('devdnsd-test')
+      file = ::Tempfile.new('devdnsd-test')
       file.write("config.port = 7772")
       file.close
 

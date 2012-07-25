@@ -53,7 +53,7 @@ module DevDNSd
 
       rescue DevDNSd::Errors::InvalidConfiguration, DevDNSd::Errors::InvalidRule => e
         @logger.fatal(e.message)
-        raise SystemExit
+        raise ::SystemExit
       end
 
       self
@@ -64,7 +64,7 @@ module DevDNSd
     #
     # @return [Boolean] `true` if the current platform is MacOS X, `false` otherwise.
     def is_osx?
-      Config::CONFIG['host_os'] =~ /^darwin/
+      ::Config::CONFIG['host_os'] =~ /^darwin/
     end
 
     # Gets the current logger of the application.
@@ -112,23 +112,23 @@ module DevDNSd
     # @return [Object] The result of stop callbacks.
     def perform_server
       RubyDNS::run_server(:listen => [[:udp, @config.address, @config.port.to_integer]]) do
-        self.logger = Application.instance.logger
+        self.logger = DevDNSd::Application.instance.logger
 
-        match(/.+/, Application::ANY_CLASSES) do |match_data, transaction|
+        match(/.+/, DevDNSd::Application::ANY_CLASSES) do |match_data, transaction|
           transaction.append_question!
 
-          Application.instance.config.rules.each do |rule|
+          DevDNSd::Application.instance.config.rules.each do |rule|
             begin
               # Get the subset of handled class that is valid for the rule
-              resource_classes = Application::ANY_CLASSES & rule.resource_class.ensure_array
+              resource_classes = DevDNSd::Application::ANY_CLASSES & rule.resource_class.ensure_array
 
               if resource_classes.present? then
                 resource_classes.each do |resource_class| # Now for every class
                   matches = rule.match_host(match_data[0])
-                  Application.instance.process_rule(rule, resource_class, rule.is_regexp? ? matches : nil, transaction) if matches
+                  DevDNSd::Application.instance.process_rule(rule, resource_class, rule.is_regexp? ? matches : nil, transaction) if matches
                 end
               end
-            rescue Exception => e
+            rescue ::Exception => e
               raise e
             end
           end
@@ -141,11 +141,11 @@ module DevDNSd
 
         # Attach event handlers
         self.on(:start) do
-          Application.instance.on_start
+          DevDNSd::Application.instance.on_start
         end
 
         self.on(:stop) do
-          Application.instance.on_stop
+          DevDNSd::Application.instance.on_stop
         end
       end
     end
@@ -158,10 +158,10 @@ module DevDNSd
     # @param transaction [Transaction] The current DNS transaction (http://rubydoc.info/gems/rubydns/RubyDNS/Transaction).
     # @return A reply for the request if matched, otherwise `false` or `nil`.
     def process_rule(rule, type, match_data, transaction)
-      is_regex = rule.match.is_a?(Regexp)
+      is_regex = rule.match.is_a?(::Regexp)
       type = DevDNSd::Rule.resource_class_to_symbol(type)
 
-      Application.instance.logger.debug("Found match on #{rule.match} with type #{type}.")
+      DevDNSd::Application.instance.logger.debug("Found match on #{rule.match} with type #{type}.")
 
       if !rule.block.nil? then
         reply = rule.block.call(match_data, type, transaction)
@@ -173,7 +173,7 @@ module DevDNSd
         reply = match_data[0].gsub(rule.match, reply.gsub("$", "\\"))
       end
 
-      Application.instance.logger.debug(reply ? "Reply is #{reply} with type #{type}." : "No reply found.")
+      DevDNSd::Application.instance.logger.debug(reply ? "Reply is #{reply} with type #{type}." : "No reply found.")
 
       if reply then
         options = rule.options
@@ -261,8 +261,8 @@ module DevDNSd
 
         args = $ARGV ? $ARGV[0, $ARGV.length - 1] : ["A"]
 
-        plist = {"KeepAlive" => true, "Label" => "it.cowtech.devdnsd", "Program" => (Pathname.new(Dir.pwd) + $0).to_s, "ProgramArguments" => args, "RunAtLoad" => true}
-        File.open(launch_agent, "w") {|f|
+        plist = {"KeepAlive" => true, "Label" => "it.cowtech.devdnsd", "Program" => (::Pathname.new(Dir.pwd) + $0).to_s, "ProgramArguments" => args, "RunAtLoad" => true}
+        ::File.open(launch_agent, "w") {|f|
           f.write(plist.to_json)
           f.flush
         }
@@ -302,7 +302,7 @@ module DevDNSd
       # Remove the resolver
       begin
         logger.info("Deleting the resolver #{resolver_file} ...")
-        File.delete(resolver_file)
+        ::File.delete(resolver_file)
       rescue => e
         logger.warn("Cannot delete the resolver file.")
         return false
@@ -318,7 +318,7 @@ module DevDNSd
       # Delete the launch agent.
       begin
         logger.info("Deleting the launch agent #{launch_agent} ...")
-        File.delete(launch_agent)
+        ::File.delete(launch_agent)
       rescue => e
         logger.warn("Cannot delete the launch agent.")
         return false
@@ -348,7 +348,7 @@ module DevDNSd
     # @return [Application] The unique (singleton) instance of the application.
     def self.instance(globals = {}, locals = {}, args = [], force = false)
       @@instance = nil if force
-      @@instance ||= Application.new(globals, locals, args)
+      @@instance ||= DevDNSd::Application.new(globals, locals, args)
     end
 
     # Runs the application in foreground.
@@ -360,7 +360,7 @@ module DevDNSd
 
     # Stops the application.
     def self.quit
-      EventMachine.stop
+      ::EventMachine.stop
     end
   end
 end

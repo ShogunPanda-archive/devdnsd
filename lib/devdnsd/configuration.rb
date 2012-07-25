@@ -45,29 +45,29 @@ module DevDNSd
       @port = 7771
       @tld = "dev"
       @log_file = "/var/log/devdnsd.log"
-      @log_level = Logger::INFO
+      @log_level = ::Logger::INFO
       @rules = []
       @foreground = false
 
       if file.present?
         begin
           # Open the file
-          path = Pathname.new(file).realpath
+          path = ::Pathname.new(file).realpath
           application.logger.info("Using configuration file #{path}.") if application
           self.tap do |config|
-            eval(File.read(path))
+            eval(::File.read(path))
           end
 
           @log_file = $stdout if @log_file == "STDOUT"
           @log_file = $stderr if @log_file == "STDERR"
-        rescue Errno::ENOENT, LoadError
-        rescue Exception => e
+        rescue ::Errno::ENOENT, ::LoadError
+        rescue ::Exception => e
           raise DevDNSd::Errors::InvalidConfiguration.new("Config file #{file} is not valid.")
         end
       end
 
       # Apply overrides
-      if overrides.is_a?(Hash) then
+      if overrides.is_a?(::Hash) then
         overrides.each_pair do |k, v|
           self.send("#{k}=", v) if self.respond_to?("#{k}=") && !v.nil?
         end

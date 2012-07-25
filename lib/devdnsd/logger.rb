@@ -59,7 +59,7 @@ module DevDNSd
     # The default formatter for logging.
     # @return [Proc] The default formatter for logging.
     def self.default_formatter
-      @default_formatter ||= Proc.new {|severity, datetime, progname, msg|
+      @default_formatter ||= ::Proc.new {|severity, datetime, progname, msg|
         color = case severity
           when "DEBUG" then :cyan
           when "INFO" then :green
@@ -78,7 +78,7 @@ module DevDNSd
     # The log time of the first logger. This allows to show a `T+0.1234` information into the log.
     # @return [Time] The log time of the first logger.
     def self.start_time
-      @start_time ||= Time.now
+      @start_time ||= ::Time.now
     end
   end
 end

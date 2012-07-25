@@ -46,7 +46,7 @@ module DevDNSd
       @block = block
 
       raise(DevDNSd::Errors::InvalidRule.new("You must specify at least a rule and a host (also via a block). Optionally you can add a record type (default: A) and the options.")) if @reply.blank? && @block.nil?
-      raise(DevDNSd::Errors::InvalidRule.new("You can only use hashs for options.")) if !@options.is_a?(Hash)
+      raise(DevDNSd::Errors::InvalidRule.new("You can only use hashs for options.")) if !@options.is_a?(::Hash)
     end
 
     # Returns the resource class(es) for the current rule.
@@ -61,7 +61,7 @@ module DevDNSd
     #
     # @return [Boolean] `true` if the rule is a Regexp, `false` otherwise.
     def is_regexp?
-      self.match.is_a?(Regexp)
+      self.match.is_a?(::Regexp)
     end
 
     # Checks if the rule is a regexp.
@@ -88,7 +88,7 @@ module DevDNSd
     # @param block [Proc] An optional block to compute the reply instead of using the `reply_or_type` parameter. In this case `reply_or_type` is used for the type of the request and `type` is ignored.
     def self.create(match, reply_or_type = nil, type = nil, options = {}, &block)
       raise(DevDNSd::Errors::InvalidRule.new("You must specify at least a rule and a host (also via a block). Optionally you can add a record type (default: A) and the options.")) if reply_or_type.blank? && block.nil?
-      raise(DevDNSd::Errors::InvalidRule.new("You can only use hashs for options.")) if !options.is_a?(Hash)
+      raise(DevDNSd::Errors::InvalidRule.new("You can only use hashs for options.")) if !options.is_a?(::Hash)
 
       rv = self.new(match)
       rv.options = options
@@ -122,7 +122,7 @@ module DevDNSd
 
       begin
         "Resolv::DNS::Resource::IN::#{symbol}".constantize
-      rescue NameError
+      rescue ::NameError
         raise(DevDNSd::Errors::InvalidRule.new("Invalid resource class #{symbol}."))
       end
     end

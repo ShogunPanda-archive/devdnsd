@@ -8,11 +8,11 @@ module DevDNSd
   # Exceptions for {DevDNSd DevDNSd}.
   module Errors
     # This exception is raised if a {Rule Rule} is invalid.
-    class InvalidRule < ArgumentError
+    class InvalidRule < ::ArgumentError
     end
 
     # This exception is raised if a {Configuration Configuration} is invalid.
-    class InvalidConfiguration < ArgumentError
+    class InvalidConfiguration < ::ArgumentError
     end
   end
 end
