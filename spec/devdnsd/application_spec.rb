@@ -12,7 +12,7 @@ describe DevDNSd::Application do
   end
 
   let(:log_file) { "/tmp/devdnsd-test-log-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}" }
-  let(:application){ app = DevDNSd::Application.instance(:log_file => log_file) }
+  let(:application){ DevDNSd::Application.instance(:log_file => log_file) }
   let(:executable) { Pathname.new(File.dirname((__FILE__))) + "../../bin/devdnsd" }
   let(:sample_config) { Pathname.new(File.dirname((__FILE__))) + "../../config/devdnsd_config.sample" }
   let(:resolver_path) { "/tmp/devdnsd-test-resolver-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}" }
@@ -255,89 +255,91 @@ describe DevDNSd::Application do
   end
 
   describe "#action_install" do
-    it "should create the resolver" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+    if Config::CONFIG['host_os'] =~ /^darwin/ then
+      it "should create the resolver" do
+        application.stub(:resolver_path).and_return(resolver_path)
+        application.stub(:launch_agent_path).and_return(launch_agent_path)
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
 
-      application.action_install
-      File.exists?(resolver_path).should be_true
+        application.action_install
+        File.exists?(resolver_path).should be_true
 
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-    end
-
-    it "should create the agent" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.action_install
-      File.exists?(application.launch_agent_path).should be_true
-
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-    end
-
-    it "should update the DNS cache" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-
-      application.should_receive(:dns_update)
-      application.action_install
-
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-    end
-
-    it "should not create and invalid logger" do
-      application.stub(:resolver_path).and_return("/invalid/resolver")
-      application.stub(:launch_agent_path).and_return("/invalid/agent")
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-
-      application.get_logger.should_receive(:error).with("Cannot create the resolver file.")
-      application.action_install
-
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-    end
-
-    it "should not create and invalid agent" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return("/invalid/agent")
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-
-      application.get_logger.should_receive(:error).with("Cannot create the launch agent.")
-      application.action_install
-
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-    end
-
-    it "should not load an invalid agent" do
-      class DevDNSd::Application
-        def execute_command(command)
-          command =~ /^launchctl/ ? raise(StandardError) : system(command)
-        end
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
       end
 
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      it "should create the agent" do
+        application.stub(:resolver_path).and_return(resolver_path)
+        application.stub(:launch_agent_path).and_return(launch_agent_path)
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
 
-      application.get_logger.should_receive(:error).with("Cannot load the launch agent.")
-      application.action_install
+        application.stub(:resolver_path).and_return(resolver_path)
+        application.action_install
+        File.exists?(application.launch_agent_path).should be_true
 
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      end
+
+      it "should update the DNS cache" do
+        application.stub(:resolver_path).and_return(resolver_path)
+        application.stub(:launch_agent_path).and_return(launch_agent_path)
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+
+        application.should_receive(:dns_update)
+        application.action_install
+
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      end
+
+      it "should not create and invalid logger" do
+        application.stub(:resolver_path).and_return("/invalid/resolver")
+        application.stub(:launch_agent_path).and_return("/invalid/agent")
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+
+        application.get_logger.should_receive(:error).with("Cannot create the resolver file.")
+        application.action_install
+
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      end
+
+      it "should not create and invalid agent" do
+        application.stub(:resolver_path).and_return(resolver_path)
+        application.stub(:launch_agent_path).and_return("/invalid/agent")
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+
+        application.get_logger.should_receive(:error).with("Cannot create the launch agent.")
+        application.action_install
+
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      end
+
+      it "should not load an invalid agent" do
+        class DevDNSd::Application
+          def execute_command(command)
+            command =~ /^launchctl/ ? raise(StandardError) : system(command)
+          end
+        end
+
+        application.stub(:resolver_path).and_return(resolver_path)
+        application.stub(:launch_agent_path).and_return(launch_agent_path)
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+
+        application.get_logger.should_receive(:error).with("Cannot load the launch agent.")
+        application.action_install
+
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      end
     end
 
     it "should raise an exception if not running on OSX" do
@@ -348,86 +350,88 @@ describe DevDNSd::Application do
   end
 
   describe "#action_uninstall" do
-    it "should remove the resolver" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+    if Config::CONFIG['host_os'] =~ /^darwin/ then
+      it "should remove the resolver" do
+        application.stub(:resolver_path).and_return(resolver_path)
+        application.stub(:launch_agent_path).and_return(launch_agent_path)
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
 
-      application.action_install
-      application.action_uninstall
-      File.exists?(resolver_path).should be_false
+        application.action_install
+        application.action_uninstall
+        File.exists?(resolver_path).should be_false
 
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      end
+
+      it "should remove the agent" do
+        application.stub(:resolver_path).and_return(resolver_path)
+        application.stub(:launch_agent_path).and_return(launch_agent_path)
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+
+        DevDNSd::Logger.stub(:default_file).and_return($stdout)
+        application.action_install
+        application.action_uninstall
+        File.exists?(application.launch_agent_path).should be_false
+
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      end
+
+      it "should not load delete an invalid resolver" do
+        application.stub(:resolver_path).and_return("/invalid/resolver")
+        application.stub(:launch_agent_path).and_return("/invalid/agent")
+
+        application.action_install
+        application.get_logger.should_receive(:warn).at_least(1)
+        application.action_uninstall
+
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      end
+
+      it "should not delete an invalid agent" do
+        application.stub(:resolver_path).and_return(resolver_path)
+        application.stub(:launch_agent_path).and_return("/invalid/agent")
+
+        application.action_install
+        application.get_logger.should_receive(:warn).at_least(1)
+        application.action_uninstall
+
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      end
+
+      it "should not load delete invalid agent" do
+        application.stub(:resolver_path).and_return(resolver_path)
+        application.stub(:launch_agent_path).and_return("/invalid/agent")
+
+        application.action_install
+        application.stub(:execute_command).and_raise(StandardError)
+        application.get_logger.should_receive(:warn).at_least(1)
+        application.action_uninstall
+
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      end
+
+      it "should update the DNS cache" do
+        application.stub(:resolver_path).and_return(resolver_path)
+        application.stub(:launch_agent_path).and_return(launch_agent_path)
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+
+        application.action_install
+        application.should_receive(:dns_update)
+        application.action_uninstall
+
+        File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
+        File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
+      end
     end
-
-    it "should remove the agent" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-
-      DevDNSd::Logger.stub(:default_file).and_return($stdout)
-      application.action_install
-      application.action_uninstall
-      File.exists?(application.launch_agent_path).should be_false
-
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-    end
-
-    it "should not load delete an invalid resolver" do
-      application.stub(:resolver_path).and_return("/invalid/resolver")
-      application.stub(:launch_agent_path).and_return("/invalid/agent")
-
-      application.action_install
-      application.get_logger.should_receive(:warn).at_least(1)
-      application.action_uninstall
-
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-    end
-
-    it "should not delete an invalid agent" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return("/invalid/agent")
-
-      application.action_install
-      application.get_logger.should_receive(:warn).at_least(1)
-      application.action_uninstall
-
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-    end
-
-    it "should not load delete invalid agent" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return("/invalid/agent")
-
-      application.action_install
-      application.stub(:execute_command).and_raise(StandardError)
-      application.get_logger.should_receive(:warn).at_least(1)
-      application.action_uninstall
-
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-    end
-
-    it "should update the DNS cache" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-
-      application.action_install
-      application.should_receive(:dns_update)
-      application.action_uninstall
-
-      File.unlink(application.resolver_path) if File.exists?(application.resolver_path)
-      File.unlink(application.launch_agent_path) if File.exists?(application.launch_agent_path)
-    end
-
+    
     it "should raise an exception if not running on OSX" do
       application.stub(:is_osx?).and_return(false)
       application.get_logger.should_receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
