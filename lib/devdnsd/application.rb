@@ -114,7 +114,7 @@ module DevDNSd
       RubyDNS::run_server(:listen => [[:udp, @config.address, @config.port.to_integer]]) do
         self.logger = Application.instance.logger
 
-        match(/.+/, Application::ANY_REQUEST) do |match_data, transaction|
+        match(/.+/, Application::ANY_CLASSES) do |match_data, transaction|
           transaction.append_question!
 
           Application.instance.config.rules.each do |rule|
