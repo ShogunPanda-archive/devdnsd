@@ -140,7 +140,10 @@ describe DevDNSd::Application do
         test_resolve("match_8_88.dev").should == ["10.0.8.88", :PTR]
       end
 
-      it "and return multiple answsers" do test_resolve("match_10.dev").should == [["10.0.10.1", :A], ["10.0.10.2", :MX]] end
+      it "and return multiple or only relevant answsers" do
+        test_resolve("match_10.dev").should == [["10.0.10.1", :A], ["10.0.10.2", :MX]]
+        test_resolve("match_10.dev", "MX").should == ["10.0.10.2", :MX]
+      end
 
       it "and reject invalid matches (with or without rules)" do
         test_resolve("match_9.dev").should be_nil

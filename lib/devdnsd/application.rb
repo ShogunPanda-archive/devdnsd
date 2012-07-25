@@ -121,6 +121,7 @@ module DevDNSd
             begin
               # Get the subset of handled class that is valid for the rule
               resource_classes = DevDNSd::Application::ANY_CLASSES & rule.resource_class.ensure_array
+              resource_classes = resource_classes & [transaction.resource_class] if transaction.resource_class != DevDNSd::Application::ANY_REQUEST
 
               if resource_classes.present? then
                 resource_classes.each do |resource_class| # Now for every class

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    devdnsd (1.0.3)
+    devdnsd (1.1.0)
       cowtech-extensions (~> 2.7.0)
       gli (~> 1.6.0)
       rainbow (~> 1.1.0)
