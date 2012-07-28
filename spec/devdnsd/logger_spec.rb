@@ -14,24 +14,24 @@ describe DevDNSd::Logger do
   describe ".create" do
     it("should create a new default logger") do
       logger = DevDNSd::Logger.create
-      logger.device.should == DevDNSd::Logger.default_file
-      logger.level.should == ::Logger::INFO
-      logger.formatter.should == DevDNSd::Logger.default_formatter
+      expect(logger.device).to eq(DevDNSd::Logger.default_file)
+      expect(logger.level).to eq(::Logger::INFO)
+      expect(logger.formatter).to eq(DevDNSd::Logger.default_formatter)
     end
 
     it("should create a logger with a custom file and level") do
       logger = DevDNSd::Logger.create("/dev/null", ::Logger::WARN)
-      logger.device.should == "/dev/null"
-      logger.level.should == ::Logger::WARN
-      logger.formatter.should == DevDNSd::Logger.default_formatter
+      expect(logger.device).to eq("/dev/null")
+      expect(logger.level).to eq(::Logger::WARN)
+      expect(logger.formatter).to eq(DevDNSd::Logger.default_formatter)
     end
 
     it("should create a logger with a custom formatter") do
       formatter = Proc.new {|severity, datetime, progname, msg| msg }
       logger = DevDNSd::Logger.create("/dev/null", ::Logger::WARN, formatter)
-      logger.device.should == "/dev/null"
-      logger.level.should == ::Logger::WARN
-      logger.formatter.should == formatter
+      expect(logger.device).to eq("/dev/null")
+      expect(logger.level).to eq(::Logger::WARN)
+      expect(logger.formatter).to eq(formatter)
     end
 
     it("should raise exceptions for invalid files") do
@@ -49,42 +49,52 @@ describe DevDNSd::Logger do
 
     it "should correctly format a DEBUG message" do
       logger.debug("Message.")
-      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}] DEBUG: Message."
+      expect(get_last_line(output)).to eq("[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}] DEBUG: Message.")
     end
 
     it "should correctly format a INFO message" do
       logger.info("Message.")
-      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}]  INFO: Message."
+      expect(get_last_line(output)).to eq("[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}]  INFO: Message.")
     end
 
     it "should correctly format a WARN message" do
       logger.warn("Message.")
-      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}]  WARN: Message."
+      expect(get_last_line(output)).to eq("[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}]  WARN: Message.")
     end
 
     it "should correctly format a ERROR message" do
       logger.error("Message.")
-      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}] ERROR: Message."
+      expect(get_last_line(output)).to eq("[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}] ERROR: Message.")
     end
 
     it "should correctly format a FATAL message" do
       logger.fatal("Message.")
-      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}] FATAL: Message."
+      expect(get_last_line(output)).to eq("[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}] FATAL: Message.")
     end
 
     it "should correctly format a INVALID message" do
       logger.log(::Logger::UNKNOWN, "Message.")
-      get_last_line(output).should == "[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}]   ANY: Message."
+      expect(get_last_line(output)).to eq("[#{::Time.now.strftime("%Y/%b/%d %H:%M:%S")}]   ANY: Message.")
     end
   end
 
   describe ".get_real_file" do
-    it("should return the standard ouput") do DevDNSd::Logger.get_real_file("STDOUT").should == $stdout end
-    it("should return the standard error") do DevDNSd::Logger.get_real_file("STDERR").should == $stderr end
-    it("should return the file") do DevDNSd::Logger.get_real_file("/dev/null").should == "/dev/null" end
+    it("should return the standard ouput") do 
+      expect(DevDNSd::Logger.get_real_file("STDOUT")).to eq($stdout )
+    end
+    
+    it("should return the standard error") do 
+      expect(DevDNSd::Logger.get_real_file("STDERR")).to eq($stderr )
+    end
+    
+    it("should return the file") do 
+      expect(DevDNSd::Logger.get_real_file("/dev/null")).to eq("/dev/null" )
+    end
   end
 
   describe ".default_file" do
-    it("should return the standard output") do DevDNSd::Logger.default_file.should == $stdout end
+    it("should return the standard output") do
+      expect(DevDNSd::Logger.default_file).to eq($stdout)
+    end
   end
 end

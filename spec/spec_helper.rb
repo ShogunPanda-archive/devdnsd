@@ -10,4 +10,10 @@ require "coverage_helper"
 require "devdnsd"
 require "net/dns"
 
+RSpec.configure do |config|
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
+end
+
 require File.expand_path(File.dirname(__FILE__)) + "/../utils/tester"

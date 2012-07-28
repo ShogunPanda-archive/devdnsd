@@ -19,8 +19,13 @@ describe DevDNSd::Application do
   let(:launch_agent_path) { "/tmp/devdnsd-test-agent-#{Time.now.strftime("%Y%m%d-%H%M%S")}" }
 
   describe "#initialize" do
-    it("should setup the logger") do application.logger.should_not be_nil end
-    it("should setup the configuration") do application.config.should_not be_nil end
+    it("should setup the logger") do
+      expect(application.logger).not_to be_nil
+    end
+
+    it("should setup the configuration") do
+      expect(application.config).not_to be_nil
+    end
 
     it("should abort with an invalid configuration") do
       path = "/tmp/devdnsd-test-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}"
@@ -123,31 +128,31 @@ describe DevDNSd::Application do
 
     describe "should correctly resolve hostnames" do
       it "basing on a exact pattern" do
-        test_resolve("match_1.dev").should == ["10.0.1.1", :A]
-        test_resolve("match_2.dev").should == ["10.0.2.1", :MX]
-        test_resolve("match_3.dev").should == ["10.0.3.1", :A]
-        test_resolve("match_4.dev").should == ["10.0.4.1", :CNAME]
+        expect(test_resolve("match_1.dev")).to eq(["10.0.1.1", :A])
+        expect(test_resolve("match_2.dev")).to eq(["10.0.2.1", :MX])
+        expect(test_resolve("match_3.dev")).to eq(["10.0.3.1", :A])
+        expect(test_resolve("match_4.dev")).to eq(["10.0.4.1", :CNAME])
       end
 
       it "basing on a regexp pattern" do
-        test_resolve("match_5_11.dev").should == ["10.0.5.11", :A]
-        test_resolve("match_5_22.dev").should == ["10.0.5.22", :A]
-        test_resolve("match_6_33.dev").should == ["10.0.6.33", :PTR]
-        test_resolve("match_6_44.dev").should == ["10.0.6.44", :PTR]
-        test_resolve("match_7_55.dev").should == ["10.0.7.55", :A]
-        test_resolve("match_7_66.dev").should == ["10.0.7.66", :A]
-        test_resolve("match_8_77.dev").should == ["10.0.8.77", :PTR]
-        test_resolve("match_8_88.dev").should == ["10.0.8.88", :PTR]
+        expect(test_resolve("match_5_11.dev")).to eq(["10.0.5.11", :A])
+        expect(test_resolve("match_5_22.dev")).to eq(["10.0.5.22", :A])
+        expect(test_resolve("match_6_33.dev")).to eq(["10.0.6.33", :PTR])
+        expect(test_resolve("match_6_44.dev")).to eq(["10.0.6.44", :PTR])
+        expect(test_resolve("match_7_55.dev")).to eq(["10.0.7.55", :A])
+        expect(test_resolve("match_7_66.dev")).to eq(["10.0.7.66", :A])
+        expect(test_resolve("match_8_77.dev")).to eq(["10.0.8.77", :PTR])
+        expect(test_resolve("match_8_88.dev")).to eq(["10.0.8.88", :PTR])
       end
 
       it "and return multiple or only relevant answsers" do
-        test_resolve("match_10.dev").should == [["10.0.10.1", :A], ["10.0.10.2", :MX]]
-        test_resolve("match_10.dev", "MX").should == ["10.0.10.2", :MX]
+        expect(test_resolve("match_10.dev")).to eq([["10.0.10.1", :A], ["10.0.10.2", :MX]])
+        expect(test_resolve("match_10.dev", "MX")).to eq(["10.0.10.2", :MX])
       end
 
       it "and reject invalid matches (with or without rules)" do
-        test_resolve("match_9.dev").should be_nil
-        test_resolve("invalid.dev").should be_nil
+        expect(test_resolve("match_9.dev")).to be_nil
+        expect(test_resolve("invalid.dev")).to be_nil
       end
     end
   end
@@ -170,75 +175,85 @@ describe DevDNSd::Application do
 
     it "should match a valid string request" do
       rule = application.config.rules[0]
-      application.process_rule(rule, rule.resource_class, nil, transaction).should be_true
+      expect(application.process_rule(rule, rule.resource_class, nil, transaction)).to be_true
     end
 
     it "should match a valid string request with specific type" do
       rule = application.config.rules[1]
-      application.process_rule(rule, rule.resource_class, nil, transaction).should be_true
+      expect(application.process_rule(rule, rule.resource_class, nil, transaction)).to be_true
     end
 
     it "should match a valid string request with a block" do
       rule = application.config.rules[2]
-      application.process_rule(rule, rule.resource_class, nil, transaction).should be_true
+      expect(application.process_rule(rule, rule.resource_class, nil, transaction)).to be_true
     end
 
     it "should match a valid string request with a block" do
       rule = application.config.rules[3]
-      application.process_rule(rule, rule.resource_class, nil, transaction).should be_true
+      expect(application.process_rule(rule, rule.resource_class, nil, transaction)).to be_true
     end
 
     it "should match a valid regexp request" do
       rule = application.config.rules[4]
       mo = rule.match_host("match_5_12.dev")
-      application.process_rule(rule, rule.resource_class, mo, transaction).should be_true
+      expect(application.process_rule(rule, rule.resource_class, mo, transaction)).to be_true
     end
 
     it "should match a valid regexp request with specific type" do
       rule = application.config.rules[5]
       mo = rule.match_host("match_6_34.dev")
-      application.process_rule(rule, rule.resource_class, mo, transaction).should be_true
+      expect(application.process_rule(rule, rule.resource_class, mo, transaction)).to be_true
     end
 
     it "should match a valid regexp request with a block" do
       rule = application.config.rules[6]
       mo = rule.match_host("match_7_56.dev")
-      application.process_rule(rule, rule.resource_class, mo, transaction).should be_true
+      expect(application.process_rule(rule, rule.resource_class, mo, transaction)).to be_true
     end
 
     it "should match a valid regexp request with a block and specific type" do
       rule = application.config.rules[7]
       mo = rule.match_host("match_8_78.dev")
-      application.process_rule(rule, rule.resource_class, mo, transaction).should be_true
+      expect(application.process_rule(rule, rule.resource_class, mo, transaction)).to be_true
     end
 
     it "should return false for a false block" do
       rule = application.config.rules[8]
-      application.process_rule(rule, rule.resource_class, nil, transaction).should be_false
+      expect(application.process_rule(rule, rule.resource_class, nil, transaction)).to be_false
     end
 
     it "should return nil for a nil reply" do
       rule = application.config.rules[0]
       rule.reply = nil
-      application.process_rule(rule, rule.resource_class, nil, transaction).should be_nil
+      expect(application.process_rule(rule, rule.resource_class, nil, transaction)).to be_nil
     end
   end
 
   describe "#dns_update" do
     it "should update the DNS cache" do
       application.stub(:execute_command).and_return("EXECUTED")
-      application.dns_update.should == "EXECUTED"
+      expect(application.dns_update).to eq("EXECUTED")
     end
   end
 
   describe "#resolver_path" do
-    it "should return the resolver file basing on the configuration" do application.resolver_path.should == "/etc/resolver/#{application.config.tld}" end
-    it "should return the resolver file basing on the argument" do application.resolver_path("foo").should == "/etc/resolver/foo" end
+    it "should return the resolver file basing on the configuration" do
+      expect(application.resolver_path).to eq("/etc/resolver/#{application.config.tld}")
+    end
+
+    it "should return the resolver file basing on the argument" do
+      expect(application.resolver_path("foo")).to eq("/etc/resolver/foo")
+    end
   end
 
   describe "#launch_agent_path" do
-    it "should return the agent file with a default name" do application.launch_agent_path.should == ENV["HOME"] + "/Library/LaunchAgents/it.cowtech.devdnsd.plist" end
-    it "should return the agent file with a specified name" do application.launch_agent_path("foo").should == ENV["HOME"] + "/Library/LaunchAgents/foo.plist" end
+    it "should return the agent file with a default name" do
+      expect(application.launch_agent_path).to eq(ENV["HOME"] + "/Library/LaunchAgents/it.cowtech.devdnsd.plist")
+    end
+
+    it "should return the agent file with a specified name" do
+      expect(application.launch_agent_path("foo")).to eq(ENV["HOME"] + "/Library/LaunchAgents/foo.plist")
+    end
   end
 
   describe "#action_start" do
@@ -271,7 +286,7 @@ describe DevDNSd::Application do
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
         application.action_install
-        ::File.exists?(resolver_path).should be_true
+        expect(::File.exists?(resolver_path)).to be_true
 
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
@@ -285,7 +300,7 @@ describe DevDNSd::Application do
 
         application.stub(:resolver_path).and_return(resolver_path)
         application.action_install
-        ::File.exists?(application.launch_agent_path).should be_true
+        expect(::File.exists?(application.launch_agent_path)).to be_true
 
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
@@ -353,7 +368,7 @@ describe DevDNSd::Application do
     it "should raise an exception if not running on OSX" do
       application.stub(:is_osx?).and_return(false)
       application.get_logger.should_receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
-      application.action_install.should be_false
+      expect(application.action_install).to be_false
     end
   end
 
@@ -367,7 +382,7 @@ describe DevDNSd::Application do
 
         application.action_install
         application.action_uninstall
-        ::File.exists?(resolver_path).should be_false
+        expect(::File.exists?(resolver_path)).to be_false
 
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
@@ -382,7 +397,7 @@ describe DevDNSd::Application do
         DevDNSd::Logger.stub(:default_file).and_return($stdout)
         application.action_install
         application.action_uninstall
-        ::File.exists?(application.launch_agent_path).should be_false
+        expect(::File.exists?(application.launch_agent_path)).to be_false
 
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
@@ -443,7 +458,7 @@ describe DevDNSd::Application do
     it "should raise an exception if not running on OSX" do
       application.stub(:is_osx?).and_return(false)
       application.get_logger.should_receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
-      application.action_uninstall.should be_false
+      expect(application.action_uninstall).to be_false
     end
   end
 end

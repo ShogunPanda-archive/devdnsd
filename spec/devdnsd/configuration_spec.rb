@@ -25,13 +25,13 @@ describe DevDNSd::Configuration do
   describe "#initialize" do
     it "sets default arguments and rules" do
       config = DevDNSd::Configuration.new
-      config.address.should == "0.0.0.0"
-      config.port.should == 7771
-      config.tld.should == "dev"
-      config.log_file.should == "/var/log/devdnsd.log"
-      config.log_level.should == ::Logger::INFO
-      config.rules.count.should == 1
-      config.foreground.should == false
+      expect(config.address).to eq("0.0.0.0")
+      expect(config.port).to eq(7771)
+      expect(config.tld).to eq("dev")
+      expect(config.log_file).to eq("/var/log/devdnsd.log")
+      expect(config.log_level).to eq(::Logger::INFO)
+      expect(config.rules.count).to eq(1)
+      expect(config.foreground).to eq(false)
     end
 
     it "reads a valid configuration file" do
@@ -40,7 +40,7 @@ describe DevDNSd::Configuration do
       file.close
 
       config = DevDNSd::Configuration.new(file.path, new_application)
-      config.port.should == 7772
+      expect(config.port).to eq(7772)
       file.unlink
     end
 
@@ -59,7 +59,7 @@ describe DevDNSd::Configuration do
       file.close
 
       config = DevDNSd::Configuration.new(file.path, new_application, {:foreground => true, :port => 7773})
-      config.port.should == 7773
+      expect(config.port).to eq(7773)
       config.foreground = true
       file.unlink
     end
@@ -69,7 +69,7 @@ describe DevDNSd::Configuration do
     it "should add a good rule" do
       config = DevDNSd::Configuration.new
       config.add_rule("RULE", "127.0.0.1")
-      config.rules.count.should == 2
+      expect(config.rules.count).to eq(2)
     end
 
     it "should reject a bad rule" do

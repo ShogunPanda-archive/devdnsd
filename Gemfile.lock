@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    devdnsd (1.1.0)
+    devdnsd (1.1.1)
       cowtech-extensions (~> 2.7.0)
       gli (~> 1.6.0)
       rainbow (~> 1.1.0)
@@ -29,7 +29,7 @@ GEM
       multi_json (~> 1.0)
     builder (3.0.0)
     coderay (1.0.7)
-    cowtech-extensions (2.7.0)
+    cowtech-extensions (2.7.1)
       actionpack (~> 3.0)
       json (~> 1.7.0)
       tzinfo (~> 0.3.0)
