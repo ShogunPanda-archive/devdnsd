@@ -43,8 +43,8 @@ module DevDNSd
       begin
         overrides = {
           :foreground => @args[:local][:foreground],
-          :log_file => @args[:global][:log_file],
-          :log_level => @args[:global][:log_level],
+          :log_file => @args[:global]["log-file"],
+          :log_level => @args[:global]["log-level"],
           :tld => @args[:global][:tld],
           :port => @args[:global][:port]
         }.reject {|k,v| v.nil? }
@@ -262,7 +262,7 @@ module DevDNSd
       begin
         logger.info("Creating the launch agent in #{launch_agent} ...")
 
-        args = $ARGV ? $ARGV[0, $ARGV.length - 1] : ["A"]
+        args = $ARGV ? $ARGV[0, $ARGV.length - 1] : []
 
         plist = {"KeepAlive" => true, "Label" => "it.cowtech.devdnsd", "Program" => (::Pathname.new(Dir.pwd) + $0).to_s, "ProgramArguments" => args, "RunAtLoad" => true}
         ::File.open(launch_agent, "w") {|f|

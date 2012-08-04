@@ -317,7 +317,7 @@ describe DevDNSd::Application do
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
       end
 
-      it "should not create and invalid logger" do
+      it "should not create an invalid resolver" do
         application.stub(:resolver_path).and_return("/invalid/resolver")
         application.stub(:launch_agent_path).and_return("/invalid/agent")
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -330,7 +330,7 @@ describe DevDNSd::Application do
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
       end
 
-      it "should not create and invalid agent" do
+      it "should not create an invalid agent" do
         application.stub(:resolver_path).and_return(resolver_path)
         application.stub(:launch_agent_path).and_return("/invalid/agent")
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -401,7 +401,7 @@ describe DevDNSd::Application do
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
       end
 
-      it "should not load delete an invalid resolver" do
+      it "should not delete an invalid resolver" do
         application.stub(:resolver_path).and_return("/invalid/resolver")
         application.stub(:launch_agent_path).and_return("/invalid/agent")
 

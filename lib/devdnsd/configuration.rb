@@ -40,7 +40,6 @@ module DevDNSd
     # @param file [String] The file to read.
     # @param overrides [Hash] A set of values which override those set in the configuration file.
     # @param logger [Logger] The logger to use for notifications.
-    # @see parse
     def initialize(file = nil, overrides = {}, logger = nil)
       super(file, overrides, logger)
 

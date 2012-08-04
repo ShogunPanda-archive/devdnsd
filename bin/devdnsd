@@ -35,12 +35,12 @@ flag([:c, :config])
 desc("The default log file. Not used if run in foreground.")
 default_value("/var/log/devdnsd.log")
 arg_name("LOG")
-flag([:l, :log])
+flag([:l, "log-file"])
 
 desc("The default log level. Valid values are from 0 to 5 where 0 means \"all messages\".")
 default_value(1)
 arg_name("LEVEL")
-flag([:L, :log_level])
+flag([:L, "log-level"])
 
 desc("Starts the server.")
 command [:s, :start] do |c|

@@ -8,20 +8,6 @@ require "spec_helper"
 require "tempfile"
 
 describe DevDNSd::Configuration do
-  class DevDNSd::Application
-    def logger
-      Bovem::Logger.new("/dev/null")
-    end
-  end
-
-  let(:log_file) { "/tmp/devdnsd-test-log-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}" }
-
-  let(:new_application) {
-    app = DevDNSd::Application.new({:log_file => log_file})
-    app.logger = Bovem::Logger.create("/dev/null", Bovem::Logger::DEBUG)
-    app
-  }
-
   describe "#initialize" do
     it "sets default arguments and rules" do
       config = DevDNSd::Configuration.new
