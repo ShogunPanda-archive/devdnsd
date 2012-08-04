@@ -7,11 +7,9 @@
 
 basedir = File.expand_path(File.dirname(__FILE__))
 require "rubygems"
-require "logger"
+require "bovem"
 require "rainbow"
-require "active_support/all"
 require "net/dns"
-require basedir + "/../lib/devdnsd/logger"
 
 # Patch to avoid resolving of hostname containing numbers.
 class Net::DNS::Resolver
@@ -74,7 +72,7 @@ end
 def devdnsd_resolv(address = "match.dev", type = "ANY", nameserver = "127.0.0.1", port = 7771, logger = nil)
   rv = []
 
-  logger = DevDNSd::Logger.new("/dev/null", DevDNSd::Logger::DEBUG) if !logger
+  logger = Bovem::Logger.new("/dev/null", Bovem::Logger::DEBUG) if !logger
   logger.info("Resolving address #{address.bright} with type #{type.to_s.bright} at nameserver #{nameserver.bright}:#{port.to_s.bright} ...")
   tmpfile = "/tmp/devdnsd-test-tester-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}"
 
@@ -121,7 +119,7 @@ if __FILE__ == $0 then
   type = (ARGV[1] || "ANY").upcase
   nameserver = ARGV[2] || "127.0.0.1"
   port = ARGV[3] || 7771
-  logger = DevDNSd::Logger.create($stdout, Logger::DEBUG)
+  logger = Bovem::Logger.create($stdout, Logger::DEBUG)
 
   devdnsd_resolv(address, type, nameserver, port, logger)
 end

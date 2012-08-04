@@ -20,7 +20,7 @@ module DevDNSd
     # The arguments passed via command-line.
     attr_reader :args
 
-    # The {Logger Logger} for this application.
+    # The logger for this application.
     attr_accessor :logger
 
     # Creates a new application.
@@ -36,23 +36,25 @@ module DevDNSd
       }
 
       # Setup logger
-      DevDNSd::Logger.start_time = Time.now
-      @logger = DevDNSd::Logger.create(DevDNSd::Logger.get_real_file(@args[:global][:log_file]) || DevDNSd::Logger.default_file, Logger::INFO)
+      Bovem::Logger.start_time = Time.now
+      @logger = Bovem::Logger.create(Bovem::Logger.get_real_file(@args[:global][:log_file]) || Bovem::Logger.default_file, Logger::INFO)
 
       # Open configuration
       begin
-        @config = DevDNSd::Configuration.new(@args[:global][:config], self, {
+        overrides = {
           :foreground => @args[:local][:foreground],
           :log_file => @args[:global][:log_file],
           :log_level => @args[:global][:log_level],
           :tld => @args[:global][:tld],
           :port => @args[:global][:port]
-        })
+        }.reject {|k,v| v.nil? }
+
+        @config = DevDNSd::Configuration.new(@args[:global][:config], overrides, @logger)
+
         @logger = nil
         @logger = self.get_logger
-
-      rescue DevDNSd::Errors::InvalidConfiguration, DevDNSd::Errors::InvalidRule => e
-        @logger ? @logger.fatal(e.message) : DevDNSd::Logger.create("STDERR").fatal("Cannot log to #{config.log_file}. Exiting...")
+      rescue Bovem::Errors::InvalidConfiguration, DevDNSd::Errors::InvalidRule => e
+        @logger ? @logger.fatal(e.message) : Bovem::Logger.create("STDERR").fatal("Cannot log to #{config.log_file}. Exiting...")
         raise ::SystemExit
       end
 
@@ -71,7 +73,7 @@ module DevDNSd
     #
     # @return [Logger] The current logger of the application.
     def get_logger
-      @logger ||= DevDNSd::Logger.create(@config.foreground ? DevDNSd::Logger.default_file : @config.log_file, @config.log_level, @log_formatter)
+      @logger ||= Bovem::Logger.create(@config.foreground ? Bovem::Logger.default_file : @config.log_file, @config.log_level, @log_formatter)
     end
 
     # Gets the path for the resolver file.

@@ -10,9 +10,5 @@ module DevDNSd
     # This exception is raised if a {Rule Rule} is invalid.
     class InvalidRule < ::ArgumentError
     end
-
-    # This exception is raised if a {Configuration Configuration} is invalid.
-    class InvalidConfiguration < ::ArgumentError
-    end
   end
 end

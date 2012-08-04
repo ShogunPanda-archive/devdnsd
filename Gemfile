@@ -7,3 +7,5 @@
 source "http://rubygems.org"
 
 gemspec
+
+gem "bovem", :path => "../bovem"

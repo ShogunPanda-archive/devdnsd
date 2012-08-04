@@ -6,7 +6,7 @@
 
 module DevDNSd
   # This class holds the configuration of the applicaton.
-  class Configuration
+  class Configuration < Bovem::Configuration
     # If to run the server in foreground. Default: `false`.
     attr_accessor :foreground
 
@@ -38,9 +38,10 @@ module DevDNSd
     # ```
     #
     # @param file [String] The file to read.
-    # @param application [Application] The application which this configuration is attached to.
     # @param overrides [Hash] A set of values which override those set in the configuration file.
-    def initialize(file = nil, application = nil, overrides = {})
+    # @param logger [Logger] The logger to use for notifications.
+    # @see parse
+    def initialize(file = nil, overrides = {}, logger = nil)
       @address = "0.0.0.0"
       @port = 7771
       @tld = "dev"
@@ -49,31 +50,11 @@ module DevDNSd
       @rules = []
       @foreground = false
 
-      if file.present?
-        begin
-          # Open the file
-          path = ::Pathname.new(file).realpath
-          application.logger.info("Using configuration file #{path}.") if application
-          self.tap do |config|
-            eval(::File.read(path))
-          end
-
-          @log_file = $stdout if @log_file == "STDOUT"
-          @log_file = $stderr if @log_file == "STDERR"
-        rescue ::Errno::ENOENT, ::LoadError
-        rescue ::Exception => e
-          raise DevDNSd::Errors::InvalidConfiguration.new("Config file #{file} is not valid.")
-        end
-      end
-
-      # Apply overrides
-      if overrides.is_a?(::Hash) then
-        overrides.each_pair do |k, v|
-          self.send("#{k}=", v) if self.respond_to?("#{k}=") && !v.nil?
-        end
-      end
+      super(file, overrides, logger)
 
       # Make sure some arguments are of correct type
+      @log_file = $stdout if @log_file == "STDOUT"
+      @log_file = $stderr if @log_file == "STDERR"
       @port = @port.to_integer
       @log_level = @log_level.to_integer
 

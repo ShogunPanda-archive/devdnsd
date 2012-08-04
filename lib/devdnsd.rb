@@ -5,19 +5,15 @@
 #
 
 require "rubygems"
+require "bovem"
 require "rubydns"
 require "gli"
 require "rexec/daemon"
-require "pathname"
-require "rainbow"
-require "cowtech-extensions"
-require "rbconfig"
 
-Cowtech::Extensions.load!
+Lazier.load!(:object)
 
 require "devdnsd/application"
 require "devdnsd/configuration"
 require "devdnsd/errors"
-require "devdnsd/logger"
 require "devdnsd/rule"
 require "devdnsd/version" if !defined?(DevDNSd::Version)

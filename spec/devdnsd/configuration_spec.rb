@@ -10,7 +10,7 @@ require "tempfile"
 describe DevDNSd::Configuration do
   class DevDNSd::Application
     def logger
-      DevDNSd::Logger.new("/dev/null")
+      Bovem::Logger.new("/dev/null")
     end
   end
 
@@ -18,7 +18,7 @@ describe DevDNSd::Configuration do
 
   let(:new_application) {
     app = DevDNSd::Application.new({:log_file => log_file})
-    app.logger = DevDNSd::Logger.create("/dev/null", DevDNSd::Logger::DEBUG)
+    app.logger = Bovem::Logger.create("/dev/null", Bovem::Logger::DEBUG)
     app
   }
 
@@ -32,36 +32,6 @@ describe DevDNSd::Configuration do
       expect(config.log_level).to eq(::Logger::INFO)
       expect(config.rules.count).to eq(1)
       expect(config.foreground).to eq(false)
-    end
-
-    it "reads a valid configuration file" do
-      file = ::Tempfile.new('devdnsd-test')
-      file.write("config.port = 7772")
-      file.close
-
-      config = DevDNSd::Configuration.new(file.path, new_application)
-      expect(config.port).to eq(7772)
-      file.unlink
-    end
-
-    it "reject an invalid configuration" do
-      file = ::Tempfile.new('devdnsd-test')
-      file.write("config.port = ")
-      file.close
-
-      expect { config = DevDNSd::Configuration.new(file.path, new_application)}.to raise_error(DevDNSd::Errors::InvalidConfiguration)
-      file.unlink
-    end
-
-    it "allows overrides" do
-      file = ::Tempfile.new('devdnsd-test')
-      file.write("config.port = 7772")
-      file.close
-
-      config = DevDNSd::Configuration.new(file.path, new_application, {:foreground => true, :port => 7773})
-      expect(config.port).to eq(7773)
-      config.foreground = true
-      file.unlink
     end
   end
 

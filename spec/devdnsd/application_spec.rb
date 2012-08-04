@@ -8,7 +8,7 @@ require "spec_helper"
 
 describe DevDNSd::Application do
   before(:each) do
-    DevDNSd::Logger.stub(:default_file).and_return("/dev/null")
+    Bovem::Logger.stub(:default_file).and_return("/dev/null")
   end
 
   let(:log_file) { "/tmp/devdnsd-test-log-#{Time.now.strftime("%Y%m%d-%H%M%S")}" }
@@ -53,11 +53,9 @@ describe DevDNSd::Application do
   end
 
   describe "#perform_server" do
-    let(:application){ DevDNSd::Application.instance({:log_file => log_file, :config => sample_config}, {}, {}, true) }
+    let(:application){ DevDNSd::Application.instance({:log_file => log_file, :config => sample_config}, {}, [], true) }
 
     before(:each) do
-      DevDNSd::Logger.stub(:default_file).and_return($stdout)
-
       class DevDNSd::Application
         def on_start
           Thread.main[:resolver].wakeup if Thread.main[:resolver].try(:alive?)
@@ -170,7 +168,7 @@ describe DevDNSd::Application do
       end
     end
 
-    let(:application){ DevDNSd::Application.instance({:log_file => log_file, :config => sample_config}, {}, {}, true) }
+    let(:application){ DevDNSd::Application.instance({:log_file => log_file, :config => sample_config}, {}, [], true) }
     let(:transaction){ FakeTransaction.new }
 
     it "should match a valid string request" do
@@ -394,7 +392,7 @@ describe DevDNSd::Application do
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
-        DevDNSd::Logger.stub(:default_file).and_return($stdout)
+        Bovem::Logger.stub(:default_file).and_return($stdout)
         application.action_install
         application.action_uninstall
         expect(::File.exists?(application.launch_agent_path)).to be_false
