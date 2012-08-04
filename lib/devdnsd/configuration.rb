@@ -8,25 +8,25 @@ module DevDNSd
   # This class holds the configuration of the applicaton.
   class Configuration < Bovem::Configuration
     # If to run the server in foreground. Default: `false`.
-    attr_accessor :foreground
+    property :foreground, :default => false
 
     # The address to listen to. Default: `0.0.0.0`.
-    attr_accessor :address
+    property :address, :default => "0.0.0.0"
 
     # The port to listen to. Default: `7771`.
-    attr_accessor :port
+    property :port, :default => 7771
 
     # The TLD to manage. Default: `dev`.
-    attr_accessor :tld
+    property :tld, :default => "dev"
 
     # The file to log to. Default: `/var/log/devdnsd.log`.
-    attr_accessor :log_file
+    property :log_file, :default => "/var/log/devdnsd.log"
 
     # The minimum severity to log. Default: `Logger::INFO`.
-    attr_accessor :log_level
+    property :log_level, :default => Logger::INFO
 
     # The rules of the server. By default, every hostname is resolved with `127.0.0.1`.
-    attr_accessor :rules
+    property :rules, :default => []
 
     # Creates a new configuration.
     # A configuration file is a plain Ruby file with a top-level {Configuration config} object.
@@ -42,24 +42,16 @@ module DevDNSd
     # @param logger [Logger] The logger to use for notifications.
     # @see parse
     def initialize(file = nil, overrides = {}, logger = nil)
-      @address = "0.0.0.0"
-      @port = 7771
-      @tld = "dev"
-      @log_file = "/var/log/devdnsd.log"
-      @log_level = ::Logger::INFO
-      @rules = []
-      @foreground = false
-
       super(file, overrides, logger)
 
       # Make sure some arguments are of correct type
-      @log_file = $stdout if @log_file == "STDOUT"
-      @log_file = $stderr if @log_file == "STDERR"
-      @port = @port.to_integer
-      @log_level = @log_level.to_integer
+      self.log_file = $stdout if self.log_file == "STDOUT"
+      self.log_file = $stderr if self.log_file == "STDERR"
+      self.port = self.port.to_integer
+      self.log_level = self.log_level.to_integer
 
       # Add a default rule
-      self.add_rule(/.+/, "127.0.0.1") if @rules.length == 0
+      self.add_rule(/.+/, "127.0.0.1") if self.rules.blank?
     end
 
     # Adds a rule to the configuration.
@@ -69,6 +61,7 @@ module DevDNSd
     # @return [Array] The current set of rule.
     # @see Rule.create
     def add_rule(*args, &block)
+      @rules ||= []
       @rules << DevDNSd::Rule.create(*args, &block)
     end
   end
