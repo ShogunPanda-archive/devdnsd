@@ -2,17 +2,10 @@ PATH
   remote: .
   specs:
     devdnsd (1.2.0)
-      bovem
+      bovem (>= 0.5.0)
       gli (~> 1.6.0)
       rexec (~> 1.4.1)
       rubydns (~> 0.4.0)
-
-PATH
-  remote: ../bovem
-  specs:
-    bovem (0.5.0)
-      lazier (~> 1.0)
-      rainbow (~> 1.1.0)
 
 GEM
   remote: http://rubygems.org/
@@ -33,6 +26,9 @@ GEM
     activesupport (3.2.7)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    bovem (0.5.0)
+      lazier (~> 1.0)
+      rainbow (~> 1.1.0)
     builder (3.0.0)
     coderay (1.0.7)
     diff-lcs (1.1.3)
@@ -92,7 +88,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bovem!
   devdnsd!
   github-markup (~> 0.7.0)
   net-dns (~> 0.7.0)
