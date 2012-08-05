@@ -323,7 +323,7 @@ describe DevDNSd::Application do
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
-        application.get_logger.should_receive(:error).with("Cannot create the resolver file.")
+        application.logger.should_receive(:error).with("Cannot create the resolver file.")
         application.action_install
 
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -336,7 +336,7 @@ describe DevDNSd::Application do
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
-        application.get_logger.should_receive(:error).with("Cannot create the launch agent.")
+        application.logger.should_receive(:error).with("Cannot create the launch agent.")
         application.action_install
 
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -344,10 +344,8 @@ describe DevDNSd::Application do
       end
 
       it "should not load an invalid agent" do
-        class DevDNSd::Application
-          def execute_command(command)
-            command =~ /^launchctl/ ? raise(StandardError) : system(command)
-          end
+        application.stub(:execute_command) do |command|
+          command =~ /^launchctl/ ? raise(StandardError) : system(command)
         end
 
         application.stub(:resolver_path).and_return(resolver_path)
@@ -355,7 +353,7 @@ describe DevDNSd::Application do
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
-        application.get_logger.should_receive(:error).with("Cannot load the launch agent.")
+        application.logger.should_receive(:error).with("Cannot load the launch agent.")
         application.action_install
 
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -365,7 +363,7 @@ describe DevDNSd::Application do
 
     it "should raise an exception if not running on OSX" do
       application.stub(:is_osx?).and_return(false)
-      application.get_logger.should_receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
+      application.logger.should_receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
       expect(application.action_install).to be_false
     end
   end
@@ -406,7 +404,7 @@ describe DevDNSd::Application do
         application.stub(:launch_agent_path).and_return("/invalid/agent")
 
         application.action_install
-        application.get_logger.should_receive(:warn).at_least(1)
+        application.logger.should_receive(:warn).at_least(1)
         application.action_uninstall
 
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -418,20 +416,20 @@ describe DevDNSd::Application do
         application.stub(:launch_agent_path).and_return("/invalid/agent")
 
         application.action_install
-        application.get_logger.should_receive(:warn).at_least(1)
+        application.logger.should_receive(:warn).at_least(1)
         application.action_uninstall
 
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
       end
 
-      it "should not load delete invalid agent" do
+      it "should not unload delete invalid agent" do
         application.stub(:resolver_path).and_return(resolver_path)
         application.stub(:launch_agent_path).and_return("/invalid/agent")
 
         application.action_install
         application.stub(:execute_command).and_raise(StandardError)
-        application.get_logger.should_receive(:warn).at_least(1)
+        application.logger.should_receive(:warn).at_least(1)
         application.action_uninstall
 
         ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -455,7 +453,7 @@ describe DevDNSd::Application do
 
     it "should raise an exception if not running on OSX" do
       application.stub(:is_osx?).and_return(false)
-      application.get_logger.should_receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
+      application.logger.should_receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
       expect(application.action_uninstall).to be_false
     end
   end
