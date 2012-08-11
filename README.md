@@ -27,7 +27,7 @@ Of course, DevDNSd is inspired by [pow](https://github.com/37signals/pow), but i
 
 ## Advanced usage
 
-Just type `devdns help` and you'll see all available options.
+Just type `devdnsd help` and you'll see all available options.
 
 ## Configuration
 
@@ -67,7 +67,7 @@ DevDNSd as a local resolver is tightly coupled with the OSX name resolution syst
 
 You can, anyway, run the software as DNS server.
 
-## Contributing to devdns
+## Contributing to devdnsd
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
