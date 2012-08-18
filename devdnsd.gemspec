@@ -22,7 +22,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   #gem.platform = Gem::Platform::CURRENT
 
-  gem.add_dependency("bovem", ">= 0.5.0")
+  gem.add_dependency("bovem", "~> 0.8.0")
   gem.add_dependency("gli", "~> 1.6.0")
   gem.add_dependency("rubydns", "~> 0.4.0")
   gem.add_dependency("rexec", "~> 1.4.1")

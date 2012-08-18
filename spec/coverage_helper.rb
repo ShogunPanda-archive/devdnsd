@@ -4,10 +4,11 @@
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
-require "simplecov"
 require "pathname"
 
-if ENV["DEVDNSD_COVERAGE"] == "TRUE" then
+if ENV["DEVDNSD_COVERAGE"] == "TRUE" && RUBY_VERSION >= "1.9" then
+  require "simplecov"
+
   root = Pathname.new(File.dirname(__FILE__)) + ".."
 
   SimpleCov.start do
