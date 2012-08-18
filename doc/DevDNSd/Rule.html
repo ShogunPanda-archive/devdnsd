@@ -1,0 +1,1482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: DevDNSd::Rule
+  
+    &mdash; Documentation by YARD 0.8.2.1
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (R)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../DevDNSd.html" title="DevDNSd (module)">DevDNSd</a></span></span>
+     &raquo; 
+    <span class="title">Rule</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: DevDNSd::Rule
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">DevDNSd::Rule</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/devdnsd/rule.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>This class encapsulate a rule for matching an hostname.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#block-instance_method" title="#block (instance method)">- (Object) <strong>block</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>An optional block to compute the reply instead of using the <code>reply</code> parameter.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#match-instance_method" title="#match (instance method)">- (Object) <strong>match</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The pattern to match.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#options-instance_method" title="#options (instance method)">- (Object) <strong>options</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A list of options for the request.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reply-instance_method" title="#reply (instance method)">- (Object) <strong>reply</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The IP or hostname to reply back to the client.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#type-instance_method" title="#type (instance method)">- (Object) <strong>type</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The type of request to match.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create-class_method" title="create (class method)">+ (Object) <strong>create</strong>(match, reply_or_type = nil, type = nil, options = {}, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new rule.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resource_class_to_symbol-class_method" title="resource_class_to_symbol (class method)">+ (Symbol) <strong>resource_class_to_symbol</strong>(klass) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Converts a class to the correspondent symbol.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#symbol_to_resource_class-class_method" title="symbol_to_resource_class (class method)">+ (Symbol) <strong>symbol_to_resource_class</strong>(symbol) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Converts a symbol to the correspondent DNS resource class.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_block%3F-instance_method" title="#has_block? (instance method)">- (Boolean) <strong>has_block?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Checks if the rule is a regexp.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Rule) <strong>initialize</strong>(match = /.+/, reply = &quot;127.0.0.1&quot;, type = :A, options = {}, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new rule.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_regexp%3F-instance_method" title="#is_regexp? (instance method)">- (Boolean) <strong>is_regexp?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Checks if the rule is a regexp.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#match_host-instance_method" title="#match_host (instance method)">- (MatchData|Boolean|Nil) <strong>match_host</strong>(hostname) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Matches a hostname to the rule.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resource_class-instance_method" title="#resource_class (instance method)">- (Array|Class) <strong>resource_class</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the resource class(es) for the current rule.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="DevDNSd::Rule (class)">Rule</a></span></tt>) <strong>initialize</strong>(match = /.+/, reply = &quot;127.0.0.1&quot;, type = :A, options = {}, &amp;block) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new rule.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>match</span>
+      
+      
+        <span class='type'>(<tt>String|Regexp</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>/.+/</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The pattern to match.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>reply</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;127.0.0.1&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The IP or hostname to reply back to the client.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>:A</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The type of request to match.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>A list of options for the request.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>block</span>
+      
+      
+        <span class='type'>(<tt>Proc</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>An optional block to compute the reply instead of using the <code>reply</code> parameter.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Errors/InvalidRule.html" title="DevDNSd::Errors::InvalidRule (class)">DevDNSd::Errors::InvalidRule</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#create-class_method" title="DevDNSd::Rule.create (method)">create</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 39</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_match identifier id'>match</span> <span class='assign token'>=</span> <span class='regexp val'>/.+/</span><span class='comma token'>,</span> <span class='rubyid_reply identifier id'>reply</span> <span class='assign token'>=</span> <span class='string val'>&quot;127.0.0.1&quot;</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='symbol val'>:A</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='rubyid_reply identifier id'>reply</span> <span class='opasgn op'>||=</span> <span class='string val'>&quot;127.0.0.1&quot;</span>
+  <span class='rubyid_type identifier id'>type</span> <span class='opasgn op'>||=</span> <span class='symbol val'>:A</span>
+  <span class='rubyid_@match ivar id'>@match</span> <span class='assign token'>=</span> <span class='rubyid_match identifier id'>match</span>
+  <span class='rubyid_@type ivar id'>@type</span> <span class='assign token'>=</span> <span class='rubyid_type identifier id'>type</span>
+  <span class='rubyid_@reply ivar id'>@reply</span> <span class='assign token'>=</span> <span class='rubyid_block identifier id'>block</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='integer val'>? </span><span class='rubyid_reply identifier id'>reply</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_@options ivar id'>@options</span> <span class='assign token'>=</span> <span class='rubyid_options identifier id'>options</span>
+  <span class='rubyid_@block ivar id'>@block</span> <span class='assign token'>=</span> <span class='rubyid_block identifier id'>block</span>
+
+  <span class='rubyid_raise identifier id'>raise</span><span class='lparen token'>(</span><span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Errors constant id'>Errors</span><span class='colon2 op'>::</span><span class='rubyid_InvalidRule constant id'>InvalidRule</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;You must specify at least a rule and a host (also via a block). Optionally you can add a record type (default: A) and the options.&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@reply ivar id'>@reply</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@block ivar id'>@block</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  <span class='rubyid_raise identifier id'>raise</span><span class='lparen token'>(</span><span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Errors constant id'>Errors</span><span class='colon2 op'>::</span><span class='rubyid_InvalidRule constant id'>InvalidRule</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;You can only use hashs for options.&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_@options ivar id'>@options</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='colon3 op'>::</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="block=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="block-instance_method">
+  
+    - (<tt>Object</tt>) <strong>block</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>An optional block to compute the reply instead of using the <code>reply</code> parameter.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#create-class_method" title="DevDNSd::Rule.create (method)">create</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 29</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_block identifier id'>block</span>
+  <span class='rubyid_@block ivar id'>@block</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="match=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="match-instance_method">
+  
+    - (<tt>Object</tt>) <strong>match</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The pattern to match. Default: <code>/.+/</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_match identifier id'>match</span>
+  <span class='rubyid_@match ivar id'>@match</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="options=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="options-instance_method">
+  
+    - (<tt>Object</tt>) <strong>options</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>A list of options for the request. Default is an empty hash.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 24</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_options identifier id'>options</span>
+  <span class='rubyid_@options ivar id'>@options</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="reply=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="reply-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reply</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The IP or hostname to reply back to the client. Default: <code>127.0.0.1</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#create-class_method" title="DevDNSd::Rule.create (method)">create</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 21</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_reply identifier id'>reply</span>
+  <span class='rubyid_@reply ivar id'>@reply</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="type=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="type-instance_method">
+  
+    - (<tt>Object</tt>) <strong>type</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The type of request to match. Default: <code>:A</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#create-class_method" title="DevDNSd::Rule.create (method)">create</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 16</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_type identifier id'>type</span>
+  <span class='rubyid_@type ivar id'>@type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="create-class_method">
+  
+    + (<tt>Object</tt>) <strong>create</strong>(match, reply_or_type = nil, type = nil, options = {}, &amp;block) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new rule.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>match</span>
+      
+      
+        <span class='type'>(<tt>String|Regexp</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The pattern to match.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>reply_or_type</span>
+      
+      
+        <span class='type'>(<tt>String|Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The IP or hostname to reply back to the client (or the type of request to match, if a block is provided).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The type of request to match. This is ignored if a block is provided.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>A list of options for the request.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>block</span>
+      
+      
+        <span class='type'>(<tt>Proc</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>An optional block to compute the reply instead of using the <code>reply_or_type</code> parameter. In this case <code>reply_or_type</code> is used for the type of the request and <code>type</code> is ignored.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Errors/InvalidRule.html" title="DevDNSd::Errors::InvalidRule (class)">DevDNSd::Errors::InvalidRule</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 89</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='rubyid_match identifier id'>match</span><span class='comma token'>,</span> <span class='rubyid_reply_or_type identifier id'>reply_or_type</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span><span class='lparen token'>(</span><span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Errors constant id'>Errors</span><span class='colon2 op'>::</span><span class='rubyid_InvalidRule constant id'>InvalidRule</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;You must specify at least a rule and a host (also via a block). Optionally you can add a record type (default: A) and the options.&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_reply_or_type identifier id'>reply_or_type</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_block identifier id'>block</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  <span class='rubyid_raise identifier id'>raise</span><span class='lparen token'>(</span><span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Errors constant id'>Errors</span><span class='colon2 op'>::</span><span class='rubyid_InvalidRule constant id'>InvalidRule</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;You can only use hashs for options.&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='colon3 op'>::</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_rv identifier id'>rv</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_match identifier id'>match</span><span class='rparen token'>)</span>
+  <span class='rubyid_rv identifier id'>rv</span><span class='dot token'>.</span><span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='rubyid_options identifier id'>options</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_block identifier id'>block</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span> <span class='rubyid_then then kw'>then</span> <span class='comment val'># reply_or_type acts like a type, type is ignored</span>
+    <span class='rubyid_rv identifier id'>rv</span><span class='dot token'>.</span><span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_reply_or_type identifier id'>reply_or_type</span> <span class='orop op'>||</span> <span class='symbol val'>:A</span>
+    <span class='rubyid_rv identifier id'>rv</span><span class='dot token'>.</span><span class='rubyid_reply identifier id'>reply</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='rubyid_rv identifier id'>rv</span><span class='dot token'>.</span><span class='rubyid_block identifier id'>block</span> <span class='assign token'>=</span> <span class='rubyid_block identifier id'>block</span>
+  <span class='rubyid_else else kw'>else</span> <span class='comment val'># reply_or_type acts like a reply</span>
+    <span class='rubyid_rv identifier id'>rv</span><span class='dot token'>.</span><span class='rubyid_reply identifier id'>reply</span> <span class='assign token'>=</span> <span class='rubyid_reply_or_type identifier id'>reply_or_type</span> <span class='orop op'>||</span> <span class='string val'>&quot;127.0.0.1&quot;</span>
+    <span class='rubyid_rv identifier id'>rv</span><span class='dot token'>.</span><span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_type identifier id'>type</span> <span class='orop op'>||</span> <span class='symbol val'>:A</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_rv identifier id'>rv</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resource_class_to_symbol-class_method">
+  
+    + (<tt>Symbol</tt>) <strong>resource_class_to_symbol</strong>(klass) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Converts a class to the correspondent symbol.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>klass</span>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The class to convert.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The symbol representation of the class.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 112</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_resource_class_to_symbol identifier id'>resource_class_to_symbol</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
+  <span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/(.+::)?(.+)/</span><span class='comma token'>,</span> <span class='string val'>&quot;\\2&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="symbol_to_resource_class-class_method">
+  
+    + (<tt>Symbol</tt>) <strong>symbol_to_resource_class</strong>(symbol) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Converts a symbol to the correspondent DNS resource class.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>symbol</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The symbol to convert.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The class associated to the symbol.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 120</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_symbol_to_resource_class identifier id'>symbol_to_resource_class</span><span class='lparen token'>(</span><span class='rubyid_symbol identifier id'>symbol</span><span class='rparen token'>)</span>
+  <span class='rubyid_symbol identifier id'>symbol</span> <span class='assign token'>=</span> <span class='rubyid_symbol identifier id'>symbol</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_upcase identifier id'>upcase</span>
+
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='dstring node'>&quot;Resolv::DNS::Resource::IN::#{symbol}&quot;</span><span class='dot token'>.</span><span class='rubyid_constantize identifier id'>constantize</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='colon2 op'>::</span><span class='rubyid_NameError constant id'>NameError</span>
+    <span class='rubyid_raise identifier id'>raise</span><span class='lparen token'>(</span><span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Errors constant id'>Errors</span><span class='colon2 op'>::</span><span class='rubyid_InvalidRule constant id'>InvalidRule</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Invalid resource class #{symbol}.&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="has_block?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>has_block?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Checks if the rule is a regexp.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if the rule has a block, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 70</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_has_block? fid id'>has_block?</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_block identifier id'>block</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="is_regexp?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>is_regexp?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Checks if the rule is a regexp.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if the rule is a Regexp, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 63</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_is_regexp? fid id'>is_regexp?</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='colon3 op'>::</span><span class='rubyid_Regexp constant id'>Regexp</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="match_host-instance_method">
+  
+    - (<tt>MatchData|Boolean|Nil</tt>) <strong>match_host</strong>(hostname) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Matches a hostname to the rule.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>hostname</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The hostname to match.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>MatchData|Boolean|Nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Return <code>true</code> or MatchData (if the pattern is a regexp) if the rule matches, <code>false</code> or <code>nil</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 78</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_match_host identifier id'>match_host</span><span class='lparen token'>(</span><span class='rubyid_hostname identifier id'>hostname</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_regexp? fid id'>is_regexp?</span> <span class='integer val'>? </span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='rubyid_hostname identifier id'>hostname</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span> <span class='eq op'>==</span> <span class='rubyid_hostname identifier id'>hostname</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resource_class-instance_method">
+  
+    - (<tt>Array|Class</tt>) <strong>resource_class</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the resource class(es) for the current rule.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array|Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The class(es) for the current rule.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+55
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/rule.rb', line 55</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_resource_class identifier id'>resource_class</span>
+  <span class='rubyid_classes identifier id'>classes</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_ensure_array identifier id'>ensure_array</span><span class='dot token'>.</span><span class='rubyid_collect identifier id'>collect</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cls identifier id'>cls</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_symbol_to_resource_class identifier id'>symbol_to_resource_class</span><span class='lparen token'>(</span><span class='rubyid_cls identifier id'>cls</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_uniq identifier id'>uniq</span>
+  <span class='rubyid_classes identifier id'>classes</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='integer val'>1</span> <span class='question op'>?</span> <span class='rubyid_classes identifier id'>classes</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span> <span class='colon op'>:</span> <span class='rubyid_classes identifier id'>classes</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sat Aug 11 08:53:00 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

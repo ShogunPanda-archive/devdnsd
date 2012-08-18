@@ -1,0 +1,2512 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: DevDNSd::Application
+  
+    &mdash; Documentation by YARD 0.8.2.1
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../DevDNSd.html" title="DevDNSd (module)">DevDNSd</a></span></span>
+     &raquo; 
+    <span class="title">Application</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: DevDNSd::Application
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">RExec::Daemon::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">RExec::Daemon::Base</li>
+          
+            <li class="next">DevDNSd::Application</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/devdnsd/application.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>The main DevDNSd application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="ANY_REQUEST-constant" class="">ANY_REQUEST =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Class for ANY DNS request.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_ANY constant id'>ANY</span>
+</pre></dd>
+      
+        <dt id="ANY_CLASSES-constant" class="">ANY_CLASSES =
+          <div class="docstring">
+  <div class="discussion">
+    <p>List of classes handled in case of DNS request with resource class ANY.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_A constant id'>A</span><span class='comma token'>,</span> <span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_AAAA constant id'>AAAA</span><span class='comma token'>,</span> <span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_ANY constant id'>ANY</span><span class='comma token'>,</span> <span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_CNAME constant id'>CNAME</span><span class='comma token'>,</span> <span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_HINFO constant id'>HINFO</span><span class='comma token'>,</span> <span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_MINFO constant id'>MINFO</span><span class='comma token'>,</span> <span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_MX constant id'>MX</span><span class='comma token'>,</span> <span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_NS constant id'>NS</span><span class='comma token'>,</span> <span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_PTR constant id'>PTR</span><span class='comma token'>,</span> <span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_SOA constant id'>SOA</span><span class='comma token'>,</span> <span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Resource constant id'>Resource</span><span class='colon2 op'>::</span><span class='rubyid_IN constant id'>IN</span><span class='colon2 op'>::</span><span class='rubyid_TXT constant id'>TXT</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#args-instance_method" title="#args (instance method)">- (Object) <strong>args</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The arguments passed via command-line.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#config-instance_method" title="#config (instance method)">- (Object) <strong>config</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The <span class='object_link'><a href="Configuration.html" title="DevDNSd::Configuration (class)">Configuration</a></span> of this application.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#logger-instance_method" title="#logger (instance method)">- (Object) <strong>logger</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The logger for this application.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instance-class_method" title="instance (class method)">+ (Application) <strong>instance</strong>(globals = {}, locals = {}, args = [], force = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns a unique (singleton) instance of the application.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#quit-class_method" title="quit (class method)">+ (Object) <strong>quit</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Stops the application.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run-class_method" title="run (class method)">+ (Object) <strong>run</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Runs the application in foreground.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#action_install-instance_method" title="#action_install (instance method)">- (Boolean) <strong>action_install</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Installs the server into the system.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#action_start-instance_method" title="#action_start (instance method)">- (Boolean) <strong>action_start</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Starts the server in background.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#action_stop-instance_method" title="#action_stop (instance method)">- (Boolean) <strong>action_stop</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Stops the server in background.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#action_uninstall-instance_method" title="#action_uninstall (instance method)">- (Boolean) <strong>action_uninstall</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Uninstalls the server from the system.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dns_update-instance_method" title="#dns_update (instance method)">- (Boolean) <strong>dns_update</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Updates DNS cache.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#execute_command-instance_method" title="#execute_command (instance method)">- (Boolean) <strong>execute_command</strong>(command) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Executes a shell command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_logger-instance_method" title="#get_logger (instance method)">- (Logger) <strong>get_logger</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Gets the current logger of the application.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Application) <strong>initialize</strong>(globals = {}, locals = {}, args = []) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new application.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_osx%3F-instance_method" title="#is_osx? (instance method)">- (Boolean) <strong>is_osx?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Check if we are running on MacOS X.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#launch_agent_path-instance_method" title="#launch_agent_path (instance method)">- (String) <strong>launch_agent_path</strong>(name = &quot;it.cowtech.devdnsd&quot;) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Gets the path for the launch agent file.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#on_start-instance_method" title="#on_start (instance method)">- (NilClass) <strong>on_start</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>This method is called when the server starts.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#on_stop-instance_method" title="#on_stop (instance method)">- (NilClass) <strong>on_stop</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>This method is called when the server stop.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#perform_server-instance_method" title="#perform_server (instance method)">- (Object) <strong>perform_server</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Starts the DNS server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#process_rule-instance_method" title="#process_rule (instance method)">- (Object) <strong>process_rule</strong>(rule, type, match_data, transaction) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Processes a DNS rule.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolver_path-instance_method" title="#resolver_path (instance method)">- (String) <strong>resolver_path</strong>(tld = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Gets the path for the resolver file.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="DevDNSd::Application (class)">Application</a></span></tt>) <strong>initialize</strong>(globals = {}, locals = {}, args = []) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>globals</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Global options.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locals</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Local command options.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Extra arguments.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 31</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_globals identifier id'>globals</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_locals identifier id'>locals</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_@args ivar id'>@args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:global</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_globals identifier id'>globals</span><span class='comma token'>,</span>
+    <span class='symbol val'>:local</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_locals identifier id'>locals</span><span class='comma token'>,</span>
+    <span class='symbol val'>:args</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_args identifier id'>args</span>
+  <span class='rbrace token'>}</span>
+
+  <span class='comment val'># Setup logger</span>
+  <span class='rubyid_Bovem constant id'>Bovem</span><span class='colon2 op'>::</span><span class='rubyid_Logger constant id'>Logger</span><span class='dot token'>.</span><span class='rubyid_start_time identifier id'>start_time</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
+  <span class='rubyid_@logger ivar id'>@logger</span> <span class='assign token'>=</span> <span class='rubyid_Bovem constant id'>Bovem</span><span class='colon2 op'>::</span><span class='rubyid_Logger constant id'>Logger</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='rubyid_Bovem constant id'>Bovem</span><span class='colon2 op'>::</span><span class='rubyid_Logger constant id'>Logger</span><span class='dot token'>.</span><span class='rubyid_get_real_file identifier id'>get_real_file</span><span class='lparen token'>(</span><span class='rubyid_@args ivar id'>@args</span><span class='lbrack token'>[</span><span class='symbol val'>:global</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:log_file</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_Bovem constant id'>Bovem</span><span class='colon2 op'>::</span><span class='rubyid_Logger constant id'>Logger</span><span class='dot token'>.</span><span class='rubyid_default_file identifier id'>default_file</span><span class='comma token'>,</span> <span class='rubyid_Logger constant id'>Logger</span><span class='colon2 op'>::</span><span class='rubyid_INFO constant id'>INFO</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># Open configuration</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_overrides identifier id'>overrides</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:foreground</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@args ivar id'>@args</span><span class='lbrack token'>[</span><span class='symbol val'>:local</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:foreground</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+      <span class='symbol val'>:log_file</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@args ivar id'>@args</span><span class='lbrack token'>[</span><span class='symbol val'>:global</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;log-file&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+      <span class='symbol val'>:log_level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@args ivar id'>@args</span><span class='lbrack token'>[</span><span class='symbol val'>:global</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;log-level&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+      <span class='symbol val'>:tld</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@args ivar id'>@args</span><span class='lbrack token'>[</span><span class='symbol val'>:global</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:tld</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+      <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@args ivar id'>@args</span><span class='lbrack token'>[</span><span class='symbol val'>:global</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:port</span><span class='rbrack token'>]</span>
+    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rbrace token'>}</span>
+
+    <span class='rubyid_@config ivar id'>@config</span> <span class='assign token'>=</span> <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Configuration constant id'>Configuration</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_@args ivar id'>@args</span><span class='lbrack token'>[</span><span class='symbol val'>:global</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:config</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_overrides identifier id'>overrides</span><span class='comma token'>,</span> <span class='rubyid_@logger ivar id'>@logger</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_@logger ivar id'>@logger</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='rubyid_@logger ivar id'>@logger</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_logger identifier id'>get_logger</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Bovem constant id'>Bovem</span><span class='colon2 op'>::</span><span class='rubyid_Errors constant id'>Errors</span><span class='colon2 op'>::</span><span class='rubyid_InvalidConfiguration constant id'>InvalidConfiguration</span><span class='comma token'>,</span> <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Errors constant id'>Errors</span><span class='colon2 op'>::</span><span class='rubyid_InvalidRule constant id'>InvalidRule</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_@logger ivar id'>@logger</span> <span class='question op'>?</span> <span class='rubyid_@logger ivar id'>@logger</span><span class='dot token'>.</span><span class='rubyid_fatal identifier id'>fatal</span><span class='lparen token'>(</span><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_Bovem constant id'>Bovem</span><span class='colon2 op'>::</span><span class='rubyid_Logger constant id'>Logger</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='string val'>&quot;STDERR&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_fatal identifier id'>fatal</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Cannot log to #{config.log_file}. Exiting...&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='colon3 op'>::</span><span class='rubyid_SystemExit constant id'>SystemExit</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_self self kw'>self</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="args-instance_method">
+  
+    - (<tt>Object</tt>) <strong>args</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The arguments passed via command-line.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 21</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_args identifier id'>args</span>
+  <span class='rubyid_@args ivar id'>@args</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="config-instance_method">
+  
+    - (<tt>Object</tt>) <strong>config</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The <span class='object_link'><a href="Configuration.html" title="DevDNSd::Configuration (class)">Configuration</a></span> of this application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 18</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_config identifier id'>config</span>
+  <span class='rubyid_@config ivar id'>@config</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="logger=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="logger-instance_method">
+  
+    - (<tt>Object</tt>) <strong>logger</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The logger for this application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 24</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_logger identifier id'>logger</span>
+  <span class='rubyid_@logger ivar id'>@logger</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="instance-class_method">
+  
+    + (<tt><span class='object_link'><a href="" title="DevDNSd::Application (class)">Application</a></span></tt>) <strong>instance</strong>(globals = {}, locals = {}, args = [], force = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a unique (singleton) instance of the application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>globals</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Global options.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locals</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Local command options.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Extra arguments.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>force</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>If to force recreation of the instance.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="DevDNSd::Application (class)">Application</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The unique (singleton) instance of the application.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+353
+354
+355
+356</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 353</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='lparen token'>(</span><span class='rubyid_globals identifier id'>globals</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_locals identifier id'>locals</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_force identifier id'>force</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_@instance ivar id'>@instance</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_force identifier id'>force</span>
+  <span class='rubyid_@instance ivar id'>@instance</span> <span class='opasgn op'>||=</span> <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Application constant id'>Application</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_globals identifier id'>globals</span><span class='comma token'>,</span> <span class='rubyid_locals identifier id'>locals</span><span class='comma token'>,</span> <span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="quit-class_method">
+  
+    + (<tt>Object</tt>) <strong>quit</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Stops the application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+366
+367
+368</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 366</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_quit identifier id'>quit</span>
+  <span class='colon3 op'>::</span><span class='rubyid_EventMachine constant id'>EventMachine</span><span class='dot token'>.</span><span class='rubyid_stop identifier id'>stop</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run-class_method">
+  
+    + (<tt>Object</tt>) <strong>run</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Runs the application in foreground.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#perform_server-instance_method" title="DevDNSd::Application#perform_server (method)">#perform_server</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+361
+362
+363</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 361</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_perform_server identifier id'>perform_server</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="action_install-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>action_install</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Installs the server into the system.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if action succedeed, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 237</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_action_install identifier id'>action_install</span>
+  <span class='rubyid_logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='rubyid_get_logger identifier id'>get_logger</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_osx? fid id'>is_osx?</span> <span class='rubyid_then then kw'>then</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_fatal identifier id'>fatal</span><span class='lparen token'>(</span><span class='string val'>&quot;Install DevDNSd as a local resolver is only available on MacOSX.&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_resolver_file identifier id'>resolver_file</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_resolver_path identifier id'>resolver_path</span>
+  <span class='rubyid_launch_agent identifier id'>launch_agent</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_launch_agent_path identifier id'>launch_agent_path</span>
+
+  <span class='comment val'># Installs the resolver</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Installing the resolver in #{resolver_file} ...&quot;</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_resolver_file identifier id'>resolver_file</span><span class='comma token'>,</span> <span class='string val'>&quot;w&quot;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span>
+      <span class='rubyid_f identifier id'>f</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span><span class='lparen token'>(</span><span class='string val'>&quot;nameserver 127.0.0.1\n&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_f identifier id'>f</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span><span class='lparen token'>(</span><span class='dstring node'>&quot;port #{@config.port}&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_f identifier id'>f</span><span class='dot token'>.</span><span class='rubyid_flush identifier id'>flush</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='string val'>&quot;Cannot create the resolver file.&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Creating the launch agent in #{launch_agent} ...&quot;</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='rubyid_$ARGV gvar id'>$ARGV</span> <span class='question op'>?</span> <span class='rubyid_$ARGV gvar id'>$ARGV</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='comma token'>,</span> <span class='rubyid_$ARGV gvar id'>$ARGV</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='minus op'>-</span> <span class='integer val'>1</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_plist identifier id'>plist</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;KeepAlive&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='string val'>&quot;Label&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;it.cowtech.devdnsd&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;Program&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='colon3 op'>::</span><span class='rubyid_Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_pwd identifier id'>pwd</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='rubyid_$0 gvar id'>$0</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='string val'>&quot;ProgramArguments&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_args identifier id'>args</span><span class='comma token'>,</span> <span class='string val'>&quot;RunAtLoad&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span>
+    <span class='colon3 op'>::</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_launch_agent identifier id'>launch_agent</span><span class='comma token'>,</span> <span class='string val'>&quot;w&quot;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span>
+      <span class='rubyid_f identifier id'>f</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span><span class='lparen token'>(</span><span class='rubyid_plist identifier id'>plist</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='rparen token'>)</span>
+      <span class='rubyid_f identifier id'>f</span><span class='dot token'>.</span><span class='rubyid_flush identifier id'>flush</span>
+    <span class='rbrace token'>}</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_execute_command identifier id'>execute_command</span><span class='lparen token'>(</span><span class='dstring node'>&quot;plutil -convert binary1 \&quot;#{launch_agent}\&quot;&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='string val'>&quot;Cannot create the launch agent.&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='string val'>&quot;Loading the launch agent ...&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_execute_command identifier id'>execute_command</span><span class='lparen token'>(</span><span class='dstring node'>&quot;launchctl load -w \&quot;#{launch_agent}\&quot; &gt; /dev/null 2&gt;&amp;1&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='string val'>&quot;Cannot load the launch agent.&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dns_update identifier id'>dns_update</span>
+
+  <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="action_start-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>action_start</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Starts the server in background.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if action succedeed, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 211</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_action_start identifier id'>action_start</span>
+  <span class='rubyid_logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_logger identifier id'>get_logger</span>
+
+  <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='string val'>&quot;Starting DevDNSd ...&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@config ivar id'>@config</span><span class='dot token'>.</span><span class='rubyid_foreground identifier id'>foreground</span> <span class='rubyid_then then kw'>then</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_perform_server identifier id'>perform_server</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_RExec constant id'>RExec</span><span class='colon2 op'>::</span><span class='rubyid_Daemon constant id'>Daemon</span><span class='colon2 op'>::</span><span class='rubyid_Controller constant id'>Controller</span><span class='dot token'>.</span><span class='rubyid_start identifier id'>start</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="action_stop-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>action_stop</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Stops the server in background.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if action succedeed, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+228
+229
+230
+231
+232</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 228</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_action_stop identifier id'>action_stop</span>
+  <span class='rubyid_RExec constant id'>RExec</span><span class='colon2 op'>::</span><span class='rubyid_Daemon constant id'>Daemon</span><span class='colon2 op'>::</span><span class='rubyid_Controller constant id'>Controller</span><span class='dot token'>.</span><span class='rubyid_stop identifier id'>stop</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="action_uninstall-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>action_uninstall</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Uninstalls the server from the system.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if action succedeed, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 294</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_action_uninstall identifier id'>action_uninstall</span>
+  <span class='rubyid_logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_logger identifier id'>get_logger</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_osx? fid id'>is_osx?</span> <span class='rubyid_then then kw'>then</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_fatal identifier id'>fatal</span><span class='lparen token'>(</span><span class='string val'>&quot;Install DevDNSd as a local resolver is only available on MacOSX.&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_resolver_file identifier id'>resolver_file</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_resolver_path identifier id'>resolver_path</span>
+  <span class='rubyid_launch_agent identifier id'>launch_agent</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_launch_agent_path identifier id'>launch_agent_path</span>
+
+  <span class='comment val'># Remove the resolver</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Deleting the resolver #{resolver_file} ...&quot;</span><span class='rparen token'>)</span>
+    <span class='colon3 op'>::</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_resolver_file identifier id'>resolver_file</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='string val'>&quot;Cannot delete the resolver file.&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Unload the launch agent.</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_execute_command identifier id'>execute_command</span><span class='lparen token'>(</span><span class='dstring node'>&quot;launchctl unload -w \&quot;#{launch_agent}\&quot; &gt; /dev/null 2&gt;&amp;1&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='string val'>&quot;Cannot unload the launch agent.&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Delete the launch agent.</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Deleting the launch agent #{launch_agent} ...&quot;</span><span class='rparen token'>)</span>
+    <span class='colon3 op'>::</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_launch_agent identifier id'>launch_agent</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='string val'>&quot;Cannot delete the launch agent.&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dns_update identifier id'>dns_update</span>
+
+  <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="dns_update-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>dns_update</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Updates DNS cache.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if command succeeded, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109
+110</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 107</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_dns_update identifier id'>dns_update</span>
+  <span class='rubyid_@logger ivar id'>@logger</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='string val'>&quot;Flushing DNS cache and resolvers ...&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_execute_command identifier id'>execute_command</span><span class='lparen token'>(</span><span class='string val'>&quot;dscacheutil -flushcache&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="execute_command-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>execute_command</strong>(command) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Executes a shell command.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>command</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The command to execute.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if command succeeded, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 100</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_execute_command identifier id'>execute_command</span><span class='lparen token'>(</span><span class='rubyid_command identifier id'>command</span><span class='rparen token'>)</span>
+  <span class='rubyid_system identifier id'>system</span><span class='lparen token'>(</span><span class='rubyid_command identifier id'>command</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_logger-instance_method">
+  
+    - (<tt>Logger</tt>) <strong>get_logger</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Gets the current logger of the application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Logger</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The current logger of the application.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+75
+76
+77</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 75</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_logger identifier id'>get_logger</span>
+  <span class='rubyid_@logger ivar id'>@logger</span> <span class='opasgn op'>||=</span> <span class='rubyid_Bovem constant id'>Bovem</span><span class='colon2 op'>::</span><span class='rubyid_Logger constant id'>Logger</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='rubyid_@config ivar id'>@config</span><span class='dot token'>.</span><span class='rubyid_foreground identifier id'>foreground</span> <span class='integer val'>? </span><span class='rubyid_Bovem constant id'>Bovem</span><span class='colon2 op'>::</span><span class='rubyid_Logger constant id'>Logger</span><span class='dot token'>.</span><span class='rubyid_default_file identifier id'>default_file</span> <span class='colon op'>:</span> <span class='rubyid_@config ivar id'>@config</span><span class='dot token'>.</span><span class='rubyid_log_file identifier id'>log_file</span><span class='comma token'>,</span> <span class='rubyid_@config ivar id'>@config</span><span class='dot token'>.</span><span class='rubyid_log_level identifier id'>log_level</span><span class='comma token'>,</span> <span class='rubyid_@log_formatter ivar id'>@log_formatter</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="is_osx?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>is_osx?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Check if we are running on MacOS X.
+System services are only available on that platform.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if the current platform is MacOS X, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+68
+69
+70</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 68</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_is_osx? fid id'>is_osx?</span>
+  <span class='colon3 op'>::</span><span class='rubyid_Config constant id'>Config</span><span class='colon2 op'>::</span><span class='rubyid_CONFIG constant id'>CONFIG</span><span class='lbrack token'>[</span><span class='string val'>'host_os'</span><span class='rbrack token'>]</span> <span class='match op'>=~</span> <span class='regexp val'>/^darwin/</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="launch_agent_path-instance_method">
+  
+    - (<tt>String</tt>) <strong>launch_agent_path</strong>(name = &quot;it.cowtech.devdnsd&quot;) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Gets the path for the launch agent file.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;it.cowtech.devdnsd&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The base name for the agent.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The path for the launch agent file.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+92
+93
+94</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 92</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_launch_agent_path identifier id'>launch_agent_path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='string val'>&quot;it.cowtech.devdnsd&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>&quot;HOME&quot;</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='dstring node'>&quot;/Library/LaunchAgents/#{name}.plist&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="on_start-instance_method">
+  
+    - (<tt>NilClass</tt>) <strong>on_start</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>This method is called when the server starts. By default is a no-op.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NilClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>nil</code>.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+338
+339</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 338</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_on_start identifier id'>on_start</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="on_stop-instance_method">
+  
+    - (<tt>NilClass</tt>) <strong>on_stop</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>This method is called when the server stop.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NilClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>nil</code>.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+344
+345</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 344</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_on_stop identifier id'>on_stop</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="perform_server-instance_method">
+  
+    - (<tt>Object</tt>) <strong>perform_server</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Starts the DNS server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The result of stop callbacks.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 115</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_perform_server identifier id'>perform_server</span>
+  <span class='rubyid_RubyDNS constant id'>RubyDNS</span><span class='colon2 op'>::</span><span class='rubyid_run_server identifier id'>run_server</span><span class='lparen token'>(</span><span class='symbol val'>:listen</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrack token'>[</span><span class='symbol val'>:udp</span><span class='comma token'>,</span> <span class='rubyid_@config ivar id'>@config</span><span class='dot token'>.</span><span class='rubyid_address identifier id'>address</span><span class='comma token'>,</span> <span class='rubyid_@config ivar id'>@config</span><span class='dot token'>.</span><span class='rubyid_port identifier id'>port</span><span class='dot token'>.</span><span class='rubyid_to_integer identifier id'>to_integer</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Application constant id'>Application</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span>
+
+    <span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/.+/</span><span class='comma token'>,</span> <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Application constant id'>Application</span><span class='colon2 op'>::</span><span class='rubyid_ANY_CLASSES constant id'>ANY_CLASSES</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_match_data identifier id'>match_data</span><span class='comma token'>,</span> <span class='rubyid_transaction identifier id'>transaction</span><span class='bitor op'>|</span>
+      <span class='rubyid_transaction identifier id'>transaction</span><span class='dot token'>.</span><span class='rubyid_append_question! fid id'>append_question!</span>
+
+      <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Application constant id'>Application</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_rules identifier id'>rules</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_rule identifier id'>rule</span><span class='bitor op'>|</span>
+        <span class='rubyid_begin begin kw'>begin</span>
+          <span class='comment val'># Get the subset of handled class that is valid for the rule</span>
+          <span class='rubyid_resource_classes identifier id'>resource_classes</span> <span class='assign token'>=</span> <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Application constant id'>Application</span><span class='colon2 op'>::</span><span class='rubyid_ANY_CLASSES constant id'>ANY_CLASSES</span> <span class='bitand op'>&amp;</span> <span class='rubyid_rule identifier id'>rule</span><span class='dot token'>.</span><span class='rubyid_resource_class identifier id'>resource_class</span><span class='dot token'>.</span><span class='rubyid_ensure_array identifier id'>ensure_array</span>
+          <span class='rubyid_resource_classes identifier id'>resource_classes</span> <span class='assign token'>=</span> <span class='rubyid_resource_classes identifier id'>resource_classes</span> <span class='bitand op'>&amp;</span> <span class='lbrack token'>[</span><span class='rubyid_transaction identifier id'>transaction</span><span class='dot token'>.</span><span class='rubyid_resource_class identifier id'>resource_class</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_transaction identifier id'>transaction</span><span class='dot token'>.</span><span class='rubyid_resource_class identifier id'>resource_class</span> <span class='neq op'>!=</span> <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Application constant id'>Application</span><span class='colon2 op'>::</span><span class='rubyid_ANY_REQUEST constant id'>ANY_REQUEST</span>
+
+          <span class='rubyid_if if kw'>if</span> <span class='rubyid_resource_classes identifier id'>resource_classes</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span> <span class='rubyid_then then kw'>then</span>
+            <span class='rubyid_resource_classes identifier id'>resource_classes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_resource_class identifier id'>resource_class</span><span class='bitor op'>|</span> <span class='comment val'># Now for every class</span>
+              <span class='rubyid_matches identifier id'>matches</span> <span class='assign token'>=</span> <span class='rubyid_rule identifier id'>rule</span><span class='dot token'>.</span><span class='rubyid_match_host identifier id'>match_host</span><span class='lparen token'>(</span><span class='rubyid_match_data identifier id'>match_data</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+              <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Application constant id'>Application</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_process_rule identifier id'>process_rule</span><span class='lparen token'>(</span><span class='rubyid_rule identifier id'>rule</span><span class='comma token'>,</span> <span class='rubyid_resource_class identifier id'>resource_class</span><span class='comma token'>,</span> <span class='rubyid_rule identifier id'>rule</span><span class='dot token'>.</span><span class='rubyid_is_regexp? fid id'>is_regexp?</span> <span class='integer val'>? </span><span class='rubyid_matches identifier id'>matches</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_transaction identifier id'>transaction</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_matches identifier id'>matches</span>
+            <span class='rubyid_end end kw'>end</span>
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_rescue rescue kw'>rescue</span> <span class='colon2 op'>::</span><span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+          <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_e identifier id'>e</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># Default DNS handler</span>
+    <span class='rubyid_otherwise identifier id'>otherwise</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_transaction identifier id'>transaction</span><span class='bitor op'>|</span>
+      <span class='rubyid_transaction identifier id'>transaction</span><span class='dot token'>.</span><span class='rubyid_failure! fid id'>failure!</span><span class='lparen token'>(</span><span class='symbol val'>:NXDomain</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># Attach event handlers</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_on identifier id'>on</span><span class='lparen token'>(</span><span class='symbol val'>:start</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+      <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Application constant id'>Application</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_on_start identifier id'>on_start</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_on identifier id'>on</span><span class='lparen token'>(</span><span class='symbol val'>:stop</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+      <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Application constant id'>Application</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_on_stop identifier id'>on_stop</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="process_rule-instance_method">
+  
+    - (<tt>Object</tt>) <strong>process_rule</strong>(rule, type, match_data, transaction) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Processes a DNS rule.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rule</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Rule.html" title="DevDNSd::Rule (class)">Rule</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The rule to process.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The type of request.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>match_data</span>
+      
+      
+        <span class='type'>(<tt>MatchData|nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>If the rule pattern was a Regexp, then this holds the match data, otherwise <code>nil</code> is passed.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>transaction</span>
+      
+      
+        <span class='type'>(<tt>Transaction</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The current DNS transaction (<a href="http://rubydoc.info/gems/rubydns/RubyDNS/Transaction">http://rubydoc.info/gems/rubydns/RubyDNS/Transaction</a>).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>A reply for the request if matched, otherwise <code>false</code> or <code>nil</code>.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 163</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_process_rule identifier id'>process_rule</span><span class='lparen token'>(</span><span class='rubyid_rule identifier id'>rule</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_match_data identifier id'>match_data</span><span class='comma token'>,</span> <span class='rubyid_transaction identifier id'>transaction</span><span class='rparen token'>)</span>
+  <span class='rubyid_is_regex identifier id'>is_regex</span> <span class='assign token'>=</span> <span class='rubyid_rule identifier id'>rule</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='colon3 op'>::</span><span class='rubyid_Regexp constant id'>Regexp</span><span class='rparen token'>)</span>
+  <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Rule constant id'>Rule</span><span class='dot token'>.</span><span class='rubyid_resource_class_to_symbol identifier id'>resource_class_to_symbol</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Application constant id'>Application</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Found match on #{rule.match} with type #{type}.&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_rule identifier id'>rule</span><span class='dot token'>.</span><span class='rubyid_block identifier id'>block</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_then then kw'>then</span>
+    <span class='rubyid_reply identifier id'>reply</span> <span class='assign token'>=</span> <span class='rubyid_rule identifier id'>rule</span><span class='dot token'>.</span><span class='rubyid_block identifier id'>block</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_match_data identifier id'>match_data</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_transaction identifier id'>transaction</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_reply identifier id'>reply</span> <span class='assign token'>=</span> <span class='rubyid_rule identifier id'>rule</span><span class='dot token'>.</span><span class='rubyid_reply identifier id'>reply</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_is_regex identifier id'>is_regex</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_reply identifier id'>reply</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_match_data identifier id'>match_data</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='rubyid_then then kw'>then</span>
+    <span class='rubyid_reply identifier id'>reply</span> <span class='assign token'>=</span> <span class='rubyid_match_data identifier id'>match_data</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='rubyid_rule identifier id'>rule</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='comma token'>,</span> <span class='rubyid_reply identifier id'>reply</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;$&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;\\&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Application constant id'>Application</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='rubyid_reply identifier id'>reply</span> <span class='integer val'>? </span><span class='dstring node'>&quot;Reply is #{reply} with type #{type}.&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;No reply found.&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_reply identifier id'>reply</span> <span class='rubyid_then then kw'>then</span>
+    <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='rubyid_rule identifier id'>rule</span><span class='dot token'>.</span><span class='rubyid_options identifier id'>options</span>
+
+    <span class='rubyid_final_reply identifier id'>final_reply</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_case case kw'>case</span> <span class='rubyid_type identifier id'>type</span>
+      <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:MX</span>
+        <span class='rubyid_preference identifier id'>preference</span> <span class='assign token'>=</span> <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='symbol val'>:preference</span><span class='rparen token'>)</span>
+        <span class='rubyid_preference identifier id'>preference</span> <span class='assign token'>=</span> <span class='integer val'>10</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_preference identifier id'>preference</span><span class='dot token'>.</span><span class='rubyid_is_integer? fid id'>is_integer?</span>
+        <span class='rubyid_final_reply identifier id'>final_reply</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_preference identifier id'>preference</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='lbrack token'>[</span><span class='symbol val'>:A</span><span class='comma token'>,</span> <span class='symbol val'>:AAAA</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span> <span class='rubyid_then then kw'>then</span>
+      <span class='rubyid_final_reply identifier id'>final_reply</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_reply identifier id'>reply</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_final_reply identifier id'>final_reply</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_Resolv constant id'>Resolv</span><span class='colon2 op'>::</span><span class='rubyid_DNS constant id'>DNS</span><span class='colon2 op'>::</span><span class='rubyid_Name constant id'>Name</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='rubyid_reply identifier id'>reply</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_final_reply identifier id'>final_reply</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:resource_class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_DevDNSd constant id'>DevDNSd</span><span class='colon2 op'>::</span><span class='rubyid_Rule constant id'>Rule</span><span class='dot token'>.</span><span class='rubyid_symbol_to_resource_class identifier id'>symbol_to_resource_class</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_transaction identifier id'>transaction</span><span class='dot token'>.</span><span class='rubyid_respond! fid id'>respond!</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_final_reply identifier id'>final_reply</span><span class='rparen token'>)</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_reply identifier id'>reply</span> <span class='eq op'>==</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_then then kw'>then</span>
+    <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_reply identifier id'>reply</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resolver_path-instance_method">
+  
+    - (<tt>String</tt>) <strong>resolver_path</strong>(tld = nil) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Gets the path for the resolver file.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>tld</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The TLD to manage.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The path for the resolver file.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 83</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_resolver_path identifier id'>resolver_path</span><span class='lparen token'>(</span><span class='rubyid_tld identifier id'>tld</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='rubyid_tld identifier id'>tld</span> <span class='opasgn op'>||=</span> <span class='rubyid_@config ivar id'>@config</span><span class='dot token'>.</span><span class='rubyid_tld identifier id'>tld</span>
+  <span class='dstring node'>&quot;/etc/resolver/#{tld}&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sat Aug 11 08:53:01 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>
