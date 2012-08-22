@@ -8,70 +8,39 @@
 require "rubygems"
 require "devdnsd"
 
-# TODO: Replace GLI with another library.
+Mamertes.App do
+  name "DevDNSd"
+  description "A small DNS server to enable local domain resolution."
+  version DevDNSd::Version::STRING
 
-include GLI
-program_desc("A small DNS server to enable local domain resolution.")
-version(DevDNSd::Version::STRING)
+  option "configuration", [], {:type => String, :help => "The configuration file to use. Default is \"~/.devdnsd_config\".", :default => "~/.devdnsd_config", :meta => "FILE"}
+  option "tld", [], {:type => String, :help => "The TLD to handle. Default is \"dev\".", :default => "dev", :meta => "DOMAIN"}
+  option "port", [], {:type => Integer, :help => "The port to bind. Default is 7771", :default => 7771}
+  option "log-file", [], {:type => String, :help => "The default log file. Not used if run in foreground. Default is \"/var/log/devdnsd.log\"", :default => "/var/log/devdnsd.log", :meta => "FILE"}
+  option "log-level", [:L], {:type => Integer, :help => "The default log level. Valid values are from 0 to 5 where 0 means \"all messages\". Default is 1.", :default => 1, :meta => "LEVEL"}
 
-desc("Do not ask any confirmation.")
-switch([:f, :force])
+  command :start do
+    description "Starts the server."
+    option "foreground", [:n], {:help => "Do not daemonize."}
+    action { |command| DevDNSd::Application.instance(command).action_start() }
+  end
 
-desc("The TLD to handle.")
-default_value("dev")
-arg_name("TLD")
-flag([:t,:tld])
+  command :stop do
+    description "Stops the server."
+    action { |command| DevDNSd::Application.instance(command).action_stop() }
+  end
 
-desc("The port to bind.")
-default_value(7771)
-arg_name("PORT")
-flag([:p,:port])
+  command :install do
+    description "Installs the server."
+    action { |command| DevDNSd::Application.instance(command).action_install() }
+  end
 
-desc("The default configuration file.")
-default_value("~/.devdnsd_config")
-arg_name("FILE")
-flag([:c, :config])
+  command :uninstall do
+    description "Uninstalls the server."
+    action { |command| DevDNSd::Application.instance(command).action_uninstall() }
+  end
 
-desc("The default log file. Not used if run in foreground.")
-default_value("/var/log/devdnsd.log")
-arg_name("LOG")
-flag([:l, "log-file"])
-
-desc("The default log level. Valid values are from 0 to 5 where 0 means \"all messages\".")
-default_value(1)
-arg_name("LEVEL")
-flag([:L, "log-level"])
-
-desc("Starts the server.")
-command [:s, :start] do |c|
-  c.desc("Do not daemonize.")
-  c.switch [:n, :foreground]
-
-  c.action do |globals, locals, args|
-    DevDNSd::Application.instance(globals, locals, args).action_start()
+  action do |command|
+    self.commands["add"].execute(ARGV)
   end
 end
-
-desc("Stops the server.")
-command [:t, :stop] do |c|
-  c.action do |globals, locals, args|
-    DevDNSd::Application.instance(globals, locals, args).action_stop()
-  end
-end
-
-desc("Install the server.")
-command [:i, :install] do |c|
-  c.action do |globals, locals, args|
-    DevDNSd::Application.instance(globals, locals, args).action_install()
-  end
-end
-
-desc("Uninstall the server.")
-command [:u, :uninstall] do |c|
-  c.action do |globals, locals, args|
-    DevDNSd::Application.instance(globals, locals, args).action_uninstall()
-  end
-end
-
-ARGV << "help" if ARGV.length == 0
-exit(GLI.run(ARGV))

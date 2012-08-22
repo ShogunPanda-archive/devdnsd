@@ -17,39 +17,34 @@ module DevDNSd
     # The {Configuration Configuration} of this application.
     attr_reader :config
 
-    # The arguments passed via command-line.
-    attr_reader :args
+    # The Mamertes command.
+    attr_reader :command
 
     # The logger for this application.
     attr_accessor :logger
 
     # Creates a new application.
     #
-    # @param globals [Hash] Global options.
-    # @param locals [Hash] Local command options.
-    # @param args [Array] Extra arguments.
-    def initialize(globals = {}, locals = {}, args = [])
-      @args = {
-        :global => globals,
-        :local => locals,
-        :args => args
-      }
+    # @param command [Mamertes::Command] The current Mamertes command.
+    def initialize(command)
+      @command = command
+      application = @command.application
 
       # Setup logger
       Bovem::Logger.start_time = Time.now
-      @logger = Bovem::Logger.create(Bovem::Logger.get_real_file(@args[:global][:log_file]) || Bovem::Logger.default_file, Logger::INFO)
+      @logger = Bovem::Logger.create(Bovem::Logger.get_real_file(application.options["log-file"].value) || Bovem::Logger.default_file, Logger::INFO)
 
       # Open configuration
       begin
         overrides = {
-          :foreground => @args[:local][:foreground],
-          :log_file => @args[:global]["log-file"],
-          :log_level => @args[:global]["log-level"],
-          :tld => @args[:global][:tld],
-          :port => @args[:global][:port]
+          :foreground => command.name == "add" ? command.options["foreground"].value : false,
+          :log_file => application.options["log-file"].value,
+          :log_level => application.options["log-level"].value,
+          :tld => application.options["tld"].value,
+          :port => application.options["port"].value
         }.reject {|k,v| v.nil? }
 
-        @config = DevDNSd::Configuration.new(@args[:global][:config], overrides, @logger)
+        @config = DevDNSd::Configuration.new(application.options["configuration"].value, overrides, @logger)
 
         @logger = nil
         @logger = self.get_logger
@@ -186,7 +181,7 @@ module DevDNSd
         case type
           when :MX
             preference = options.delete(:preference)
-            preference = 10 if !preference.is_integer?
+            preference = preference.nil? ? 10 : preference.to_integer(10)
             final_reply << preference
         end
 
@@ -345,14 +340,14 @@ module DevDNSd
     end
 
     # Returns a unique (singleton) instance of the application.
-    # @param globals [Hash] Global options.
-    # @param locals [Hash] Local command options.
-    # @param args [Array] Extra arguments.
+    #
+    # @param command [Mamertes::Command] The current Mamertes command.
     # @param force [Boolean] If to force recreation of the instance.
     # @return [Application] The unique (singleton) instance of the application.
-    def self.instance(globals = {}, locals = {}, args = [], force = false)
+    def self.instance(command = nil, force = false)
       @instance = nil if force
-      @instance ||= DevDNSd::Application.new(globals, locals, args)
+      @instance ||= DevDNSd::Application.new(command) if command
+      @instance
     end
 
     # Runs the application in foreground.

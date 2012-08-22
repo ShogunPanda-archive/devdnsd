@@ -9,10 +9,23 @@ require "spec_helper"
 describe DevDNSd::Application do
   before(:each) do
     Bovem::Logger.stub(:default_file).and_return("/dev/null")
+    DevDNSd::Application.stub(:instance).and_return(application)
+  end
+
+  def create_application(overrides = {})
+    mamertes_app = Mamertes::App(:run => false) do
+      option "configuration", [], {:default => overrides["configuration"] || "~/.akaer_config"}
+      option "tld", [], {:default => overrides["tld"] || "dev"}
+      option "port", [], {:type => Integer, :default => overrides["port"] || 7771}
+      option "log-file", [], {:default => overrides["log-file"] || "STDOUT"}
+      option "log-level", [:L], {:type => Integer, :default => overrides["log-level"] || 1}
+    end
+
+    DevDNSd::Application.new(mamertes_app)
   end
 
   let(:log_file) { "/tmp/devdnsd-test-log-#{Time.now.strftime("%Y%m%d-%H%M%S")}" }
-  let(:application){ DevDNSd::Application.instance({:log_file => log_file}, {}, {}, true) }
+  let(:application){ create_application({"log-file" => log_file}) }
   let(:executable) { ::Pathname.new(::File.dirname((__FILE__))) + "../../bin/devdnsd" }
   let(:sample_config) { ::Pathname.new(::File.dirname((__FILE__))) + "../../config/devdnsd_config.sample" }
   let(:resolver_path) { "/tmp/devdnsd-test-resolver-#{Time.now.strftime("%Y%m%d-%H%M%S")}" }
@@ -33,7 +46,7 @@ describe DevDNSd::Application do
       file.write("config.port = ")
       file.close
 
-      expect { DevDNSd::Application.new({:config => file.path, :log_file => log_file}) }.to raise_error(::SystemExit)
+      expect { create_application({"configuration" => file.path, "log-file" => log_file}) }.to raise_error(::SystemExit)
       ::File.unlink(path)
     end
   end
@@ -52,8 +65,40 @@ describe DevDNSd::Application do
     end
   end
 
+  describe ".instance" do
+    before(:each) do
+      DevDNSd::Application.unstub(:instance)
+    end
+
+    let(:mamertes) {
+      mamertes_app = Mamertes::App(:run => false) do
+        option "configuration", [], {:default => "~/.akaer_config"}
+        option "tld", [], {:default => "dev"}
+        option "port", [], {:type => Integer, :default => 7771}
+        option "log-file", [], {:default => "STDOUT"}
+        option "log-level", [:L], {:type => Integer, :default => 1}
+      end
+    }
+
+    it "should create a new instance" do
+      expect(DevDNSd::Application.instance(mamertes)).to be_a(DevDNSd::Application)
+    end
+
+    it "should always return the same instance" do
+      other = DevDNSd::Application.instance(mamertes)
+      DevDNSd::Application.should_not_receive(:new)
+      expect(DevDNSd::Application.instance(mamertes)).to eq(other)
+      expect(DevDNSd::Application.instance).to eq(other)
+    end
+
+    it "should recreate an instance" do
+      other = DevDNSd::Application.instance(mamertes)
+      expect(DevDNSd::Application.instance(mamertes, true)).not_to eq(other)
+    end
+  end
+
   describe "#perform_server" do
-    let(:application){ DevDNSd::Application.instance({:log_file => log_file, :config => sample_config}, {}, [], true) }
+    let(:application){ create_application({"log-file" => log_file, "configuration" => sample_config}) }
 
     before(:each) do
       class DevDNSd::Application
@@ -168,7 +213,7 @@ describe DevDNSd::Application do
       end
     end
 
-    let(:application){ DevDNSd::Application.instance({:log_file => log_file, :config => sample_config}, {}, [], true) }
+    let(:application){ create_application({"log-file" => log_file, "configuration" => sample_config}) }
     let(:transaction){ FakeTransaction.new }
 
     it "should match a valid string request" do
@@ -256,13 +301,14 @@ describe DevDNSd::Application do
 
   describe "#action_start" do
     it "should call perform_server in foreground" do
-      application = DevDNSd::Application.instance({:log_file => log_file}, {:foreground => true}, [], true)
+      application = create_application({"log-file" => log_file})
+      application.config.foreground = true
       application.should_receive(:perform_server)
       application.action_start
     end
 
     it "should start the daemon" do
-      application = DevDNSd::Application.instance({:log_file => log_file}, {}, [], true)
+      application = create_application({"log-file" => log_file})
       ::RExec::Daemon::Controller.should_receive(:start)
       application.action_start
     end

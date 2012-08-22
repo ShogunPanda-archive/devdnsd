@@ -20,10 +20,8 @@ Gem::Specification.new do |gem|
   gem.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.require_paths = ["lib"]
-  #gem.platform = Gem::Platform::CURRENT
 
-  gem.add_dependency("bovem", "~> 0.8.0")
-  gem.add_dependency("gli", "~> 1.6.0")
+  gem.add_dependency("mamertes", "~> 1.1.0")
   gem.add_dependency("rubydns", "~> 0.4.0")
   gem.add_dependency("rexec", "~> 1.4.1")
 

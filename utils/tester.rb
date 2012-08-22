@@ -8,7 +8,6 @@
 basedir = File.expand_path(File.dirname(__FILE__))
 require "rubygems"
 require "bovem"
-require "rainbow"
 require "net/dns"
 
 # Patch to avoid resolving of hostname containing numbers.
@@ -73,7 +72,7 @@ def devdnsd_resolv(address = "match.dev", type = "ANY", nameserver = "127.0.0.1"
   rv = []
 
   logger = Bovem::Logger.new("/dev/null", Bovem::Logger::DEBUG) if !logger
-  logger.info(::Bovem::Console.replace_markers("Resolving address {mark=bright}#{address}{/mark} with type {mark=bright}#{type.to_s.bright}{/mark} at nameserver {mark=bright}#{nameserver.bright}{/mark}:{mark=bright}#{port.to_s.bright}{/mark} ...")
+  logger.info(::Bovem::Console.replace_markers("Resolving address {mark=bright}#{address}{/mark} with type {mark=bright}#{type}{/mark} at nameserver {mark=bright}#{nameserver}{/mark}:{mark=bright}#{port.to_s}{/mark} ..."))
   tmpfile = "/tmp/devdnsd-test-tester-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}"
 
   begin

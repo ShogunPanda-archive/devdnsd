@@ -5,9 +5,8 @@
 #
 
 require "rubygems"
-require "bovem"
+require "mamertes"
 require "rubydns"
-require "gli"
 require "rexec/daemon"
 
 Lazier.load!(:object)
