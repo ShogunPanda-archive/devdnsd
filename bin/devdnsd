@@ -41,6 +41,6 @@ Mamertes.App do
   end
 
   action do |command|
-    self.commands["add"].execute(ARGV)
+    self.commands["start"].execute(ARGV)
   end
 end

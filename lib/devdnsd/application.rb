@@ -37,7 +37,7 @@ module DevDNSd
       # Open configuration
       begin
         overrides = {
-          :foreground => command.name == "add" ? command.options["foreground"].value : false,
+          :foreground => command.name == "start" ? command.options["foreground"].value : false,
           :log_file => application.options["log-file"].value,
           :log_level => application.options["log-level"].value,
           :tld => application.options["tld"].value,
