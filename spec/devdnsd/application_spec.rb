@@ -14,10 +14,10 @@ describe DevDNSd::Application do
 
   def create_application(overrides = {})
     mamertes_app = Mamertes::App(:run => false) do
-      option "configuration", [], {:default => overrides["configuration"] || "~/.akaer_config"}
+      option "configuration", [], {:default => overrides["configuration"] || "/dev/null"}
       option "tld", [], {:default => overrides["tld"] || "dev"}
       option "port", [], {:type => Integer, :default => overrides["port"] || 7771}
-      option "log-file", [], {:default => overrides["log-file"] || "STDOUT"}
+      option "log-file", [], {:default => overrides["log-file"] || "/dev/null"}
       option "log-level", [:L], {:type => Integer, :default => overrides["log-level"] || 1}
     end
 
@@ -72,10 +72,10 @@ describe DevDNSd::Application do
 
     let(:mamertes) {
       mamertes_app = Mamertes::App(:run => false) do
-        option "configuration", [], {:default => "~/.akaer_config"}
+        option "configuration", [], {:default => "/dev/null"}
         option "tld", [], {:default => "dev"}
         option "port", [], {:type => Integer, :default => 7771}
-        option "log-file", [], {:default => "STDOUT"}
+        option "log-file", [], {:default => "/dev/null"}
         option "log-level", [:L], {:type => Integer, :default => 1}
       end
     }
