@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.require_paths = ["lib"]
 
-  gem.add_dependency("mamertes", "~> 1.1.0")
+  gem.add_dependency("mamertes", "~> 1.1.7")
   gem.add_dependency("rubydns", "~> 0.4.0")
   gem.add_dependency("rexec", "~> 1.4.1")
 
