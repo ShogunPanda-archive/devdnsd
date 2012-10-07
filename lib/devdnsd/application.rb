@@ -38,10 +38,11 @@ module DevDNSd
       begin
         overrides = {
           :foreground => command.name == "start" ? command.options["foreground"].value : false,
-          :log_file => application.options["log-file"].value,
-          :log_level => application.options["log-level"].value,
           :tld => application.options["tld"].value,
-          :port => application.options["port"].value
+          :port => application.options["port"].value,
+          :pid_file => application.options["pid-file"].value,
+          :log_file => application.options["log-file"].value,
+          :log_level => application.options["log-level"].value
         }.reject {|k,v| v.nil? }
 
         @config = DevDNSd::Configuration.new(application.options["configuration"].value, overrides, @logger)
@@ -54,6 +55,27 @@ module DevDNSd
       end
 
       self
+    end
+
+    # Returns the name of the daemon.
+    #
+    # @return [String] The name of the daemon.
+    def self.daemon_name
+      File.basename(self.instance.config.pid_file, ".pid")
+    end
+
+    # Returns the standard location of the PID file.
+    #
+    # @return [String] The standard location of the PID file.
+    def self.pid_directory
+      File.dirname(self.instance.config.pid_file)
+    end
+
+    # Returns the complete path of the PID file.
+    #
+    # @return [String] The complete path of the PID file.
+    def self.pid_fn
+      self.instance.config.pid_file
     end
 
     # Check if we are running on MacOS X.

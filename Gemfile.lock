@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    devdnsd (1.5.2)
+    devdnsd (1.6.0)
       mamertes (~> 1.1.8)
       rexec (~> 1.4.1)
       rubydns (~> 0.4.0)

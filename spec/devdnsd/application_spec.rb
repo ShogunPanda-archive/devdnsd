@@ -17,6 +17,7 @@ describe DevDNSd::Application do
       option "configuration", [], {:default => overrides["configuration"] || "/dev/null"}
       option "tld", [], {:default => overrides["tld"] || "dev"}
       option "port", [], {:type => Integer, :default => overrides["port"] || 7771}
+      option "pid-file", [:P], {:type => String, :default => "/var/run/devdnsd.pid"}
       option "log-file", [], {:default => overrides["log-file"] || "/dev/null"}
       option "log-level", [:L], {:type => Integer, :default => overrides["log-level"] || 1}
     end
@@ -75,6 +76,7 @@ describe DevDNSd::Application do
         option "configuration", [], {:default => "/dev/null"}
         option "tld", [], {:default => "dev"}
         option "port", [], {:type => Integer, :default => 7771}
+        option "pid-file", [:P], {:type => String, :default => "/var/run/devdnsd.pid"}
         option "log-file", [], {:default => "/dev/null"}
         option "log-level", [:L], {:type => Integer, :default => 1}
       end
@@ -94,6 +96,45 @@ describe DevDNSd::Application do
     it "should recreate an instance" do
       other = DevDNSd::Application.instance(mamertes)
       expect(DevDNSd::Application.instance(mamertes, true)).not_to eq(other)
+    end
+  end
+
+  describe ".pid_fn" do
+    let(:application){ create_application({"log-file" => log_file, "configuration" => sample_config}) }
+
+    it "returns the default file" do
+      expect(DevDNSd::Application.pid_fn).to eq("/var/run/devdnsd.pid")
+    end
+
+    it "return the set file" do
+      DevDNSd::Application.instance.config.pid_file = "/this/is/a/daemon.pid"
+      expect(DevDNSd::Application.pid_fn).to eq("/this/is/a/daemon.pid")
+    end
+  end
+
+  describe ".pid_directory" do
+    let(:application){ create_application({"log-file" => log_file, "configuration" => sample_config}) }
+
+    it "returns the default path" do
+      expect(DevDNSd::Application.pid_directory).to eq("/var/run")
+    end
+
+    it "return the set path basing on the PID file" do
+      DevDNSd::Application.instance.config.pid_file = "/this/is/a/daemon.pid"
+      expect(DevDNSd::Application.pid_directory).to eq("/this/is/a")
+    end
+  end
+
+  describe ".daemon_name" do
+    let(:application){ create_application({"log-file" => log_file, "configuration" => sample_config}) }
+
+    it "returns the default name" do
+      expect(DevDNSd::Application.daemon_name).to eq("devdnsd")
+    end
+
+    it "return the set name basing on the PID file" do
+      DevDNSd::Application.instance.config.pid_file = "/this/is/a/daemon.pid"
+      expect(DevDNSd::Application.daemon_name).to eq("daemon")
     end
   end
 

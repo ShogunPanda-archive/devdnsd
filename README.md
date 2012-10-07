@@ -39,6 +39,7 @@ The file is a plain Ruby file with a single `config` object that supports the fo
 * `foreground`: If run the application in foreground.
 * `address`: The IP to bind, 0.0.0.0 by default.
 * `port`: The port to bind, 7771 by default.
+* `pid_file`: The PID file to use.
 * `tld`: The TLD to handle.
 * `log_file`: The default log file. Not used if run in foreground.
 * `log_level`: The default log level. Valid values are from 0 to 5 where 0 means "all messages".

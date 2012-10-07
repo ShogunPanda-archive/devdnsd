@@ -19,6 +19,9 @@ module DevDNSd
     # The TLD to manage. Default: `dev`.
     property :tld, :default => "dev"
 
+    # The PID file to use. Default: `/var/run/devdnsd.pid`.
+    property :pid_file, :default => "/var/log/devdnsd.pid"
+
     # The file to log to. Default: `/var/log/devdnsd.log`.
     property :log_file, :default => "/var/log/devdnsd.log"
 
