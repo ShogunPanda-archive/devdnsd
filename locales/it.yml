@@ -1,0 +1,46 @@
+# encoding: utf-8
+#
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
+# Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
+#
+
+---
+  devdnsd:
+    rule_invalid_call: "Devi specificare almeno una regola e un host (anche tramite un blocco). Opzionalmente puoi aggiungere un tipo di record (default: A) e le opzioni."
+    rule_invalid_options: "Puoi usare solo hash per le opzioni."
+    rule_invalid_resource: "Classe di risorsa %1 non valida."
+    dns_update: "Cancello la cache dei DNS e dei resolver ..."
+    starting: "Avvio DevDNSd ..."
+    match: "Trovata corrispondenza per %1 con tipo %2."
+    reply: "La risposta è %1 con tipo %2."
+    no_reply: "Nessuna risposta trovata."
+    no_agent: "Installare DevDNSd come resolver locale è disponibile solo su MacOSX."
+    resolver_creating: "Creo il resolver in {mark=bright}%1{/mark} ..."
+    resolver_creating_error: "Impossible creare il file del resolver."
+    resolver_deleting: "Cancello resolver %1 ..."
+    resolver_deleting_error: "Impossibile cancellare il file del resolver."
+    agent_creating: "Creo il launch agent in {mark=bright}%1{/mark} ..."
+    agent_creating_error: "Impossibile creare il launch agent."
+    agent_deleting: "Cancello il launch agent %1 ..."
+    agent_deleting_error: "Impossibile cancellare launch agent."
+    agent_loading: "Avvio il launch agent %1 ..."
+    agent_loading_error: "Impossibile avviare il launch agent."
+    agent_unloading: "Fermo il launch agent %1 ..."
+    agent_unloading_error: "Impossible fermare il launch agent."
+    logging_failed: "Impossibile eseguire il logging in {mark=bright}%1{/mark}. Esco..."
+    application_description: "Un piccolo server DNS per abilitare la risoluzione di domini locali."
+    application_help_configuration: "Il file di configurazione da usare. Il valore predefinito è \"~/.devdnsd_config\"."
+    application_help_tld: "Il TLD da gestiere. Il valore predefinito è \"dev\"."
+    application_help_port: "The port to bind. La porta predefinita è 7771."
+    application_help_pid_file: "Il file PID da usare. Il file predefinito è \"/var/run/devdnsd.pid\"."
+    application_help_log_file: "Il file di log da utilizzare. Non usato se eseguito in foreground. Il valore predefinito è \"/var/log/devdnsd.log\"."
+    application_help_log_level: "Il livello di log da utilizzare. I valori validi sono da 0 a 5 dove 0 significa \"tutti i messaggi\". Il valore predefinito è 1."
+    application_help_foreground: "Non eseguire in background."
+    application_meta_file: "FILE"
+    application_meta_domain: "DOMINIO"
+    application_meta_level: "LIVELLO"
+    application_meta_port: "PORTA"
+    command_start: "Avvia server."
+    command_install: "Installa il server."
+    command_uninstall: "Disinstalla il server."
+    command_stop: "Ferma il server."

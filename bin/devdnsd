@@ -9,6 +9,8 @@ require "rubygems"
 require "devdnsd"
 
 Mamertes.App do
+  localizer = Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../locales/")).i18n
+
   name "DevDNSd"
   description localizer.application_description
   version DevDNSd::Version::STRING
