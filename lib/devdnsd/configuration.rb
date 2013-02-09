@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# This file is part of the devdnsd gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
@@ -8,28 +8,28 @@ module DevDNSd
   # This class holds the configuration of the applicaton.
   class Configuration < Bovem::Configuration
     # If to run the server in foreground. Default: `false`.
-    property :foreground, :default => false
+    property :foreground, default: false
 
     # The address to listen to. Default: `0.0.0.0`.
-    property :address, :default => "0.0.0.0"
+    property :address, default: "0.0.0.0"
 
     # The port to listen to. Default: `7771`.
-    property :port, :default => 7771
+    property :port, default: 7771
 
     # The TLD to manage. Default: `dev`.
-    property :tld, :default => "dev"
+    property :tld, default: "dev"
 
     # The PID file to use. Default: `/var/run/devdnsd.pid`.
-    property :pid_file, :default => "/var/log/devdnsd.pid"
+    property :pid_file, default: "/var/log/devdnsd.pid"
 
     # The file to log to. Default: `/var/log/devdnsd.log`.
-    property :log_file, :default => "/var/log/devdnsd.log"
+    property :log_file, default: "/var/log/devdnsd.log"
 
     # The minimum severity to log. Default: `Logger::INFO`.
-    property :log_level, :default => Logger::INFO
+    property :log_level, default: Logger::INFO
 
     # The rules of the server. By default, every hostname is resolved with `127.0.0.1`.
-    property :rules, :default => []
+    property :rules, default: []
 
     # Creates a new configuration.
     # A configuration file is a plain Ruby file with a top-level {Configuration config} object.

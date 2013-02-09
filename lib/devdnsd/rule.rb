@@ -1,32 +1,30 @@
 # encoding: utf-8
 #
-# This file is part of the devdnsd gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
 module DevDNSd
   # This class encapsulate a rule for matching an hostname.
+  #
+  # @attribute match
+  #   @return [String|Regexp] The pattern to match. Default: `/.+/`.
+  # @attribute type
+  #   @return [Symbol] The type of request to match. Default: `:A`. @see .create
+  # @attribute reply
+  #   @return [String] The IP or hostname to reply back to the client. Default: `127.0.0.1`. @see .create
+  # @attribute options
+  #   @return [Hash] A list of options for the request. Default is an empty hash.
+  # @attribute block
+  #   @return [Proc] An optional block to compute the reply instead of using the `reply` parameter. @see .create
   class Rule
-    # The pattern to match. Default: `/.+/`.
     attr_accessor :match
-
-    # The type of request to match. Default: `:A`.
-    #
-    # @see .create
     attr_accessor :type
-
-    # The IP or hostname to reply back to the client. Default: `127.0.0.1`.
-    #
-    # @see .create
     attr_accessor :reply
-
-    # A list of options for the request. Default is an empty hash.
     attr_accessor :options
-
-    # An optional block to compute the reply instead of using the `reply` parameter.
-    #
-    # @see .create
     attr_accessor :block
+
+    include Lazier::I18n
 
     # Creates a new rule.
     #
@@ -37,6 +35,9 @@ module DevDNSd
     # @param block [Proc] An optional block to compute the reply instead of using the `reply` parameter.
     # @see .create
     def initialize(match = /.+/, reply = "127.0.0.1", type = :A, options = {}, &block)
+      self.i18n_setup(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
+      self.i18n = options[:locale]
+
       reply ||= "127.0.0.1"
       type ||= :A
       @match = match
@@ -45,15 +46,15 @@ module DevDNSd
       @options = options
       @block = block
 
-      raise(DevDNSd::Errors::InvalidRule.new("You must specify at least a rule and a host (also via a block). Optionally you can add a record type (default: A) and the options.")) if @reply.blank? && @block.nil?
-      raise(DevDNSd::Errors::InvalidRule.new("You can only use hashs for options.")) if !@options.is_a?(::Hash)
+      raise(DevDNSd::Errors::InvalidRule.new(self.i18n.rule_invalid_call)) if @reply.blank? && @block.nil?
+      raise(DevDNSd::Errors::InvalidRule.new(self.i18n.rule_invalid_options)) if !@options.is_a?(::Hash)
     end
 
     # Returns the resource class(es) for the current rule.
     #
     # @return [Array|Class] The class(es) for the current rule.
     def resource_class
-      classes = self.type.ensure_array.collect {|cls| self.class.symbol_to_resource_class(cls) }.compact.uniq
+      classes = @type.ensure_array.collect {|cls| self.class.symbol_to_resource_class(cls, options[:locale]) }.compact.uniq
       classes.length == 1 ? classes.first : classes
     end
 
@@ -61,14 +62,14 @@ module DevDNSd
     #
     # @return [Boolean] `true` if the rule is a Regexp, `false` otherwise.
     def is_regexp?
-      self.match.is_a?(::Regexp)
+      @match.is_a?(::Regexp)
     end
 
     # Checks if the rule is a regexp.
     #
     # @return [Boolean] `true` if the rule has a block, `false` otherwise.
     def has_block?
-      self.block.present?
+      @block.present?
     end
 
     # Matches a hostname to the rule.
@@ -76,7 +77,7 @@ module DevDNSd
     # @param hostname [String] The hostname to match.
     # @return [MatchData|Boolean|Nil] Return `true` or MatchData (if the pattern is a regexp) if the rule matches, `false` or `nil` otherwise.
     def match_host(hostname)
-      self.is_regexp? ? self.match.match(hostname) : (self.match == hostname)
+      self.is_regexp? ? @match.match(hostname) : (@match == hostname)
     end
 
     # Creates a new rule.
@@ -87,8 +88,9 @@ module DevDNSd
     # @param options [Hash] A list of options for the request.
     # @param block [Proc] An optional block to compute the reply instead of using the `reply_or_type` parameter. In this case `reply_or_type` is used for the type of the request and `type` is ignored.
     def self.create(match, reply_or_type = nil, type = nil, options = {}, &block)
-      raise(DevDNSd::Errors::InvalidRule.new("You must specify at least a rule and a host (also via a block). Optionally you can add a record type (default: A) and the options.")) if reply_or_type.blank? && block.nil?
-      raise(DevDNSd::Errors::InvalidRule.new("You can only use hashs for options.")) if !options.is_a?(::Hash)
+      localizer = Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"), options.is_a?(Hash) ? options[:locale] : nil)
+      raise(DevDNSd::Errors::InvalidRule.new(localizer.i18n.rule_invalid_call)) if reply_or_type.blank? && block.nil?
+      raise(DevDNSd::Errors::InvalidRule.new(localizer.i18n.rule_invalid_options)) if !options.is_a?(::Hash)
 
       rv = self.new(match)
       rv.options = options
@@ -116,14 +118,15 @@ module DevDNSd
     # Converts a symbol to the correspondent DNS resource class.
     #
     # @param symbol [Symbol] The symbol to convert.
+    # @param locale [Symbol] The locale to use for the messages.
     # @return [Symbol] The class associated to the symbol.
-    def self.symbol_to_resource_class(symbol)
+    def self.symbol_to_resource_class(symbol, locale = nil)
       symbol = symbol.to_s.upcase
 
       begin
         "Resolv::DNS::Resource::IN::#{symbol}".constantize
       rescue ::NameError
-        raise(DevDNSd::Errors::InvalidRule.new("Invalid resource class #{symbol}."))
+        raise(DevDNSd::Errors::InvalidRule.new(Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"), locale).i18n.invalid_class(symbol)))
       end
     end
   end

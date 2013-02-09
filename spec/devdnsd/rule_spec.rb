@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# This file is part of the devdnsd gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
@@ -18,11 +18,11 @@ describe DevDNSd::Rule do
     end
 
     it("should create a rule with arguments and no block") do
-      rule = DevDNSd::Rule.new("MATCH", "REPLY", "TYPE", {:a => :b})
+      rule = DevDNSd::Rule.new("MATCH", "REPLY", "TYPE", {a: :b})
       expect(rule.match).to eq("MATCH")
       expect(rule.reply).to eq("REPLY")
       expect(rule.type).to eq("TYPE")
-      expect(rule.options).to eq({:a => :b})
+      expect(rule.options).to eq({a: :b})
       expect(rule.block).to be_nil
     end
 
@@ -93,11 +93,11 @@ describe DevDNSd::Rule do
     end
 
     it("should create a rule with host, reply and type") do
-      rule = DevDNSd::Rule.create("MATCH", "REPLY", "TYPE", {:a => :b})
+      rule = DevDNSd::Rule.create("MATCH", "REPLY", "TYPE", {a: :b})
       expect(rule.match).to eq("MATCH")
       expect(rule.reply).to eq("REPLY")
       expect(rule.type).to eq("TYPE")
-      expect(rule.options).to eq({:a => :b})
+      expect(rule.options).to eq({a: :b})
       expect(rule.block).to be_nil
     end
 
@@ -134,11 +134,11 @@ describe DevDNSd::Rule do
 
   describe "::symbol_to_resource_class" do
     it("should convert a symbol to a resource class") do
-      expect(DevDNSd::Rule.symbol_to_resource_class(:A)).to eq(Resolv::DNS::Resource::IN::A)
+      expect(DevDNSd::Rule.symbol_to_resource_class(:A, :en)).to eq(Resolv::DNS::Resource::IN::A)
     end
 
     it("should fail for a invalid class") do
-      expect { DevDNSd::Rule.symbol_to_resource_class(:Invalid) }.to raise_error(DevDNSd::Errors::InvalidRule)
+      expect { DevDNSd::Rule.symbol_to_resource_class(:Invalid, :en) }.to raise_error(DevDNSd::Errors::InvalidRule)
     end
   end
 end

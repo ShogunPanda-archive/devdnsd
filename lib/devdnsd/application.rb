@@ -1,12 +1,274 @@
 # encoding: utf-8
 #
-# This file is part of the devdnsd gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
 # A small DNS server to enable local .dev domain resolution.
 module DevDNSd
+  # Methods for the {Application Application} class.
+  module ApplicationMethods
+    # System management methods.
+    module System
+      extend ActiveSupport::Concern
+
+      # Class methods.
+      module ClassMethods
+        # Returns the name of the daemon.
+        #
+        # @return [String] The name of the daemon.
+        def daemon_name
+          File.basename(self.instance.config.pid_file, ".pid")
+        end
+
+        # Returns the standard location of the PID file.
+        #
+        # @return [String] The standard location of the PID file.
+        def pid_directory
+          File.dirname(self.instance.config.pid_file)
+        end
+
+        # Returns the complete path of the PID file.
+        #
+        # @return [String] The complete path of the PID file.
+        def pid_fn
+          self.instance.config.pid_file
+        end
+      end
+
+      # Gets the path for the resolver file.
+      #
+      # @param tld [String] The TLD to manage.
+      # @return [String] The path for the resolver file.
+      def resolver_path(tld = nil)
+        tld ||= @config.tld
+        "/etc/resolver/#{tld}"
+      end
+
+      # Gets the path for the launch agent file.
+      #
+      # @param name [String] The base name for the agent.
+      # @return [String] The path for the launch agent file.
+      def launch_agent_path(name = "it.cowtech.devdnsd")
+        ENV["HOME"] + "/Library/LaunchAgents/#{name}.plist"
+      end
+
+      # Executes a shell command.
+      #
+      # @param command [String] The command to execute.
+      # @return [Boolean] `true` if command succeeded, `false` otherwise.
+      def execute_command(command)
+        system(command)
+      end
+
+      # Updates DNS cache.
+      #
+      # @return [Boolean] `true` if command succeeded, `false` otherwise.
+      def dns_update
+        @logger.info(self.i18n.dns_update)
+        self.execute_command("dscacheutil -flushcache")
+      end
+
+      # Checks if we are running on MacOS X.
+      #
+      # System services are only available on that platform.
+      #
+      # @return [Boolean] `true` if the current platform is MacOS X, `false` otherwise.
+      def is_osx?
+        ::RbConfig::CONFIG['host_os'] =~ /^darwin/
+      end
+
+      # Starts the server in background.
+      #
+      # @return [Boolean] `true` if action succedeed, `false` otherwise.
+      def action_start
+        self.get_logger.info(self.i18n.starting)
+        @config.foreground ? self.perform_server : RExec::Daemon::Controller.start(self.class)
+        true
+      end
+
+      # Stops the server in background.
+      #
+      # @return [Boolean] `true` if action succedeed, `false` otherwise.
+      def action_stop
+        RExec::Daemon::Controller.stop(self.class)
+        true
+      end
+
+      # Installs the application into the autolaunch.
+      #
+      # @return [Boolean] `true` if action succedeed, `false` otherwise.
+      def action_install
+        manage_installation(self.launch_agent_path, self.resolver_path, :create_resolver, :create_agent, :load_agent)
+      end
+
+      # Uninstalls the application from the autolaunch.
+      #
+      # @return [Boolean] `true` if action succedeed, `false` otherwise.
+      def action_uninstall
+        manage_installation(self.launch_agent_path, self.resolver_path, :delete_resolver, :unload_agent, :delete_agent)
+      end
+
+      private
+        # Manage a OSX agent.
+        #
+        # @param launch_agent [String] The agent path.
+        # @param resolver_path [String] The resolver path.
+        # @param first_operation [Symbol] The first operation to execute.
+        # @param second_operation [Symbol] The second operation to execute.
+        # @param third_operation [Symbol] The third operation to execute.
+        # @return [Boolean] `true` if operation succedeed, `false` otherwise.
+        def manage_installation(launch_agent, resolver_path, first_operation, second_operation, third_operation)
+          rv = true
+
+          rv = check_agent_available
+          rv = send(first_operation, launch_agent, resolver_path) if rv
+          rv = send(second_operation, launch_agent, resolver_path) if rv
+          rv = send(third_operation, launch_agent, resolver_path) if rv
+          self.dns_update
+          rv
+        end
+
+        # Check if agent is enabled (that is, we are on OSX).
+        #
+        # @return [Boolean] `true` if the agent is enabled, `false` otherwise.
+        def check_agent_available
+          rv = true
+          if !self.is_osx? then
+            logger.fatal(self.i18n.no_agent)
+            rv = false
+          end
+
+          rv
+        end
+
+        # Creates a OSX resolver.
+        #
+        # @param launch_agent [String] The agent path.
+        # @param resolver_path [String] The resolver path.
+        # @return [Boolean] `true` if operation succedeed, `false` otherwise.
+        def create_resolver(launch_agent, resolver_path)
+          begin
+            self.logger.info(self.i18n.resolver_creating(resolver_path))
+            write_resolver(resolver_path)
+            true
+          rescue
+            self.logger.error(self.i18n.resolver_creating_error)
+            false
+          end
+        end
+
+        # Writes a OSX resolver.
+        #
+        # @param resolver_path [String] The resolver path.
+        def write_resolver(resolver_path)
+          ::File.open(resolver_path, "w") {|f|
+            f.write("nameserver 127.0.0.1\n")
+            f.write("port #{@config.port}")
+            f.flush
+          }
+        end
+
+        # Deletes a OSX resolver.
+        #
+        # @param launch_agent [String] The agent path.
+        # @param resolver_path [String] The resolver path.
+        # @return [Boolean] `true` if operation succedeed, `false` otherwise.
+        def delete_resolver(launch_agent, resolver_path)
+          begin
+            self.logger.info(self.i18n.resolver_deleting(resolver_path))
+            ::File.delete(resolver_path)
+          rescue => e
+            self.logger.warn(self.i18n.resolver_deleting_error)
+            return false
+          end
+        end
+
+        # Creates a OSX system agent.
+        #
+        # @param launch_agent [String] The agent path.
+        # @param resolver_path [String] The resolver path.
+        # @return [Boolean] `true` if operation succedeed, `false` otherwise.
+        def create_agent(launch_agent, resolver_path)
+          begin
+            self.logger.info(self.i18n.agent_creating(launch_agent))
+            write_agent(launch_agent)
+            self.execute_command("plutil -convert binary1 \"#{launch_agent}\"")
+            true
+          rescue
+            self.logger.error(self.i18n.agent_creating_error)
+            false
+          end
+        end
+
+
+        # Writes a OSX system agent.
+        #
+        # @param launch_agent [String] The agent path.
+        def write_agent(launch_agent)
+          ::File.open(launch_agent, "w") {|f|
+            f.write({"KeepAlive" => true, "Label" => "it.cowtech.devdnsd", "Program" => (::Pathname.new(Dir.pwd) + $0).to_s, "ProgramArguments" => ($ARGV ? $ARGV[0, $ARGV.length - 1] : []), "RunAtLoad" => true}.to_json)
+            f.flush
+          }
+        end
+
+        # Deletes a OSX system agent.
+        #
+        # @param launch_agent [String] The agent path.
+        # @param resolver_path [String] The resolver path.
+        # @return [Boolean] `true` if operation succedeed, `false` otherwise.
+        def delete_agent(launch_agent, resolver_path)
+          begin
+            self.logger.info(self.i18n.agent_deleting(launch_agent))
+            ::File.delete(launch_agent)
+          rescue => e
+            self.logger.warn(self.i18n.agent_deleting_error)
+            return false
+          end
+        end
+
+        # Loads a OSX system agent.
+        #
+        # @param launch_agent [String] The agent path.
+        # @param resolver_path [String] The resolver path.
+        # @return [Boolean] `true` if operation succedeed, `false` otherwise.
+        def load_agent(launch_agent, resolver_path)
+          begin
+            self.logger.info(self.i18n.agent_loading(launch_agent))
+            self.execute_command("launchctl load -w \"#{launch_agent}\" > /dev/null 2>&1")
+            true
+          rescue
+            self.logger.error(self.i18n.agent_loading_error)
+            false
+          end
+        end
+
+        # Unoads a OSX system agent.
+        #
+        # @param launch_agent [String] The agent path.
+        # @param resolver_path [String] The resolver path.
+        # @return [Boolean] `true` if operation succedeed, `false` otherwise.
+        def unload_agent(launch_agent, resolver_path)
+          begin
+            self.logger.info(self.i18n.agent_unloading(launch_agent))
+            self.execute_command("launchctl unload -w \"#{launch_agent}\" > /dev/null 2>&1")
+            true
+          rescue => e
+            self.logger.warn(self.i18n.agent_unloading_error)
+            false
+          end
+        end
+    end
+  end
+
   # The main DevDNSd application.
+  #
+  # @attribute config
+  #   @return [Configuration] The {Configuration Configuration} of this application.
+  # @attribute command
+  #   @return [Mamertes::Command] The Mamertes command.
+  # @attribute
+  #   @return [Bovem::Logger] logger The logger for this application.
   class Application < RExec::Daemon::Base
     # Class for ANY DNS request.
     ANY_REQUEST = Resolv::DNS::Resource::IN::ANY
@@ -14,76 +276,33 @@ module DevDNSd
     # List of classes handled in case of DNS request with resource class ANY.
     ANY_CLASSES = [Resolv::DNS::Resource::IN::A, Resolv::DNS::Resource::IN::AAAA, Resolv::DNS::Resource::IN::ANY, Resolv::DNS::Resource::IN::CNAME, Resolv::DNS::Resource::IN::HINFO, Resolv::DNS::Resource::IN::MINFO, Resolv::DNS::Resource::IN::MX, Resolv::DNS::Resource::IN::NS, Resolv::DNS::Resource::IN::PTR, Resolv::DNS::Resource::IN::SOA, Resolv::DNS::Resource::IN::TXT]
 
-    # The {Configuration Configuration} of this application.
+    include Lazier::I18n
+    include DevDNSd::ApplicationMethods::System
+
     attr_reader :config
-
-    # The Mamertes command.
     attr_reader :command
-
-    # The logger for this application.
     attr_accessor :logger
 
     # Creates a new application.
     #
     # @param command [Mamertes::Command] The current Mamertes command.
-    def initialize(command)
+    # @param locale [Symbol] The locale to use for the application.
+    def initialize(command, locale)
+      self.i18n_setup(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
+      self.i18n = locale
+
+      @locale = locale
       @command = command
-      application = @command.application
+      options = @command.application.get_options.reject {|k,v| v.nil? }
 
       # Setup logger
       Bovem::Logger.start_time = Time.now
-      @logger = Bovem::Logger.create(Bovem::Logger.get_real_file(application.options["log-file"].value) || Bovem::Logger.default_file, Logger::INFO)
+      @logger = Bovem::Logger.create(Bovem::Logger.get_real_file(options["log_file"]) || Bovem::Logger.default_file, Logger::INFO)
 
       # Open configuration
-      begin
-        overrides = {
-          :foreground => command.name == "start" ? command.options["foreground"].value : false,
-          :tld => application.options["tld"].value,
-          :port => application.options["port"].value,
-          :pid_file => application.options["pid-file"].value,
-          :log_file => application.options["log-file"].value,
-          :log_level => application.options["log-level"].value
-        }.reject {|k,v| v.nil? }
-
-        @config = DevDNSd::Configuration.new(application.options["configuration"].value, overrides, @logger)
-
-        @logger = nil
-        @logger = self.get_logger
-      rescue Bovem::Errors::InvalidConfiguration, DevDNSd::Errors::InvalidRule => e
-        @logger ? @logger.fatal(e.message) : Bovem::Logger.create("STDERR").fatal("Cannot log to #{config.log_file}. Exiting...")
-        raise ::SystemExit
-      end
+      read_configuration(options)
 
       self
-    end
-
-    # Returns the name of the daemon.
-    #
-    # @return [String] The name of the daemon.
-    def self.daemon_name
-      File.basename(self.instance.config.pid_file, ".pid")
-    end
-
-    # Returns the standard location of the PID file.
-    #
-    # @return [String] The standard location of the PID file.
-    def self.pid_directory
-      File.dirname(self.instance.config.pid_file)
-    end
-
-    # Returns the complete path of the PID file.
-    #
-    # @return [String] The complete path of the PID file.
-    def self.pid_fn
-      self.instance.config.pid_file
-    end
-
-    # Check if we are running on MacOS X.
-    # System services are only available on that platform.
-    #
-    # @return [Boolean] `true` if the current platform is MacOS X, `false` otherwise.
-    def is_osx?
-      ::Config::CONFIG['host_os'] =~ /^darwin/
     end
 
     # Gets the current logger of the application.
@@ -93,44 +312,11 @@ module DevDNSd
       @logger ||= Bovem::Logger.create(@config.foreground ? Bovem::Logger.default_file : @config.log_file, @config.log_level, @log_formatter)
     end
 
-    # Gets the path for the resolver file.
-    #
-    # @param tld [String] The TLD to manage.
-    # @return [String] The path for the resolver file.
-    def resolver_path(tld = nil)
-      tld ||= @config.tld
-      "/etc/resolver/#{tld}"
-    end
-
-    # Gets the path for the launch agent file.
-    #
-    # @param name [String] The base name for the agent.
-    # @return [String] The path for the launch agent file.
-    def launch_agent_path(name = "it.cowtech.devdnsd")
-      ENV["HOME"] + "/Library/LaunchAgents/#{name}.plist"
-    end
-
-    # Executes a shell command.
-    #
-    # @param command [String] The command to execute.
-    # @return [Boolean] `true` if command succeeded, `false` otherwise.
-    def execute_command(command)
-      system(command)
-    end
-
-    # Updates DNS cache.
-    #
-    # @return [Boolean] `true` if command succeeded, `false` otherwise.
-    def dns_update
-      @logger.info("Flushing DNS cache and resolvers ...")
-      self.execute_command("dscacheutil -flushcache")
-    end
-
     # Starts the DNS server.
     #
     # @return [Object] The result of stop callbacks.
     def perform_server
-      RubyDNS::run_server(:listen => [[:udp, @config.address, @config.port.to_integer]]) do
+      RubyDNS::run_server(listen: [[:udp, @config.address, @config.port.to_integer]]) do
         self.logger = DevDNSd::Application.instance.logger
 
         match(/.+/, DevDNSd::Application::ANY_CLASSES) do |match_data, transaction|
@@ -181,7 +367,7 @@ module DevDNSd
       is_regex = rule.match.is_a?(::Regexp)
       type = DevDNSd::Rule.resource_class_to_symbol(type)
 
-      DevDNSd::Application.instance.logger.debug("Found match on #{rule.match} with type #{type}.")
+      DevDNSd::Application.instance.logger.debug(self.i18n.match(rule.match, type))
 
       if !rule.block.nil? then
         reply = rule.block.call(match_data, type, transaction)
@@ -193,7 +379,7 @@ module DevDNSd
         reply = match_data[0].gsub(rule.match, reply.gsub("$", "\\"))
       end
 
-      DevDNSd::Application.instance.logger.debug(reply ? "Reply is #{reply} with type #{type}." : "No reply found.")
+      DevDNSd::Application.instance.logger.debug(reply ? self.i18n.reply(reply, type) : self.i18n.no_reply)
 
       if reply then
         options = rule.options
@@ -213,140 +399,13 @@ module DevDNSd
           final_reply << Resolv::DNS::Name.create(reply)
         end
 
-        final_reply << options.merge({:resource_class => DevDNSd::Rule.symbol_to_resource_class(type)})
+        final_reply << options.merge({resource_class: DevDNSd::Rule.symbol_to_resource_class(type, @locale)})
         transaction.respond!(*final_reply)
       elsif reply == false then
         false
       else
         reply
       end
-    end
-
-    # Starts the server in background.
-    #
-    # @return [Boolean] `true` if action succedeed, `false` otherwise.
-    def action_start
-      logger = self.get_logger
-
-      logger.info("Starting DevDNSd ...")
-
-      if @config.foreground then
-        self.perform_server
-      else
-        RExec::Daemon::Controller.start(self.class)
-      end
-
-      true
-    end
-
-    # Stops the server in background.
-    #
-    # @return [Boolean] `true` if action succedeed, `false` otherwise.
-    def action_stop
-      RExec::Daemon::Controller.stop(self.class)
-
-      true
-    end
-
-    # Installs the server into the system.
-    #
-    # @return [Boolean] `true` if action succedeed, `false` otherwise.
-    def action_install
-      logger = get_logger
-
-      if !self.is_osx? then
-        logger.fatal("Install DevDNSd as a local resolver is only available on MacOSX.")
-        return false
-      end
-
-      resolver_file = self.resolver_path
-      launch_agent = self.launch_agent_path
-
-      # Installs the resolver
-      begin
-        logger.info("Installing the resolver in #{resolver_file} ...")
-
-        open(resolver_file, "w") {|f|
-          f.write("nameserver 127.0.0.1\n")
-          f.write("port #{@config.port}")
-          f.flush
-        }
-      rescue => e
-        logger.error("Cannot create the resolver file.")
-        return false
-      end
-
-      begin
-        logger.info("Creating the launch agent in #{launch_agent} ...")
-
-        args = $ARGV ? $ARGV[0, $ARGV.length - 1] : []
-
-        plist = {"KeepAlive" => true, "Label" => "it.cowtech.devdnsd", "Program" => (::Pathname.new(Dir.pwd) + $0).to_s, "ProgramArguments" => args, "RunAtLoad" => true}
-        ::File.open(launch_agent, "w") {|f|
-          f.write(plist.to_json)
-          f.flush
-        }
-        self.execute_command("plutil -convert binary1 \"#{launch_agent}\"")
-      rescue => e
-        logger.error("Cannot create the launch agent.")
-        return false
-      end
-
-      begin
-        logger.info("Loading the launch agent ...")
-        self.execute_command("launchctl load -w \"#{launch_agent}\" > /dev/null 2>&1")
-      rescue => e
-        logger.error("Cannot load the launch agent.")
-        return false
-      end
-
-      self.dns_update
-
-      true
-    end
-
-    # Uninstalls the server from the system.
-    #
-    # @return [Boolean] `true` if action succedeed, `false` otherwise.
-    def action_uninstall
-      logger = self.get_logger
-
-      if !self.is_osx? then
-        logger.fatal("Install DevDNSd as a local resolver is only available on MacOSX.")
-        return false
-      end
-
-      resolver_file = self.resolver_path
-      launch_agent = self.launch_agent_path
-
-      # Remove the resolver
-      begin
-        logger.info("Deleting the resolver #{resolver_file} ...")
-        ::File.delete(resolver_file)
-      rescue => e
-        logger.warn("Cannot delete the resolver file.")
-        return false
-      end
-
-      # Unload the launch agent.
-      begin
-        self.execute_command("launchctl unload -w \"#{launch_agent}\" > /dev/null 2>&1")
-      rescue => e
-        logger.warn("Cannot unload the launch agent.")
-      end
-
-      # Delete the launch agent.
-      begin
-        logger.info("Deleting the launch agent #{launch_agent} ...")
-        ::File.delete(launch_agent)
-      rescue => e
-        logger.warn("Cannot delete the launch agent.")
-        return false
-      end
-
-      self.dns_update
-
-      true
     end
 
     # This method is called when the server starts. By default is a no-op.
@@ -364,11 +423,12 @@ module DevDNSd
     # Returns a unique (singleton) instance of the application.
     #
     # @param command [Mamertes::Command] The current Mamertes command.
+    # @param locale [Symbol] The locale to use for the application.
     # @param force [Boolean] If to force recreation of the instance.
     # @return [Application] The unique (singleton) instance of the application.
-    def self.instance(command = nil, force = false)
+    def self.instance(command = nil, locale = nil, force = false)
       @instance = nil if force
-      @instance ||= DevDNSd::Application.new(command) if command
+      @instance ||= DevDNSd::Application.new(command, locale) if command
       @instance
     end
 
@@ -383,5 +443,20 @@ module DevDNSd
     def self.quit
       ::EventMachine.stop
     end
+
+    private
+      # Reads configuration.
+      #
+      # @param options [Hash] The configuration to read.
+      def read_configuration(options)
+        begin
+          @config = DevDNSd::Configuration.new(options["configuration"], options, @logger)
+          @logger = nil
+          @logger = self.get_logger
+        rescue Bovem::Errors::InvalidConfiguration => e
+          @logger ? @logger.fatal(e.message) : Bovem::Logger.create("STDERR").fatal(self.i18n.logging_failed(log_file))
+          raise ::SystemExit
+        end
+      end
   end
 end

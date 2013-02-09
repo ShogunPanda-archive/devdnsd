@@ -4,11 +4,11 @@
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
-module DevDNSd
-  # Exceptions for {DevDNSd DevDNSd}.
-  module Errors
-    # This exception is raised if a {Rule Rule} is invalid.
-    class InvalidRule < ::ArgumentError
-    end
-  end
-end
+source "http://rubygems.org"
+
+gemspec
+
+# Testing
+gem "rspec", "~> 2.12.0"
+gem "rake", "~> 10.0.3"
+gem "net-dns", "~> 0.7.1"

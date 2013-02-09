@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 #
-# This file is part of the devdnsd gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
@@ -13,18 +13,15 @@ require "net/dns"
 # Patch to avoid resolving of hostname containing numbers.
 class Net::DNS::Resolver
   def is_ip_address?(addr)
+    ipv6_norm = [/\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*\Z/, /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*)?\Z/, /\A::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*)?\Z/]
+    ipv6_compat = [/\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:/, /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:)?/, /\A::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:)?/]
+
     catch(:valid_ip) do
       if /\A(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\Z/ =~ addr
         throw(:valid_ip, true) if $~.captures.all? {|i| i.to_i < 256}
       else
         # IPv6 (normal)
-        throw(:valid_ip, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*\Z/ =~ addr
-        throw(:valid_ip, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*)?\Z/ =~ addr
-        throw(:valid_ip, true) if /\A::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*)?\Z/ =~ addr
-        # IPv6 (IPv4 compat)
-        throw(:valid_ip, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:/ =~ addr && valid_v4?($')
-        throw(:valid_ip, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:)?/ =~ addr && valid_v4?($')
-        throw(:valid_ip, true) if /\A::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:)?/ =~ addr && valid_v4?($')
+        throw(:valid_ip, true) if ipv6_norm.any? {|r| r =~ addr } || (ipv6_compat.any? {|r| r =~ addr } && valid_v4?($'))
       end
 
       false
@@ -53,8 +50,6 @@ class Net::DNS::Resolver
     if packet.query?
       packet.header.recursive = @config[:recursive] ? 1 : 0
     end
-
-    # DNSSEC and TSIG stuff to be inserted here
 
     packet
   end

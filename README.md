@@ -6,7 +6,9 @@
 
 A small DNS server to enable local .dev domain resolution.
 
-http://github.com/ShogunPanda/devdnsd
+http://sw.cow.tc/devdnsd
+
+http://rdoc.info/gems/devdnsd
 
 ## Description
 
@@ -81,5 +83,6 @@ You can, anyway, run the software as DNS server.
 
 ## Copyright
 
-Copyright (C) 2012 and above Shogun <[shogun_panda@me.com](mailto:shogun_panda@me.com)>.
-Licensed under the MIT license, which can be found at [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php).
+Copyright (C) 2013 and above Shogun (shogun_panda@me.com).
+
+Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.

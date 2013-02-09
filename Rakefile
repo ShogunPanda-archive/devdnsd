@@ -8,11 +8,4 @@ require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 
 RSpec::Core::RakeTask.new("spec")
-
-namespace :spec do
-  desc "Run all specs with coverage"
-  task :coverage do
-    ENV["DEVDNSD_COVERAGE"] = "TRUE"
-    Rake::Task["spec"].invoke
-  end
-end
+RSpec::Core::RakeTask.new("spec:coverage") { |t| t.ruby_opts = "-r./spec/coverage_helper" }

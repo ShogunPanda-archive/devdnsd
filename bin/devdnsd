@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 #
-# This file is part of the devdnsd gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
@@ -10,34 +10,34 @@ require "devdnsd"
 
 Mamertes.App do
   name "DevDNSd"
-  description "A small DNS server to enable local domain resolution."
+  description localizer.application_description
   version DevDNSd::Version::STRING
 
-  option "configuration", [], {:type => String, :help => "The configuration file to use. Default is \"~/.devdnsd_config\".", :default => "~/.devdnsd_config", :meta => "FILE"}
-  option "tld", [], {:type => String, :help => "The TLD to handle. Default is \"dev\".", :default => "dev", :meta => "DOMAIN"}
-  option "port", [], {:type => Integer, :help => "The port to bind. Default is 7771", :default => 7771}
-  option "pid-file", [:P], {:type => String, :help => "The PID file to use. Default: \"/var/run/devdnsd.pid\"", :default => "/var/run/devdnsd.pid"}
-  option "log-file", [], {:type => String, :help => "The default log file. Not used if run in foreground. Default is \"/var/log/devdnsd.log\"", :default => "/var/log/devdnsd.log", :meta => "FILE"}
-  option "log-level", [:L], {:type => Integer, :help => "The default log level. Valid values are from 0 to 5 where 0 means \"all messages\". Default is 1.", :default => 1, :meta => "LEVEL"}
+  option :configuration, [], {:type => String, :help => localizer.application_help_configuration, :default => "~/.devdnsd_config", :meta => localizer.application_meta_file}
+  option :tld, [], {:type => String, :help => localizer.application_help_tld, :default => "dev", :meta => localizer.application_meta_domain}
+  option :port, [], {:type => Integer, :help => localizer.application_help_port, :default => 7771, :meta => localizer.application_meta_port}
+  option :pid_file, [:P, "pid-file"], {:type => String, :help => localizer.application_help_pid_file, :default => "/var/run/devdnsd.pid", :meta => localizer.application_meta_file}
+  option :log_file, [:l, "log-file"], {:type => String, :help => localizer.application_help_log_file, :default => "/var/log/devdnsd.log", :meta => localizer.application_meta_file}
+  option :log_level, [:L, "log-level"], {:type => Integer, :help => localizer.application_help_log_level, :default => 1, :meta => localizer.application_meta_level}
 
   command :start do
-    description "Starts the server."
-    option "foreground", [:n], {:help => "Do not daemonize."}
+    description localizer.command_start
+    option "foreground", [:n], {:help => localizer.application_help_foreground}
     action { |command| DevDNSd::Application.instance(command).action_start() }
   end
 
   command :stop do
-    description "Stops the server."
+    description localizer.command_stop
     action { |command| DevDNSd::Application.instance(command).action_stop() }
   end
 
   command :install do
-    description "Installs the server."
+    description localizer.command_install
     action { |command| DevDNSd::Application.instance(command).action_install() }
   end
 
   command :uninstall do
-    description "Uninstalls the server."
+    description localizer.command_uninstall
     action { |command| DevDNSd::Application.instance(command).action_uninstall() }
   end
 

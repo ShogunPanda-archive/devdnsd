@@ -1,0 +1,46 @@
+# encoding: utf-8
+#
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
+# Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
+#
+
+---
+  devdnsd:
+    rule_invalid_call: "You must specify at least a rule and a host (also via a block). Optionally you can add a record type (default: A) and the options."
+    rule_invalid_options: "You can only use hashs for options."
+    rule_invalid_resource: "Invalid resource class %1."
+    dns_update: "Flushing DNS cache and resolvers ..."
+    starting: "Starting DevDNSd ..."
+    match: "Found match on %1 with type %2."
+    reply: "Reply is %1 with type %2."
+    no_reply: "No reply found."
+    no_agent: "Install DevDNSd as a local resolver is only available on MacOSX."
+    resolver_creating: "Creating the resolver in {mark=bright}%1{/mark} ..."
+    resolver_creating_error: "Cannot create the resolver file."
+    resolver_deleting: "Deleting the resolver %1 ..."
+    resolver_deleting_error: "Cannot delete the resolver file."
+    agent_creating: "Creating the launch agent in {mark=bright}%1{/mark} ..."
+    agent_creating_error: "Cannot create the launch agent."
+    agent_deleting: "Deleting the launch agent %1 ..."
+    agent_deleting_error: "Cannot delete the launch agent."
+    agent_loading: "Loading the launch agent %1 ..."
+    agent_loading_error: "Cannot load the launch agent."
+    agent_unloading: "Unloading the launch agent %1 ..."
+    agent_unloading_error: "Cannot unload the launch agent."
+    logging_failed: "Cannot log to {mark=bright}%1{/mark}. Exiting..."
+    application_description: "A small DNS server to enable local domain resolution."
+    application_help_configuration: "The configuration file to use. Default is \"~/.devdnsd_config\"."
+    application_help_tld: "The TLD to handle. Default is \"dev\"."
+    application_help_port: "The port to bind. Default is 7771"
+    application_help_pid_file: "The PID file to use. Default: \"/var/run/devdnsd.pid\""
+    application_help_log_file: "The default log file. Not used if run in foreground. Default is \"/var/log/devdnsd.log\""
+    application_help_log_level: "The default log level. Valid values are from 0 to 5 where 0 means \"all messages\". Default is 1."
+    application_help_foreground: "Do not daemonize."
+    application_meta_file: "FILE"
+    application_meta_domain: "DOMAIN"
+    application_meta_level: "LEVEL"
+    application_meta_port: "PORT"
+    command_start: "Starts the server."
+    command_install: "Installs the server."
+    command_uninstall: "Uninstalls the server."
+    command_stop: "Stops the server."

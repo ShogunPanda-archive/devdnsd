@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# This file is part of the devdnsd gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
@@ -13,20 +13,20 @@ describe DevDNSd::Application do
   end
 
   def create_application(overrides = {})
-    mamertes_app = Mamertes::App(:run => false) do
-      option "configuration", [], {:default => overrides["configuration"] || "/dev/null"}
-      option "tld", [], {:default => overrides["tld"] || "dev"}
-      option "port", [], {:type => Integer, :default => overrides["port"] || 7771}
-      option "pid-file", [:P], {:type => String, :default => "/var/run/devdnsd.pid"}
-      option "log-file", [], {:default => overrides["log-file"] || "/dev/null"}
-      option "log-level", [:L], {:type => Integer, :default => overrides["log-level"] || 1}
+    mamertes_app = Mamertes::App(run: false) do
+      option :configuration, [], {default: overrides["configuration"] || "/dev/null"}
+      option :tld, [], {default: overrides["tld"] || "dev"}
+      option :port, [], {type: Integer, default: overrides["port"] || 7771}
+      option :pid_file, [:P, "pid-file"], {type: String, default: "/var/run/devdnsd.pid"}
+      option :log_file, [:l, "log-file"], {default: overrides["log_file"] || "/dev/null"}
+      option :log_level, [:L, "log-level"], {type: Integer, default: overrides["log_level"] || 1}
     end
 
-    DevDNSd::Application.new(mamertes_app)
+    DevDNSd::Application.new(mamertes_app, :en)
   end
 
   let(:log_file) { "/tmp/devdnsd-test-log-#{Time.now.strftime("%Y%m%d-%H%M%S")}" }
-  let(:application){ create_application({"log-file" => log_file}) }
+  let(:application){ create_application({"log_file" => log_file}) }
   let(:executable) { ::Pathname.new(::File.dirname((__FILE__))) + "../../bin/devdnsd" }
   let(:sample_config) { ::Pathname.new(::File.dirname((__FILE__))) + "../../config/devdnsd_config.sample" }
   let(:resolver_path) { "/tmp/devdnsd-test-resolver-#{Time.now.strftime("%Y%m%d-%H%M%S")}" }
@@ -47,7 +47,7 @@ describe DevDNSd::Application do
       file.write("config.port = ")
       file.close
 
-      expect { create_application({"configuration" => file.path, "log-file" => log_file}) }.to raise_error(::SystemExit)
+      expect { create_application({"configuration" => file.path, "log_file" => log_file}) }.to raise_error(::SystemExit)
       ::File.unlink(path)
     end
   end
@@ -72,13 +72,13 @@ describe DevDNSd::Application do
     end
 
     let(:mamertes) {
-      mamertes_app = Mamertes::App(:run => false) do
-        option "configuration", [], {:default => "/dev/null"}
-        option "tld", [], {:default => "dev"}
-        option "port", [], {:type => Integer, :default => 7771}
-        option "pid-file", [:P], {:type => String, :default => "/var/run/devdnsd.pid"}
-        option "log-file", [], {:default => "/dev/null"}
-        option "log-level", [:L], {:type => Integer, :default => 1}
+      mamertes_app = Mamertes::App(run: false) do
+        option :configuration, [], {default: "/dev/null"}
+        option :tld, [], {default: "dev"}
+        option :port, [], {type: Integer, default: 7771}
+        option :pid_file, [:P], {type: String, default: "/var/run/devdnsd.pid"}
+        option :log_file, [], {default: "/dev/null"}
+        option :log_level, [:L], {type: Integer, default: 1}
       end
     }
 
@@ -95,12 +95,12 @@ describe DevDNSd::Application do
 
     it "should recreate an instance" do
       other = DevDNSd::Application.instance(mamertes)
-      expect(DevDNSd::Application.instance(mamertes, true)).not_to eq(other)
+      expect(DevDNSd::Application.instance(mamertes, :en, true)).not_to eq(other)
     end
   end
 
   describe ".pid_fn" do
-    let(:application){ create_application({"log-file" => log_file, "configuration" => sample_config}) }
+    let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
 
     it "returns the default file" do
       expect(DevDNSd::Application.pid_fn).to eq("/var/run/devdnsd.pid")
@@ -113,7 +113,7 @@ describe DevDNSd::Application do
   end
 
   describe ".pid_directory" do
-    let(:application){ create_application({"log-file" => log_file, "configuration" => sample_config}) }
+    let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
 
     it "returns the default path" do
       expect(DevDNSd::Application.pid_directory).to eq("/var/run")
@@ -126,7 +126,7 @@ describe DevDNSd::Application do
   end
 
   describe ".daemon_name" do
-    let(:application){ create_application({"log-file" => log_file, "configuration" => sample_config}) }
+    let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
 
     it "returns the default name" do
       expect(DevDNSd::Application.daemon_name).to eq("devdnsd")
@@ -139,7 +139,7 @@ describe DevDNSd::Application do
   end
 
   describe "#perform_server" do
-    let(:application){ create_application({"log-file" => log_file, "configuration" => sample_config}) }
+    let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
 
     before(:each) do
       class DevDNSd::Application
@@ -254,7 +254,7 @@ describe DevDNSd::Application do
       end
     end
 
-    let(:application){ create_application({"log-file" => log_file, "configuration" => sample_config}) }
+    let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
     let(:transaction){ FakeTransaction.new }
 
     it "should match a valid string request" do
@@ -342,14 +342,14 @@ describe DevDNSd::Application do
 
   describe "#action_start" do
     it "should call perform_server in foreground" do
-      application = create_application({"log-file" => log_file})
+      application = create_application({"log_file" => log_file})
       application.config.foreground = true
       application.should_receive(:perform_server)
       application.action_start
     end
 
     it "should start the daemon" do
-      application = create_application({"log-file" => log_file})
+      application = create_application({"log_file" => log_file})
       ::RExec::Daemon::Controller.should_receive(:start)
       application.action_start
     end
@@ -363,7 +363,7 @@ describe DevDNSd::Application do
   end
 
   describe "#action_install" do
-    if ::Config::CONFIG['host_os'] =~ /^darwin/ then
+    if ::RbConfig::CONFIG['host_os'] =~ /^darwin/ then
       it "should create the resolver" do
         application.stub(:resolver_path).and_return(resolver_path)
         application.stub(:launch_agent_path).and_return(launch_agent_path)
@@ -456,7 +456,7 @@ describe DevDNSd::Application do
   end
 
   describe "#action_uninstall" do
-    if ::Config::CONFIG['host_os'] =~ /^darwin/ then
+    if ::RbConfig::CONFIG['host_os'] =~ /^darwin/ then
       it "should remove the resolver" do
         application.stub(:resolver_path).and_return(resolver_path)
         application.stub(:launch_agent_path).and_return(launch_agent_path)
@@ -510,12 +510,13 @@ describe DevDNSd::Application do
         ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
       end
 
-      it "should not unload delete invalid agent" do
+      it "should not unload invalid agent" do
         application.stub(:resolver_path).and_return(resolver_path)
         application.stub(:launch_agent_path).and_return("/invalid/agent")
 
         application.action_install
         application.stub(:execute_command).and_raise(StandardError)
+        application.stub(:dns_update)
         application.logger.should_receive(:warn).at_least(1)
         application.action_uninstall
 
