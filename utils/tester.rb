@@ -72,9 +72,8 @@ def devdnsd_resolv(address = "match.dev", type = "ANY", nameserver = "127.0.0.1"
 
   begin
     resolver = Net::DNS::Resolver.new(:nameservers => nameserver, :port => port.to_i, :recursive => false, :udp_timeout => 1, :log_file => tmpfile)
-    response = resolver.search(address, type)
 
-    response.answer.each do |answer|
+    resolver.search(address, type).answer.each do |answer|
       type = answer.type.upcase.to_sym
       result = ""
 

@@ -10,6 +10,7 @@
     rule_invalid_options: "You can only use hashs for options."
     rule_invalid_resource: "Invalid resource class %1."
     dns_update: "Flushing DNS cache and resolvers ..."
+    no_fork: "Forking is not available for this platform. Running in foreground ..."
     starting: "Starting DevDNSd ..."
     match: "Found match on %1 with type %2."
     reply: "Reply is %1 with type %2."

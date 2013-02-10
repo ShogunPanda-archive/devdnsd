@@ -83,6 +83,12 @@ module DevDNSd
       # @return [Boolean] `true` if action succedeed, `false` otherwise.
       def action_start
         self.get_logger.info(self.i18n.starting)
+
+        if !Process.respond_to?(:fork) then
+          self.logger.warn(self.i18n.no_fork)
+          @config.foreground = true
+        end
+
         @config.foreground ? self.perform_server : RExec::Daemon::Controller.start(self.class)
         true
       end
@@ -444,7 +450,7 @@ module DevDNSd
 
     # Stops the application.
     def self.quit
-      ::EventMachine.stop
+      ::EventMachine.stop rescue nil
     end
 
     private
