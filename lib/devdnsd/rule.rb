@@ -80,7 +80,7 @@ module DevDNSd
     # @param block [Proc] An optional block to compute the reply instead of using the `reply_or_type` parameter. In this case `reply_or_type` is used for the type of the request and `type` is ignored.
     # @return [Rule] The new rule.
     def self.create(match, reply_or_type = nil, type = nil, options = {}, &block)
-      validate_options(reply_or_type, options, block)
+      validate_options(reply_or_type, options, block, Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"), options.is_a?(Hash) ? options[:locale] : nil))
       setup(self.new(match), reply_or_type, type, options, block)
     end
 
@@ -157,8 +157,8 @@ module DevDNSd
       # @param reply_or_type [String|Symbol] The IP or hostname to reply back to the client (or the type of request to match, if a block is provided).
       # @param options [Hash] A list of options for the request.
       # @param block [Proc] An optional block to compute the reply instead of using the `reply_or_type` parameter. In this case `reply_or_type` is used for the type of the request and `type` is ignored.
-      def self.validate_options(reply_or_type, options, block)
-        localizer = Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"), options.is_a?(Hash) ? options[:locale] : nil)
+      # @param localizer [Localizer] A localizer object.
+      def self.validate_options(reply_or_type, options, block, localizer)
         raise(DevDNSd::Errors::InvalidRule.new(localizer.i18n.rule_invalid_call)) if reply_or_type.blank? && block.nil?
         raise(DevDNSd::Errors::InvalidRule.new(localizer.i18n.rule_invalid_options)) if !options.is_a?(::Hash)
       end
