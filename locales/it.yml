@@ -9,6 +9,7 @@
     rule_invalid_call: "Devi specificare almeno una regola e un host (anche tramite un blocco). Opzionalmente puoi aggiungere un tipo di record (default: A) e le opzioni."
     rule_invalid_options: "Puoi usare solo hash per le opzioni."
     rule_invalid_resource: "Classe di risorsa %1 non valida."
+    no_jruby_rubinius: "DevDNSd non è disponibile per JRuby o Rubinius."
     no_fork: "Il forking non è disponibile per questa piattaforma. Eseguo foreground ..."
     dns_update: "Cancello la cache dei DNS e dei resolver ..."
     starting: "Avvio DevDNSd ..."

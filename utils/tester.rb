@@ -71,23 +71,15 @@ def devdnsd_resolv(address = "match.dev", type = "ANY", nameserver = "127.0.0.1"
   tmpfile = "/tmp/devdnsd-test-tester-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}"
 
   begin
-    resolver = Net::DNS::Resolver.new(:nameservers => nameserver, :port => port.to_i, :recursive => false, :udp_timeout => 1, :log_file => tmpfile)
-
-    resolver.search(address, type).answer.each do |answer|
+    Net::DNS::Resolver.new(:nameservers => nameserver, :port => port.to_i, :recursive => false, :udp_timeout => 1, :log_file => tmpfile).search(address, type).answer.each do |answer|
       type = answer.type.upcase.to_sym
-      result = ""
 
-      case type
-        when :MX
-          result = answer.exchange.gsub(/\.$/, "")
-        when :CNAME
-          result = answer.cname.gsub(/\.$/, "")
-        when :NS
-          result = answer.nsdname.gsub(/\.$/, "")
-        when :PTR
-          result = answer.ptrdname.gsub(/\.$/, "")
-        else
-          result = answer.address.to_s
+      result = case type
+        when :MX then answer.exchange.gsub(/\.$/, "")
+        when :CNAME then answer.cname.gsub(/\.$/, "")
+        when :NS then answer.nsdname.gsub(/\.$/, "")
+        when :PTR then answer.ptrdname.gsub(/\.$/, "")
+        else answer.address.to_s
       end
 
       rv << [result, type]

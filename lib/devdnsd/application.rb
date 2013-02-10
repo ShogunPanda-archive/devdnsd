@@ -453,6 +453,14 @@ module DevDNSd
       ::EventMachine.stop rescue nil
     end
 
+    # Check if the current implementation supports DevDNSd.
+    def self.check_ruby_implementation
+      if defined?(Rubinius) || defined?(JRuby) then
+        Kernel.puts(Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/")).i18n.no_jruby_rubinius)
+        Kernel.exit(0)
+      end
+    end
+
     private
       # Reads configuration.
       #

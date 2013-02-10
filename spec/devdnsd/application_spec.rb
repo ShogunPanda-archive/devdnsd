@@ -66,6 +66,22 @@ describe DevDNSd::Application do
     end
   end
 
+  describe ".check_ruby_implementation" do
+    it "won't run on Rubinius" do
+      stub_const("Rubinius", true)
+      Kernel.should_receive(:exit).with(0)
+      Kernel.should_receive(:puts)
+      DevDNSd::Application.check_ruby_implementation
+    end
+
+    it "won't run on JRuby" do
+      stub_const("JRuby", true)
+      Kernel.should_receive(:exit).with(0)
+      Kernel.should_receive(:puts)
+      DevDNSd::Application.check_ruby_implementation
+    end
+  end
+
   describe ".instance" do
     before(:each) do
       DevDNSd::Application.unstub(:instance)
@@ -141,36 +157,12 @@ describe DevDNSd::Application do
   describe "#perform_server" do
     let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
 
-    before(:each) do
-      class DevDNSd::Application
-        def on_start
-          Thread.main[:resolver].wakeup if Thread.main[:resolver].try(:alive?)
-        end
-      end
-    end
-
     def test_resolve(host = "match_1.dev", type = "ANY", nameserver = "127.0.0.1", port = 7771, logger = nil)
-      host ||= "match.dev"
-
-      Thread.current[:resolver] = Thread.start {
-        Thread.stop
-        Thread.main[:result] = devdnsd_resolv(host, type, nameserver, port, logger)
-      }
-
-      Thread.current[:server] = Thread.start {
-        sleep(0.1)
-
-        if block_given? then
-          yield
-        else
-          application.perform_server
-        end
-      }
-
-      Thread.current[:resolver].join
-      Thread.kill(Thread.current[:server])
-      Thread.main[:running] = false
-      Thread.main[:result]
+      server = Thread.start { application.perform_server }
+      result = devdnsd_resolv(host, type, nameserver, port, logger)
+      Thread.kill(server)
+      server.join
+      result
     end
 
     it "should run the server" do
@@ -178,11 +170,12 @@ describe DevDNSd::Application do
       application.perform_server
     end
 
-    it "should stop the server" do
-      application.should_receive(:on_stop)
+    it "should setup callbacks" do
+      RubyDNS::Server.any_instance.should_receive(:on).with(:start)
+      RubyDNS::Server.any_instance.should_receive(:on).with(:stop)
 
       Thread.new {
-        sleep(1)
+        sleep(0.1)
         application.class.quit
       }
 
@@ -352,6 +345,17 @@ describe DevDNSd::Application do
       application = create_application({"log_file" => log_file})
       ::RExec::Daemon::Controller.should_receive(:start)
       application.action_start
+    end
+
+    it "should check for availability of fork" do
+      application.config.foreground = false
+
+      Process.stub(:respond_to?).and_return(false)
+      application.should_receive(:perform_server)
+      application.logger.should_receive(:warn)
+
+      application.action_start
+      expect(application.config.foreground).to be_true
     end
   end
 
