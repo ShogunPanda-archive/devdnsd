@@ -37,11 +37,8 @@ module DevDNSd
     def initialize(match = /.+/, reply = "127.0.0.1", type = :A, options = {}, &block)
       self.i18n_setup(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
       self.i18n = options[:locale]
-
       setup(match, reply, type, options, block)
-
-      raise(DevDNSd::Errors::InvalidRule.new(self.i18n.rule_invalid_call)) if @reply.blank? && @block.nil?
-      raise(DevDNSd::Errors::InvalidRule.new(self.i18n.rule_invalid_options)) if !@options.is_a?(::Hash)
+      validate_rule
     end
 
     # Returns the resource class(es) for the current rule.
@@ -81,15 +78,10 @@ module DevDNSd
     # @param type [Symbol] The type of request to match. This is ignored if a block is provided.
     # @param options [Hash] A list of options for the request.
     # @param block [Proc] An optional block to compute the reply instead of using the `reply_or_type` parameter. In this case `reply_or_type` is used for the type of the request and `type` is ignored.
+    # @return [Rule] The new rule.
     def self.create(match, reply_or_type = nil, type = nil, options = {}, &block)
-      localizer = Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"), options.is_a?(Hash) ? options[:locale] : nil)
-      raise(DevDNSd::Errors::InvalidRule.new(localizer.i18n.rule_invalid_call)) if reply_or_type.blank? && block.nil?
-      raise(DevDNSd::Errors::InvalidRule.new(localizer.i18n.rule_invalid_options)) if !options.is_a?(::Hash)
-
-      rv = self.new(match)
-      rv.options = options
-      rv = setup(rv, reply_or_type, block, type)
-      rv
+      validate_options(reply_or_type, options, block)
+      setup(self.new(match), reply_or_type, type, options, block)
     end
 
     # Converts a class to the correspondent symbol.
@@ -131,24 +123,44 @@ module DevDNSd
         @block = block
       end
 
+      # Validates a newly created rule.
+      def validate_rule
+        raise(DevDNSd::Errors::InvalidRule.new(self.i18n.rule_invalid_call)) if @reply.blank? && @block.nil?
+        raise(DevDNSd::Errors::InvalidRule.new(self.i18n.rule_invalid_options)) if !@options.is_a?(::Hash)
+      end
+
       # Setups a new rule.
       #
-      # @param rv [Rule] The new rule.
+      # @param rv [Rule] The rule that is been created.
       # @param reply_or_type [String|Symbol] The IP or hostname to reply back to the client (or the type of request to match, if a block is provided).
       # @param type [Symbol] The type of request to match. This is ignored if a block is provided.
+      # @param options [Hash] A list of options for the request.
       # @param block [Proc] An optional block to compute the reply instead of using the `reply_or_type` parameter. In this case `reply_or_type` is used for the type of the request and `type` is ignored.
       # @return [Rule] The new rule.
-      def self.setup(rv, reply_or_type, block, type)
+      def self.setup(rv, reply_or_type, type, options = {}, block)
+        rv.options = options
+        rv.block = block
+
         if block.present? then # reply_or_type acts like a type, type is ignored
           rv.type = reply_or_type || :A
           rv.reply = nil
-          rv.block = block
         else # reply_or_type acts like a reply
           rv.reply = reply_or_type || "127.0.0.1"
           rv.type = type || :A
         end
 
         rv
+      end
+
+      # Validate options for a new rule creation.
+      #
+      # @param reply_or_type [String|Symbol] The IP or hostname to reply back to the client (or the type of request to match, if a block is provided).
+      # @param options [Hash] A list of options for the request.
+      # @param block [Proc] An optional block to compute the reply instead of using the `reply_or_type` parameter. In this case `reply_or_type` is used for the type of the request and `type` is ignored.
+      def self.validate_options(reply_or_type, options, block)
+        localizer = Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"), options.is_a?(Hash) ? options[:locale] : nil)
+        raise(DevDNSd::Errors::InvalidRule.new(localizer.i18n.rule_invalid_call)) if reply_or_type.blank? && block.nil?
+        raise(DevDNSd::Errors::InvalidRule.new(localizer.i18n.rule_invalid_options)) if !options.is_a?(::Hash)
       end
   end
 end

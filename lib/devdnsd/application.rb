@@ -306,7 +306,7 @@ module DevDNSd
         end
       end
 
-      # Processes a rule against resource classes.
+      # Processes a rule against a set of DNS resource classes.
       #
       # @param rule [Rule] The rule to process.
       # @param match_data [MatchData|nil] If the rule pattern was a Regexp, then this holds the match data, otherwise `nil` is passed.
