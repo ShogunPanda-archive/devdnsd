@@ -110,7 +110,7 @@ module DevDNSd
       end
 
       private
-        # Manage a OSX agent.
+        # Manages a OSX agent.
         #
         # @param launch_agent [String] The agent path.
         # @param resolver_path [String] The resolver path.
@@ -129,7 +129,24 @@ module DevDNSd
           rv
         end
 
-        # Check if agent is enabled (that is, we are on OSX).
+        # Deletes a file
+        #
+        # @param file [String] The file to delete.
+        # @param before_message [Symbol] The message to show before deleting.
+        # @param error_message [Symbol] The message to show in case of errors.
+        # @return [Boolean] `true` if the file have been deleted, `false` otherwise.
+        def delete_file(file, before_message, error_message)
+          begin
+            self.logger.info(self.i18n.send(before_message, file))
+            ::File.delete(file)
+            true
+          rescue => e
+            self.logger.warn(self.i18n.send(error_message))
+            false
+          end
+        end
+
+        # Checks if agent is enabled (that is, we are on OSX).
         #
         # @return [Boolean] `true` if the agent is enabled, `false` otherwise.
         def check_agent_available
@@ -175,13 +192,7 @@ module DevDNSd
         # @param resolver_path [String] The resolver path.
         # @return [Boolean] `true` if operation succedeed, `false` otherwise.
         def delete_resolver(launch_agent, resolver_path)
-          begin
-            self.logger.info(self.i18n.resolver_deleting(resolver_path))
-            ::File.delete(resolver_path)
-          rescue => e
-            self.logger.warn(self.i18n.resolver_deleting_error)
-            return false
-          end
+          delete_file(resolver_path, :resolver_deleting, :resolver_deleting_error)
         end
 
         # Creates a OSX system agent.
@@ -218,13 +229,7 @@ module DevDNSd
         # @param resolver_path [String] The resolver path.
         # @return [Boolean] `true` if operation succedeed, `false` otherwise.
         def delete_agent(launch_agent, resolver_path)
-          begin
-            self.logger.info(self.i18n.agent_deleting(launch_agent))
-            ::File.delete(launch_agent)
-          rescue => e
-            self.logger.warn(self.i18n.agent_deleting_error)
-            return false
-          end
+          delete_file(launch_agent, :agent_deleting, :agent_deleting_error)
         end
 
         # Loads a OSX system agent.
@@ -259,16 +264,108 @@ module DevDNSd
           end
         end
     end
+
+    # Methods to process requests.
+    module Server
+      # Starts the DNS server.
+      #
+      # @return [Object] The result of stop callbacks.
+      def perform_server
+        application = self
+        RubyDNS::run_server(listen: [[:udp, @config.address, @config.port.to_integer]]) do
+          self.logger = application.logger
+
+          match(/.+/, DevDNSd::Application::ANY_CLASSES) do |match_data, transaction|
+            transaction.append_question!
+            application.config.rules.each { |rule| application.process_rule_in_classes(rule, match_data, transaction) } # During debugging, wrap the inside of the block with a begin rescue and PRINT the exception because RubyDNS hides it.
+          end
+
+          # Default DNS handler and event handlers
+          otherwise { |transaction| transaction.failure!(:NXDomain) }
+          self.on(:start) { application.on_start }
+          self.on(:stop) { application.on_stop }
+        end
+      end
+
+      # Processes a DNS rule.
+      #
+      # @param rule [Rule] The rule to process.
+      # @param type [Symbol] The type of the query.
+      # @param match_data [MatchData|nil] If the rule pattern was a Regexp, then this holds the match data, otherwise `nil` is passed.
+      # @param transaction [RubyDNS::Transaction] The current DNS transaction (http://rubydoc.info/gems/rubydns/RubyDNS/Transaction).
+      def process_rule(rule, type, match_data, transaction)
+        reply, type = perform_process_rule(rule, type, match_data, transaction)
+        self.logger.debug(reply ? self.i18n.reply(reply, type) : self.i18n.no_reply)
+
+        if reply then
+          transaction.respond!(*finalize_reply(reply, rule, type))
+        elsif reply == false then
+          false
+        else
+          nil
+        end
+      end
+
+      # Processes a rule against resource classes.
+      #
+      # @param rule [Rule] The rule to process.
+      # @param match_data [MatchData|nil] If the rule pattern was a Regexp, then this holds the match data, otherwise `nil` is passed.
+      # @param transaction [RubyDNS::Transaction] The current DNS transaction (http://rubydoc.info/gems/rubydns/RubyDNS/Transaction).
+      def process_rule_in_classes(rule, match_data, transaction)
+        # Get the subset of handled class that is valid for the rule
+        resource_classes = DevDNSd::Application::ANY_CLASSES & rule.resource_class.ensure_array
+        resource_classes = resource_classes & [transaction.resource_class] if transaction.resource_class != DevDNSd::Application::ANY_REQUEST
+
+        if resource_classes.present? then
+          resource_classes.each do |resource_class| # Now for every class
+            matches = rule.match_host(match_data[0])
+            self.process_rule(rule, resource_class, rule.is_regexp? ? matches : nil, transaction) if matches
+          end
+        end
+      end
+
+      private
+        # Performs the processing of a rule.
+        #
+        # @param rule [Rule] The rule to process.
+        # @param type [Symbol] The type of query.
+        # @param match_data [MatchData|nil] If the rule pattern was a Regexp, then this holds the match data, otherwise `nil` is passed.
+        # @param transaction [RubyDNS::Transaction] The current DNS transaction (http://rubydoc.info/gems/rubydns/RubyDNS/Transaction).
+        # @return [Array] The type and reply to the query.
+        def perform_process_rule(rule, type, match_data, transaction)
+          type = DevDNSd::Rule.resource_class_to_symbol(type)
+          reply = !rule.block.nil? ? rule.block.call(match_data, type, transaction) : rule.reply
+          reply = match_data[0].gsub(rule.match, reply.gsub("$", "\\")) if rule.match.is_a?(::Regexp) && reply && match_data[0]
+
+          self.logger.debug(self.i18n.match(rule.match, type))
+          [reply, type]
+        end
+
+        # Finalizes a query to return to the client.
+        #
+        # @param reply [String] The reply to send to the client.
+        # @param rule [Rule] The rule to process.
+        # @param type [Symbol] The type of query.
+        def finalize_reply(reply, rule, type)
+          rv = []
+          rv << rule.options.delete(:preference).to_integer(10) if type == :MX
+          rv << ([:A, :AAAA].include?(type) ? reply : Resolv::DNS::Name.create(reply))
+          rv << rule.options.merge({resource_class: DevDNSd::Rule.symbol_to_resource_class(type, @locale)})
+          rv
+        end
+    end
   end
 
   # The main DevDNSd application.
   #
-  # @attribute config
+  # @attribute [r] config
   #   @return [Configuration] The {Configuration Configuration} of this application.
-  # @attribute command
+  # @attribute [r] command
   #   @return [Mamertes::Command] The Mamertes command.
-  # @attribute
-  #   @return [Bovem::Logger] logger The logger for this application.
+  # @attribute logger
+  #   @return [Bovem::Logger] The logger for this application.
+  # @attribute [r] locale
+  #   @return [Symbol|nil] The current application locale.
   class Application < RExec::Daemon::Base
     # Class for ANY DNS request.
     ANY_REQUEST = Resolv::DNS::Resource::IN::ANY
@@ -278,10 +375,12 @@ module DevDNSd
 
     include Lazier::I18n
     include DevDNSd::ApplicationMethods::System
+    include DevDNSd::ApplicationMethods::Server
 
     attr_reader :config
     attr_reader :command
     attr_accessor :logger
+    attr_reader :locale
 
     # Creates a new application.
     #
@@ -310,102 +409,6 @@ module DevDNSd
     # @return [Logger] The current logger of the application.
     def get_logger
       @logger ||= Bovem::Logger.create(@config.foreground ? Bovem::Logger.default_file : @config.log_file, @config.log_level, @log_formatter)
-    end
-
-    # Starts the DNS server.
-    #
-    # @return [Object] The result of stop callbacks.
-    def perform_server
-      RubyDNS::run_server(listen: [[:udp, @config.address, @config.port.to_integer]]) do
-        self.logger = DevDNSd::Application.instance.logger
-
-        match(/.+/, DevDNSd::Application::ANY_CLASSES) do |match_data, transaction|
-          transaction.append_question!
-
-          DevDNSd::Application.instance.config.rules.each do |rule|
-            begin
-              # Get the subset of handled class that is valid for the rule
-              resource_classes = DevDNSd::Application::ANY_CLASSES & rule.resource_class.ensure_array
-              resource_classes = resource_classes & [transaction.resource_class] if transaction.resource_class != DevDNSd::Application::ANY_REQUEST
-
-              if resource_classes.present? then
-                resource_classes.each do |resource_class| # Now for every class
-                  matches = rule.match_host(match_data[0])
-                  DevDNSd::Application.instance.process_rule(rule, resource_class, rule.is_regexp? ? matches : nil, transaction) if matches
-                end
-              end
-            rescue ::Exception => e
-              raise e
-            end
-          end
-        end
-
-        # Default DNS handler
-        otherwise do |transaction|
-          transaction.failure!(:NXDomain)
-        end
-
-        # Attach event handlers
-        self.on(:start) do
-          DevDNSd::Application.instance.on_start
-        end
-
-        self.on(:stop) do
-          DevDNSd::Application.instance.on_stop
-        end
-      end
-    end
-
-    # Processes a DNS rule.
-    #
-    # @param rule [Rule] The rule to process.
-    # @param type [Class] The type of request.
-    # @param match_data [MatchData|nil] If the rule pattern was a Regexp, then this holds the match data, otherwise `nil` is passed.
-    # @param transaction [Transaction] The current DNS transaction (http://rubydoc.info/gems/rubydns/RubyDNS/Transaction).
-    # @return A reply for the request if matched, otherwise `false` or `nil`.
-    def process_rule(rule, type, match_data, transaction)
-      is_regex = rule.match.is_a?(::Regexp)
-      type = DevDNSd::Rule.resource_class_to_symbol(type)
-
-      DevDNSd::Application.instance.logger.debug(self.i18n.match(rule.match, type))
-
-      if !rule.block.nil? then
-        reply = rule.block.call(match_data, type, transaction)
-      else
-        reply = rule.reply
-      end
-
-      if is_regex && reply && match_data[0] then
-        reply = match_data[0].gsub(rule.match, reply.gsub("$", "\\"))
-      end
-
-      DevDNSd::Application.instance.logger.debug(reply ? self.i18n.reply(reply, type) : self.i18n.no_reply)
-
-      if reply then
-        options = rule.options
-
-        final_reply = []
-
-        case type
-          when :MX
-            preference = options.delete(:preference)
-            preference = preference.nil? ? 10 : preference.to_integer(10)
-            final_reply << preference
-        end
-
-        if [:A, :AAAA].include?(type) then
-          final_reply << reply
-        else
-          final_reply << Resolv::DNS::Name.create(reply)
-        end
-
-        final_reply << options.merge({resource_class: DevDNSd::Rule.symbol_to_resource_class(type, @locale)})
-        transaction.respond!(*final_reply)
-      elsif reply == false then
-        false
-      else
-        reply
-      end
     end
 
     # This method is called when the server starts. By default is a no-op.

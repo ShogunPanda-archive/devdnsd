@@ -38,13 +38,7 @@ module DevDNSd
       self.i18n_setup(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
       self.i18n = options[:locale]
 
-      reply ||= "127.0.0.1"
-      type ||= :A
-      @match = match
-      @type = type
-      @reply = block.blank? ? reply : nil
-      @options = options
-      @block = block
+      setup(match, reply, type, options, block)
 
       raise(DevDNSd::Errors::InvalidRule.new(self.i18n.rule_invalid_call)) if @reply.blank? && @block.nil?
       raise(DevDNSd::Errors::InvalidRule.new(self.i18n.rule_invalid_options)) if !@options.is_a?(::Hash)
@@ -94,16 +88,7 @@ module DevDNSd
 
       rv = self.new(match)
       rv.options = options
-
-      if block.present? then # reply_or_type acts like a type, type is ignored
-        rv.type = reply_or_type || :A
-        rv.reply = nil
-        rv.block = block
-      else # reply_or_type acts like a reply
-        rv.reply = reply_or_type || "127.0.0.1"
-        rv.type = type || :A
-      end
-
+      rv = setup(rv, reply_or_type, block, type)
       rv
     end
 
@@ -129,5 +114,41 @@ module DevDNSd
         raise(DevDNSd::Errors::InvalidRule.new(Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"), locale).i18n.invalid_class(symbol)))
       end
     end
+
+    private
+      # Setups a new rule.
+      #
+      # @param match [String|Regexp] The pattern to match.
+      # @param reply [String] The IP or hostname to reply back to the client.
+      # @param type [Symbol] The type of request to match.
+      # @param options [Hash] A list of options for the request.
+      # @param block [Proc] An optional block to compute the reply instead of using the `reply` parameter.
+      def setup(match, reply, type, options, block)
+        @match = match
+        @type = type || :A
+        @reply = block.blank? ? (reply || "127.0.0.1") : nil
+        @options = options
+        @block = block
+      end
+
+      # Setups a new rule.
+      #
+      # @param rv [Rule] The new rule.
+      # @param reply_or_type [String|Symbol] The IP or hostname to reply back to the client (or the type of request to match, if a block is provided).
+      # @param type [Symbol] The type of request to match. This is ignored if a block is provided.
+      # @param block [Proc] An optional block to compute the reply instead of using the `reply_or_type` parameter. In this case `reply_or_type` is used for the type of the request and `type` is ignored.
+      # @return [Rule] The new rule.
+      def self.setup(rv, reply_or_type, block, type)
+        if block.present? then # reply_or_type acts like a type, type is ignored
+          rv.type = reply_or_type || :A
+          rv.reply = nil
+          rv.block = block
+        else # reply_or_type acts like a reply
+          rv.reply = reply_or_type || "127.0.0.1"
+          rv.type = type || :A
+        end
+
+        rv
+      end
   end
 end
