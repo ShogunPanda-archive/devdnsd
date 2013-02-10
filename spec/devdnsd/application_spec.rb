@@ -158,11 +158,25 @@ describe DevDNSd::Application do
     let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
 
     def test_resolve(host = "match_1.dev", type = "ANY", nameserver = "127.0.0.1", port = 7771, logger = nil)
-      server = Thread.start { application.perform_server }
-      result = devdnsd_resolv(host, type, nameserver, port, logger)
-      Thread.kill(server)
-      server.join
-      result
+      application.stub(:on_start) do Thread.main[:resolver].wakeup if Thread.main[:resolver].try(:alive?) end
+
+      Thread.current[:resolver] = Thread.start {
+        Thread.stop
+        Thread.main[:result] = devdnsd_resolv(host, type, nameserver, port, logger)
+      }
+
+      Thread.current[:server] = Thread.start {
+        if block_given? then
+          yield
+        else
+          application.perform_server
+        end
+      }
+
+      Thread.current[:resolver].join
+      Thread.kill(Thread.current[:server])
+      Thread.main[:running] = false
+      Thread.main[:result]
     end
 
     it "should run the server" do
