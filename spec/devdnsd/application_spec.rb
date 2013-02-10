@@ -158,7 +158,7 @@ describe DevDNSd::Application do
     let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
 
     def test_resolve(host = "match_1.dev", type = "ANY", nameserver = "127.0.0.1", port = 7771, logger = nil)
-      application.stub(:on_start) do Thread.main[:resolver].wakeup if Thread.main[:resolver].try(:alive?) end
+      application.stub(:on_start) do Thread.main[:resolver].run if Thread.main[:resolver].try(:alive?) end
 
       Thread.current[:resolver] = Thread.start {
         Thread.stop
@@ -166,6 +166,7 @@ describe DevDNSd::Application do
       }
 
       Thread.current[:server] = Thread.start {
+        sleep(0.1)
         if block_given? then
           yield
         else
