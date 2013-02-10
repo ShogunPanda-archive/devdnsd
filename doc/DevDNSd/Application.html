@@ -1,0 +1,2102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: DevDNSd::Application
+  
+    &mdash; Documentation by YARD 0.8.4.1
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../DevDNSd.html" title="DevDNSd (module)">DevDNSd</a></span></span>
+     &raquo; 
+    <span class="title">Application</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: DevDNSd::Application
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">RExec::Daemon::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">RExec::Daemon::Base</li>
+          
+            <li class="next">DevDNSd::Application</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="ApplicationMethods/Server.html" title="DevDNSd::ApplicationMethods::Server (module)">DevDNSd::ApplicationMethods::Server</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html" title="DevDNSd::ApplicationMethods::System (module)">DevDNSd::ApplicationMethods::System</a></span>, Lazier::I18n</dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/devdnsd/application.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>The main DevDNSd application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="ANY_REQUEST-constant" class="">ANY_REQUEST =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Class for ANY DNS request.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>ANY</span></pre></dd>
+      
+        <dt id="ANY_CLASSES-constant" class="">ANY_CLASSES =
+          <div class="docstring">
+  <div class="discussion">
+    <p>List of classes handled in case of DNS request with resource class ANY.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>A</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>AAAA</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>ANY</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>CNAME</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>HINFO</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>MINFO</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>MX</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>NS</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>PTR</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>SOA</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>TXT</span><span class='rbracket'>]</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#command-instance_method" title="#command (instance method)">- (Mamertes::Command) <strong>command</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The Mamertes command.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#config-instance_method" title="#config (instance method)">- (Configuration) <strong>config</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The <span class='object_link'><a href="Configuration.html" title="DevDNSd::Configuration (class)">Configuration</a></span> of this application.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#locale-instance_method" title="#locale (instance method)">- (Symbol|nil) <strong>locale</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The current application locale.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#logger-instance_method" title="#logger (instance method)">- (Bovem::Logger) <strong>logger</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The logger for this application.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_ruby_implementation-class_method" title="check_ruby_implementation (class method)">+ (Object) <strong>check_ruby_implementation</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Check if the current implementation supports DevDNSd.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instance-class_method" title="instance (class method)">+ (Application) <strong>instance</strong>(command = nil, locale = nil, force = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns a unique (singleton) instance of the application.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#quit-class_method" title="quit (class method)">+ (Object) <strong>quit</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Stops the application.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run-class_method" title="run (class method)">+ (Object) <strong>run</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Runs the application in foreground.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_logger-instance_method" title="#get_logger (instance method)">- (Logger) <strong>get_logger</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Gets the current logger of the application.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Application) <strong>initialize</strong>(command, locale) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new application.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#on_start-instance_method" title="#on_start (instance method)">- (NilClass) <strong>on_start</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>This method is called when the server starts.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#on_stop-instance_method" title="#on_stop (instance method)">- (NilClass) <strong>on_stop</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>This method is called when the server stop.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ApplicationMethods/Server.html" title="DevDNSd::ApplicationMethods::Server (module)">DevDNSd::ApplicationMethods::Server</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ApplicationMethods/Server.html#perform_server-instance_method" title="DevDNSd::ApplicationMethods::Server#perform_server (method)">#perform_server</a></span>, <span class='object_link'><a href="ApplicationMethods/Server.html#process_rule-instance_method" title="DevDNSd::ApplicationMethods::Server#process_rule (method)">#process_rule</a></span>, <span class='object_link'><a href="ApplicationMethods/Server.html#process_rule_in_classes-instance_method" title="DevDNSd::ApplicationMethods::Server#process_rule_in_classes (method)">#process_rule_in_classes</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ApplicationMethods/System.html" title="DevDNSd::ApplicationMethods::System (module)">DevDNSd::ApplicationMethods::System</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ApplicationMethods/System.html#action_install-instance_method" title="DevDNSd::ApplicationMethods::System#action_install (method)">#action_install</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_start-instance_method" title="DevDNSd::ApplicationMethods::System#action_start (method)">#action_start</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_stop-instance_method" title="DevDNSd::ApplicationMethods::System#action_stop (method)">#action_stop</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_uninstall-instance_method" title="DevDNSd::ApplicationMethods::System#action_uninstall (method)">#action_uninstall</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#dns_update-instance_method" title="DevDNSd::ApplicationMethods::System#dns_update (method)">#dns_update</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#execute_command-instance_method" title="DevDNSd::ApplicationMethods::System#execute_command (method)">#execute_command</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#is_osx%3F-instance_method" title="DevDNSd::ApplicationMethods::System#is_osx? (method)">#is_osx?</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#launch_agent_path-instance_method" title="DevDNSd::ApplicationMethods::System#launch_agent_path (method)">#launch_agent_path</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#resolver_path-instance_method" title="DevDNSd::ApplicationMethods::System#resolver_path (method)">#resolver_path</a></span></p>
+
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="DevDNSd::Application (class)">Application</a></span></tt>) <strong>initialize</strong>(command, locale) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>command</span>
+      
+      
+        <span class='type'>(<tt>Mamertes::Command</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The current Mamertes command.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locale</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The locale to use for the application.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 395</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
+
+  <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
+  <span class='ivar'>@command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+
+  <span class='comment'># Setup logger
+</span>  <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+  <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_get_real_file'>get_real_file</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>log_file</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span><span class='comma'>,</span> <span class='const'>Logger</span><span class='op'>::</span><span class='const'>INFO</span><span class='rparen'>)</span>
+
+  <span class='comment'># Open configuration
+</span>  <span class='id identifier rubyid_read_configuration'>read_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="command-instance_method">
+  
+    - (<tt>Mamertes::Command</tt>) <strong>command</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The Mamertes command.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Mamertes::Command</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The Mamertes command.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 375</span>
+
+<span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
+  <span class='comment'># Class for ANY DNS request.
+</span>  <span class='const'>ANY_REQUEST</span> <span class='op'>=</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>ANY</span>
+
+  <span class='comment'># List of classes handled in case of DNS request with resource class ANY.
+</span>  <span class='const'>ANY_CLASSES</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>A</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>AAAA</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>ANY</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>CNAME</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>HINFO</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>MINFO</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>MX</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>NS</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>PTR</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>SOA</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>TXT</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>Lazier</span><span class='op'>::</span><span class='const'>I18n</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>ApplicationMethods</span><span class='op'>::</span><span class='const'>System</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>ApplicationMethods</span><span class='op'>::</span><span class='const'>Server</span>
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:config</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:command</span>
+  <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:logger</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:locale</span>
+
+  <span class='comment'># Creates a new application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
+</span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
+
+    <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
+    <span class='ivar'>@command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span>
+    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+
+    <span class='comment'># Setup logger
+</span>    <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+    <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_get_real_file'>get_real_file</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>log_file</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span><span class='comma'>,</span> <span class='const'>Logger</span><span class='op'>::</span><span class='const'>INFO</span><span class='rparen'>)</span>
+
+    <span class='comment'># Open configuration
+</span>    <span class='id identifier rubyid_read_configuration'>read_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Gets the current logger of the application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Logger] The current logger of the application.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
+    <span class='ivar'>@logger</span> <span class='op'>||=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span> <span class='op'>:</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_file'>log_file</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_level'>log_level</span><span class='comma'>,</span> <span class='ivar'>@log_formatter</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># This method is called when the server starts. By default is a no-op.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [NilClass] `nil`.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_on_start'>on_start</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># This method is called when the server stop.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [NilClass] `nil`.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_on_stop'>on_stop</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Returns a unique (singleton) instance of the application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
+</span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
+</span>  <span class='comment'># @param force [Boolean] If to force recreation of the instance.
+</span>  <span class='comment'># @return [Application] The unique (singleton) instance of the application.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_force'>force</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_force'>force</span>
+    <span class='ivar'>@instance</span> <span class='op'>||=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_command'>command</span>
+    <span class='ivar'>@instance</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Runs the application in foreground.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @see #perform_server
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Stops the application.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_quit'>quit</span>
+    <span class='op'>::</span><span class='const'>EventMachine</span><span class='period'>.</span><span class='id identifier rubyid_stop'>stop</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current implementation supports DevDNSd.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_ruby_implementation'>check_ruby_implementation</span>
+    <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rubinius</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>JRuby</span><span class='rparen'>)</span> <span class='kw'>then</span>
+      <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='const'>Lazier</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_no_jruby_rubinius'>no_jruby_rubinius</span><span class='rparen'>)</span>
+      <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_exit'>exit</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+    <span class='comment'># Reads configuration.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param options [Hash] The configuration to read.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_read_configuration'>read_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+      <span class='kw'>begin</span>
+        <span class='ivar'>@config</span> <span class='op'>=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Configuration</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>configuration</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='ivar'>@logger</span><span class='rparen'>)</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_logger'>get_logger</span>
+      <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="config-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Configuration.html" title="DevDNSd::Configuration (class)">Configuration</a></span></tt>) <strong>config</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The <span class='object_link'><a href="Configuration.html" title="DevDNSd::Configuration (class)">Configuration</a></span> of this application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Configuration.html" title="DevDNSd::Configuration (class)">Configuration</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The <span class='object_link'><a href="Configuration.html" title="DevDNSd::Configuration (class)">Configuration</a></span> of this application.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 375</span>
+
+<span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
+  <span class='comment'># Class for ANY DNS request.
+</span>  <span class='const'>ANY_REQUEST</span> <span class='op'>=</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>ANY</span>
+
+  <span class='comment'># List of classes handled in case of DNS request with resource class ANY.
+</span>  <span class='const'>ANY_CLASSES</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>A</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>AAAA</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>ANY</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>CNAME</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>HINFO</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>MINFO</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>MX</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>NS</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>PTR</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>SOA</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>TXT</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>Lazier</span><span class='op'>::</span><span class='const'>I18n</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>ApplicationMethods</span><span class='op'>::</span><span class='const'>System</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>ApplicationMethods</span><span class='op'>::</span><span class='const'>Server</span>
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:config</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:command</span>
+  <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:logger</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:locale</span>
+
+  <span class='comment'># Creates a new application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
+</span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
+
+    <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
+    <span class='ivar'>@command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span>
+    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+
+    <span class='comment'># Setup logger
+</span>    <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+    <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_get_real_file'>get_real_file</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>log_file</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span><span class='comma'>,</span> <span class='const'>Logger</span><span class='op'>::</span><span class='const'>INFO</span><span class='rparen'>)</span>
+
+    <span class='comment'># Open configuration
+</span>    <span class='id identifier rubyid_read_configuration'>read_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Gets the current logger of the application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Logger] The current logger of the application.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
+    <span class='ivar'>@logger</span> <span class='op'>||=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span> <span class='op'>:</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_file'>log_file</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_level'>log_level</span><span class='comma'>,</span> <span class='ivar'>@log_formatter</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># This method is called when the server starts. By default is a no-op.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [NilClass] `nil`.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_on_start'>on_start</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># This method is called when the server stop.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [NilClass] `nil`.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_on_stop'>on_stop</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Returns a unique (singleton) instance of the application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
+</span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
+</span>  <span class='comment'># @param force [Boolean] If to force recreation of the instance.
+</span>  <span class='comment'># @return [Application] The unique (singleton) instance of the application.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_force'>force</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_force'>force</span>
+    <span class='ivar'>@instance</span> <span class='op'>||=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_command'>command</span>
+    <span class='ivar'>@instance</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Runs the application in foreground.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @see #perform_server
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Stops the application.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_quit'>quit</span>
+    <span class='op'>::</span><span class='const'>EventMachine</span><span class='period'>.</span><span class='id identifier rubyid_stop'>stop</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current implementation supports DevDNSd.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_ruby_implementation'>check_ruby_implementation</span>
+    <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rubinius</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>JRuby</span><span class='rparen'>)</span> <span class='kw'>then</span>
+      <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='const'>Lazier</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_no_jruby_rubinius'>no_jruby_rubinius</span><span class='rparen'>)</span>
+      <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_exit'>exit</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+    <span class='comment'># Reads configuration.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param options [Hash] The configuration to read.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_read_configuration'>read_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+      <span class='kw'>begin</span>
+        <span class='ivar'>@config</span> <span class='op'>=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Configuration</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>configuration</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='ivar'>@logger</span><span class='rparen'>)</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_logger'>get_logger</span>
+      <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="locale-instance_method">
+  
+    - (<tt>Symbol|nil</tt>) <strong>locale</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The current application locale.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol|nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The current application locale.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 375</span>
+
+<span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
+  <span class='comment'># Class for ANY DNS request.
+</span>  <span class='const'>ANY_REQUEST</span> <span class='op'>=</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>ANY</span>
+
+  <span class='comment'># List of classes handled in case of DNS request with resource class ANY.
+</span>  <span class='const'>ANY_CLASSES</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>A</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>AAAA</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>ANY</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>CNAME</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>HINFO</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>MINFO</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>MX</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>NS</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>PTR</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>SOA</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>TXT</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>Lazier</span><span class='op'>::</span><span class='const'>I18n</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>ApplicationMethods</span><span class='op'>::</span><span class='const'>System</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>ApplicationMethods</span><span class='op'>::</span><span class='const'>Server</span>
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:config</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:command</span>
+  <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:logger</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:locale</span>
+
+  <span class='comment'># Creates a new application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
+</span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
+
+    <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
+    <span class='ivar'>@command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span>
+    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+
+    <span class='comment'># Setup logger
+</span>    <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+    <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_get_real_file'>get_real_file</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>log_file</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span><span class='comma'>,</span> <span class='const'>Logger</span><span class='op'>::</span><span class='const'>INFO</span><span class='rparen'>)</span>
+
+    <span class='comment'># Open configuration
+</span>    <span class='id identifier rubyid_read_configuration'>read_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Gets the current logger of the application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Logger] The current logger of the application.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
+    <span class='ivar'>@logger</span> <span class='op'>||=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span> <span class='op'>:</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_file'>log_file</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_level'>log_level</span><span class='comma'>,</span> <span class='ivar'>@log_formatter</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># This method is called when the server starts. By default is a no-op.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [NilClass] `nil`.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_on_start'>on_start</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># This method is called when the server stop.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [NilClass] `nil`.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_on_stop'>on_stop</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Returns a unique (singleton) instance of the application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
+</span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
+</span>  <span class='comment'># @param force [Boolean] If to force recreation of the instance.
+</span>  <span class='comment'># @return [Application] The unique (singleton) instance of the application.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_force'>force</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_force'>force</span>
+    <span class='ivar'>@instance</span> <span class='op'>||=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_command'>command</span>
+    <span class='ivar'>@instance</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Runs the application in foreground.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @see #perform_server
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Stops the application.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_quit'>quit</span>
+    <span class='op'>::</span><span class='const'>EventMachine</span><span class='period'>.</span><span class='id identifier rubyid_stop'>stop</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current implementation supports DevDNSd.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_ruby_implementation'>check_ruby_implementation</span>
+    <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rubinius</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>JRuby</span><span class='rparen'>)</span> <span class='kw'>then</span>
+      <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='const'>Lazier</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_no_jruby_rubinius'>no_jruby_rubinius</span><span class='rparen'>)</span>
+      <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_exit'>exit</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+    <span class='comment'># Reads configuration.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param options [Hash] The configuration to read.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_read_configuration'>read_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+      <span class='kw'>begin</span>
+        <span class='ivar'>@config</span> <span class='op'>=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Configuration</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>configuration</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='ivar'>@logger</span><span class='rparen'>)</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_logger'>get_logger</span>
+      <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="logger=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="logger-instance_method">
+  
+    - (<tt>Bovem::Logger</tt>) <strong>logger</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The logger for this application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Bovem::Logger</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The logger for this application.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 375</span>
+
+<span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
+  <span class='comment'># Class for ANY DNS request.
+</span>  <span class='const'>ANY_REQUEST</span> <span class='op'>=</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>ANY</span>
+
+  <span class='comment'># List of classes handled in case of DNS request with resource class ANY.
+</span>  <span class='const'>ANY_CLASSES</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>A</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>AAAA</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>ANY</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>CNAME</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>HINFO</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>MINFO</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>MX</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>NS</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>PTR</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>SOA</span><span class='comma'>,</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>DNS</span><span class='op'>::</span><span class='const'>Resource</span><span class='op'>::</span><span class='const'>IN</span><span class='op'>::</span><span class='const'>TXT</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>Lazier</span><span class='op'>::</span><span class='const'>I18n</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>ApplicationMethods</span><span class='op'>::</span><span class='const'>System</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>ApplicationMethods</span><span class='op'>::</span><span class='const'>Server</span>
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:config</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:command</span>
+  <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:logger</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:locale</span>
+
+  <span class='comment'># Creates a new application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
+</span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
+
+    <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
+    <span class='ivar'>@command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span>
+    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+
+    <span class='comment'># Setup logger
+</span>    <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+    <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_get_real_file'>get_real_file</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>log_file</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span><span class='comma'>,</span> <span class='const'>Logger</span><span class='op'>::</span><span class='const'>INFO</span><span class='rparen'>)</span>
+
+    <span class='comment'># Open configuration
+</span>    <span class='id identifier rubyid_read_configuration'>read_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Gets the current logger of the application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Logger] The current logger of the application.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
+    <span class='ivar'>@logger</span> <span class='op'>||=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span> <span class='op'>:</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_file'>log_file</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_level'>log_level</span><span class='comma'>,</span> <span class='ivar'>@log_formatter</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># This method is called when the server starts. By default is a no-op.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [NilClass] `nil`.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_on_start'>on_start</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># This method is called when the server stop.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [NilClass] `nil`.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_on_stop'>on_stop</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Returns a unique (singleton) instance of the application.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
+</span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
+</span>  <span class='comment'># @param force [Boolean] If to force recreation of the instance.
+</span>  <span class='comment'># @return [Application] The unique (singleton) instance of the application.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_force'>force</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_force'>force</span>
+    <span class='ivar'>@instance</span> <span class='op'>||=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_command'>command</span>
+    <span class='ivar'>@instance</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Runs the application in foreground.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @see #perform_server
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Stops the application.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_quit'>quit</span>
+    <span class='op'>::</span><span class='const'>EventMachine</span><span class='period'>.</span><span class='id identifier rubyid_stop'>stop</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current implementation supports DevDNSd.
+</span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_ruby_implementation'>check_ruby_implementation</span>
+    <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rubinius</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>JRuby</span><span class='rparen'>)</span> <span class='kw'>then</span>
+      <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='const'>Lazier</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_no_jruby_rubinius'>no_jruby_rubinius</span><span class='rparen'>)</span>
+      <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_exit'>exit</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+    <span class='comment'># Reads configuration.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param options [Hash] The configuration to read.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_read_configuration'>read_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+      <span class='kw'>begin</span>
+        <span class='ivar'>@config</span> <span class='op'>=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Configuration</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>configuration</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='ivar'>@logger</span><span class='rparen'>)</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_logger'>get_logger</span>
+      <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="check_ruby_implementation-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_ruby_implementation</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Check if the current implementation supports DevDNSd.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+457
+458
+459
+460
+461
+462</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 457</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_ruby_implementation'>check_ruby_implementation</span>
+  <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rubinius</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>JRuby</span><span class='rparen'>)</span> <span class='kw'>then</span>
+    <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='const'>Lazier</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_no_jruby_rubinius'>no_jruby_rubinius</span><span class='rparen'>)</span>
+    <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_exit'>exit</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="instance-class_method">
+  
+    + (<tt><span class='object_link'><a href="" title="DevDNSd::Application (class)">Application</a></span></tt>) <strong>instance</strong>(command = nil, locale = nil, force = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a unique (singleton) instance of the application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>command</span>
+      
+      
+        <span class='type'>(<tt>Mamertes::Command</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The current Mamertes command.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>locale</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The locale to use for the application.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>force</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>If to force recreation of the instance.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="DevDNSd::Application (class)">Application</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The unique (singleton) instance of the application.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+438
+439
+440
+441
+442</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 438</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_force'>force</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_force'>force</span>
+  <span class='ivar'>@instance</span> <span class='op'>||=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_command'>command</span>
+  <span class='ivar'>@instance</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="quit-class_method">
+  
+    + (<tt>Object</tt>) <strong>quit</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Stops the application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+452
+453
+454</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 452</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_quit'>quit</span>
+  <span class='op'>::</span><span class='const'>EventMachine</span><span class='period'>.</span><span class='id identifier rubyid_stop'>stop</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run-class_method">
+  
+    + (<tt>Object</tt>) <strong>run</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Runs the application in foreground.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="ApplicationMethods/Server.html#perform_server-instance_method" title="DevDNSd::ApplicationMethods::Server#perform_server (method)">DevDNSd::ApplicationMethods::Server#perform_server</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+447
+448
+449</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 447</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="get_logger-instance_method">
+  
+    - (<tt>Logger</tt>) <strong>get_logger</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Gets the current logger of the application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Logger</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The current logger of the application.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+416
+417
+418</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 416</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
+  <span class='ivar'>@logger</span> <span class='op'>||=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span> <span class='op'>:</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_file'>log_file</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_level'>log_level</span><span class='comma'>,</span> <span class='ivar'>@log_formatter</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="on_start-instance_method">
+  
+    - (<tt>NilClass</tt>) <strong>on_start</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>This method is called when the server starts. By default is a no-op.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NilClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>nil</code>.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+423
+424</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 423</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_on_start'>on_start</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="on_stop-instance_method">
+  
+    - (<tt>NilClass</tt>) <strong>on_stop</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>This method is called when the server stop.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NilClass</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>nil</code>.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+429
+430</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 429</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_on_stop'>on_stop</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sun Feb 10 13:20:34 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.4.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

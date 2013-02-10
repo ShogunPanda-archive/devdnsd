@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.8.4.1
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1 id="devdnsd">devdnsd</h1>
+
+<p><a href="http://travis-ci.org/ShogunPanda/devdnsd"><img src="https://secure.travis-ci.org/ShogunPanda/devdnsd.png?branch=master" alt="Build Status" /></a>
+<a href="https://gemnasium.com/ShogunPanda/devdnsd"><img src="https://gemnasium.com/ShogunPanda/devdnsd.png?travis" alt="Dependency Status" /></a>
+<a href="https://codeclimate.com/github/ShogunPanda/devdnsd"><img src="https://codeclimate.com/badge.png" alt="Code Climate" /></a></p>
+
+<p>A small DNS server to enable local .dev domain resolution.</p>
+
+<p>http://sw.cow.tc/devdnsd</p>
+
+<p>http://rdoc.info/gems/devdnsd</p>
+
+<h2 id="description">Description</h2>
+
+<p>DevDNSd is a small DNS server which add a resolver to the system only for single TLD (by default, <strong>.dev</strong>). This way you can access your local application by typing every kind of url, i.e. <em>locallapp.dev</em>.</p>
+
+<p>Of course, DevDNSd is inspired by <a href="https://github.com/37signals/pow">pow</a>, but it only provides DNS functionalities, delegating the setup of a web-server to the user.</p>
+
+<h2 id="basic-usage">Basic usage</h2>
+
+<ol>
+  <li>
+    <p>Install the gem:</p>
+
+    <p><code>gem install devdnsd</code></p>
+  </li>
+  <li>
+    <p>Install the service:</p>
+
+    <p><code>devdnsd install</code></p>
+  </li>
+</ol>
+
+<p><strong>You’re done!</strong></p>
+
+<h2 id="advanced-usage">Advanced usage</h2>
+
+<p>Just type <code>devdnsd help</code> and you’ll see all available options.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>By defaults, DevDNSd uses a configuration file in <code>~/.devdnsd_config</code>, but you can change the path using the <code>--config</code> switch.</p>
+
+<p>The file is a plain Ruby file with a single <code>config</code> object that supports the following directives.</p>
+
+<ul>
+  <li><code>foreground</code>: If run the application in foreground.</li>
+  <li><code>address</code>: The IP to bind, 0.0.0.0 by default.</li>
+  <li><code>port</code>: The port to bind, 7771 by default.</li>
+  <li><code>pid_file</code>: The PID file to use.</li>
+  <li><code>tld</code>: The TLD to handle.</li>
+  <li><code>log_file</code>: The default log file. Not used if run in foreground.</li>
+  <li><code>log_level</code>: The default log level. Valid values are from 0 to 5 where 0 means “all messages”.</li>
+  <li><code>add_rule</code>: Add a rule to the server. See section <em>Rules</em> below.</li>
+</ul>
+
+<h2 id="rules">Rules</h2>
+
+<p>DevDNSd has a nice rules system for matching name.
+You can add rules by calling <code>config.add_rule(...)</code> into the configuration file.</p>
+
+<p>The first argument of the function is the name you want to match. You can use regular expressions and this is highly recommended if you want to pass a block to the method (see below).</p>
+
+<p>The second argument should be the IP associated to the name. If the first argument is a regexp with groups, you can use the standard Ruby <code>String#gsub</code> substitution syntax for the reply.
+You can also use <code>false</code> to reject matching for this nameserver. In this case the next nameserver for the system will be used. You can skip this argument if you pass a block to the function.
+If you return <code>nil</code> from the block, then you’ll be responsible to set the response via the <a href="http://rubydoc.info/gems/rubydns/RubyDNS/Transaction"><code>transaction</code></a> variable.</p>
+
+<p>The third argument can optionally be the record type for the resolv. By default is <code>:A</code>.
+This argument is ignored if you pass the block, as it assumes that the second argument is the record type.</p>
+
+<p>If you pass a block to the method, its return code will be taken as the result of the resolving. So if you return <code>false</code> then the resolving will be rejected. The block takes three arguments, <code>match</code>, <code>type</code> and <code>transaction</code>. If you used regular expression for the first argument, then <code>match</code> will contain all the match information for the name.</p>
+
+<p>For some examples of rules, see the <code>config/devdnsd_config.sample</code> file into the repository.</p>
+
+<h2 id="remarks">Remarks</h2>
+
+<p>DevDNSd as a local resolver is tightly coupled with the OSX name resolution system, so it is only available for MacOSX.</p>
+
+<p>You can, anyway, run the software as DNS server.</p>
+
+<h2 id="contributing-to-devdnsd">Contributing to devdnsd</h2>
+
+<ul>
+  <li>Check out the latest master to make sure the feature hasn’t been implemented or the bug hasn’t been fixed yet.</li>
+  <li>Check out the issue tracker to make sure someone already hasn’t requested it and/or contributed it.</li>
+  <li>Fork the project.</li>
+  <li>Start a feature/bugfix branch.</li>
+  <li>Commit and push until you are happy with your contribution.</li>
+  <li>Make sure to add tests for it. This is important so I don’t break it in a future version unintentionally.</li>
+  <li>Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.</li>
+</ul>
+
+<h2 id="copyright">Copyright</h2>
+
+<p>Copyright (C) 2013 and above Shogun (shogun_panda@me.com).</p>
+
+<p>Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.</p>
+</div></div>
+
+    <div id="footer">
+  Generated on Sun Feb 10 13:20:32 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.4.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

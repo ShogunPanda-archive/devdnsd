@@ -10,13 +10,13 @@ module DevDNSd
   # @see http://semver.org
   module Version
     # The major version.
-    MAJOR = 1
+    MAJOR = 2
 
     # The minor version.
-    MINOR = 9
+    MINOR = 0
 
     # The patch version.
-    PATCH = 9
+    PATCH = 0
 
     # The current version number of DevDNSd.
     STRING = [MAJOR, MINOR, PATCH].compact.join(".")
