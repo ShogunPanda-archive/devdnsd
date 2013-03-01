@@ -1,7 +1,8 @@
 # devdnsd
 
-[![Build Status](https://secure.travis-ci.org/ShogunPanda/devdnsd.png?branch=master)](http://travis-ci.org/ShogunPanda/devdnsd)
+[![Gem Version](https://badge.fury.io/rb/devdnsd.png)](http://badge.fury.io/rb/devdnsd)
 [![Dependency Status](https://gemnasium.com/ShogunPanda/devdnsd.png?travis)](https://gemnasium.com/ShogunPanda/devdnsd)
+[![Build Status](https://secure.travis-ci.org/ShogunPanda/devdnsd.png?branch=master)](http://travis-ci.org/ShogunPanda/devdnsd)
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/ShogunPanda/devdnsd)
 
 A small DNS server to enable local .dev domain resolution.
@@ -14,7 +15,7 @@ http://rdoc.info/gems/devdnsd
 
 DevDNSd is a small DNS server which add a resolver to the system only for single TLD (by default, **.dev**). This way you can access your local application by typing every kind of url, i.e. *locallapp.dev*.
 
-Of course, DevDNSd is inspired by [pow](https://github.com/37signals/pow), but it only provides DNS functionalities, delegating the setup of a web-server to the user.
+Of course, DevDNSd is inspired by [pow](https://github.com/37signals/pow), but it only provides DNS features, delegating the setup of a web-server to the user.
 
 ## Basic usage
 

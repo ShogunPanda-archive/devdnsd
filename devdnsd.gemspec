@@ -23,7 +23,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = ">= 1.9.3"
 
-  gem.add_dependency("mamertes", "~> 2.0.7")
+  gem.add_dependency("mamertes", "~> 2.1.0")
   gem.add_dependency("rubydns", "~> 0.5.4")
   gem.add_dependency("rexec", "~> 1.5.1")
 end

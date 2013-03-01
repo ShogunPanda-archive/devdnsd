@@ -5,7 +5,7 @@
 #
 
 module DevDNSd
-  # This class holds the configuration of the applicaton.
+  # This class holds the configuration of the application.
   class Configuration < Bovem::Configuration
     # If to run the server in foreground. Default: `false`.
     property :foreground, default: false

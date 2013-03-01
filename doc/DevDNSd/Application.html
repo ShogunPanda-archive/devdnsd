@@ -6,7 +6,7 @@
 <title>
   Class: DevDNSd::Application
   
-    &mdash; Documentation by YARD 0.8.4.1
+    &mdash; Documentation by YARD 0.8.5.2
   
 </title>
 
@@ -567,6 +567,14 @@
       <pre class="lines">
 
 
+387
+388
+389
+390
+391
+392
+393
+394
 395
 396
 397
@@ -575,18 +583,10 @@
 400
 401
 402
-403
-404
-405
-406
-407
-408
-409
-410
-411</pre>
+403</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 395</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 387</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -594,7 +594,7 @@
 
   <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
   <span class='ivar'>@command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span>
-  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
 
   <span class='comment'># Setup logger
 </span>  <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -659,6 +659,14 @@
       <pre class="lines">
 
 
+367
+368
+369
+370
+371
+372
+373
+374
 375
 376
 377
@@ -754,18 +762,10 @@
 467
 468
 469
-470
-471
-472
-473
-474
-475
-476
-477
-478</pre>
+470</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 375</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 367</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -793,7 +793,7 @@
 
     <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
     <span class='ivar'>@command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span>
-    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
 
     <span class='comment'># Setup logger
 </span>    <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -920,6 +920,14 @@
       <pre class="lines">
 
 
+367
+368
+369
+370
+371
+372
+373
+374
 375
 376
 377
@@ -1015,18 +1023,10 @@
 467
 468
 469
-470
-471
-472
-473
-474
-475
-476
-477
-478</pre>
+470</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 375</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 367</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -1054,7 +1054,7 @@
 
     <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
     <span class='ivar'>@command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span>
-    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
 
     <span class='comment'># Setup logger
 </span>    <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -1181,6 +1181,14 @@
       <pre class="lines">
 
 
+367
+368
+369
+370
+371
+372
+373
+374
 375
 376
 377
@@ -1276,18 +1284,10 @@
 467
 468
 469
-470
-471
-472
-473
-474
-475
-476
-477
-478</pre>
+470</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 375</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 367</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -1315,7 +1315,7 @@
 
     <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
     <span class='ivar'>@command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span>
-    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
 
     <span class='comment'># Setup logger
 </span>    <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -1442,6 +1442,14 @@
       <pre class="lines">
 
 
+367
+368
+369
+370
+371
+372
+373
+374
 375
 376
 377
@@ -1537,18 +1545,10 @@
 467
 468
 469
-470
-471
-472
-473
-474
-475
-476
-477
-478</pre>
+470</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 375</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 367</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -1576,7 +1576,7 @@
 
     <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
     <span class='ivar'>@command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span>
-    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_get_options'>get_options</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span>
 
     <span class='comment'># Setup logger
 </span>    <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -1691,15 +1691,15 @@
       <pre class="lines">
 
 
-457
-458
-459
-460
-461
-462</pre>
+449
+450
+451
+452
+453
+454</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 457</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 449</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_ruby_implementation'>check_ruby_implementation</span>
   <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rubinius</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>JRuby</span><span class='rparen'>)</span> <span class='kw'>then</span>
@@ -1809,14 +1809,14 @@
       <pre class="lines">
 
 
-438
-439
-440
-441
-442</pre>
+430
+431
+432
+433
+434</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 438</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 430</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_force'>force</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_force'>force</span>
@@ -1853,12 +1853,12 @@
       <pre class="lines">
 
 
-452
-453
-454</pre>
+444
+445
+446</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 452</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 444</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_quit'>quit</span>
   <span class='op'>::</span><span class='const'>EventMachine</span><span class='period'>.</span><span class='id identifier rubyid_stop'>stop</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
@@ -1900,12 +1900,12 @@
       <pre class="lines">
 
 
-447
-448
-449</pre>
+439
+440
+441</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 447</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 439</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
@@ -1963,12 +1963,12 @@
       <pre class="lines">
 
 
-416
-417
-418</pre>
+408
+409
+410</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 416</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 408</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
   <span class='ivar'>@logger</span> <span class='op'>||=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span> <span class='op'>:</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_file'>log_file</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_level'>log_level</span><span class='comma'>,</span> <span class='ivar'>@log_formatter</span><span class='rparen'>)</span>
@@ -2020,11 +2020,11 @@
       <pre class="lines">
 
 
-423
-424</pre>
+415
+416</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 423</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 415</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_start'>on_start</span>
 <span class='kw'>end</span></pre>
@@ -2075,11 +2075,11 @@
       <pre class="lines">
 
 
-429
-430</pre>
+421
+422</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 429</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 421</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_stop'>on_stop</span>
 <span class='kw'>end</span></pre>
@@ -2093,9 +2093,9 @@
 </div>
 
     <div id="footer">
-  Generated on Sun Feb 10 13:20:34 2013 by
+  Generated on Thu Feb 28 22:51:21 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.4.1 (ruby-1.9.3).
+  0.8.5.2 (ruby-1.9.3).
 </div>
 
   </body>
