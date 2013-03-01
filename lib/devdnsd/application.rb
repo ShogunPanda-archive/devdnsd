@@ -237,14 +237,7 @@ module DevDNSd
         # @param launch_agent [String] The agent path.
         # @return [Boolean] `true` if operation succeeded, `false` otherwise.
         def load_agent(launch_agent, _)
-          begin
-            self.logger.info(self.i18n.agent_loading(launch_agent))
-            self.execute_command("launchctl load -w \"#{launch_agent}\" > /dev/null 2>&1")
-            true
-          rescue
-            self.logger.error(self.i18n.agent_loading_error)
-            false
-          end
+          toggle_agent(launch_agent, "load", :agent_loading, :agent_loading_error, :error)
         end
 
         # Unloads a OSX system agent.
@@ -252,12 +245,24 @@ module DevDNSd
         # @param launch_agent [String] The agent path.
         # @return [Boolean] `true` if operation succeeded, `false` otherwise.
         def unload_agent(launch_agent, _)
+          toggle_agent(launch_agent, "unload", :agent_unloading, :agent_unloading_error, :warn)
+        end
+
+        # Loads or unloads a OSX system agent.
+        #
+        # @param launch_agent [String] The agent path.
+        # @param operation [String] The operation to perform. Can be `load` or `unload`.
+        # @param info_message [Symbol] The message to show in case of errors.
+        # @param error_message [Symbol] The message to show in case of errors.
+        # @param error_level [Symbol] The error level to show. Can be `:warn` or `:error`.
+        # @return [Boolean] `true` if operation succeeded, `false` otherwise.
+        def toggle_agent(launch_agent, operation, info_message, error_message, error_level)
           begin
-            self.logger.info(self.i18n.agent_unloading(launch_agent))
-            self.execute_command("launchctl unload -w \"#{launch_agent}\" > /dev/null 2>&1")
+            self.logger.info(self.i18n.send(info_message, launch_agent))
+            self.execute_command("launchctl #{operation} -w \"#{launch_agent}\" > /dev/null 2>&1")
             true
           rescue
-            self.logger.warn(self.i18n.agent_unloading_error)
+            self.logger.send(error_level, self.i18n.send(error_message))
             false
           end
         end

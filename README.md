@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/devdnsd.png)](http://badge.fury.io/rb/devdnsd)
 [![Dependency Status](https://gemnasium.com/ShogunPanda/devdnsd.png?travis)](https://gemnasium.com/ShogunPanda/devdnsd)
 [![Build Status](https://secure.travis-ci.org/ShogunPanda/devdnsd.png?branch=master)](http://travis-ci.org/ShogunPanda/devdnsd)
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/ShogunPanda/devdnsd)
+[![Code Climate](https://codeclimate.com/github/ShogunPanda/devdnsd.png)](https://codeclimate.com/github/ShogunPanda/devdnsd)
 
 A small DNS server to enable local .dev domain resolution.
 
