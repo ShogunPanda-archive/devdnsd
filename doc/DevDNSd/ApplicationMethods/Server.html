@@ -6,13 +6,13 @@
 <title>
   Module: DevDNSd::ApplicationMethods::Server
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -258,7 +258,7 @@
   <span class='const'>RubyDNS</span><span class='op'>::</span><span class='id identifier rubyid_run_server'>run_server</span><span class='lparen'>(</span><span class='label'>listen:</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='symbol'>:udp</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span><span class='period'>.</span><span class='id identifier rubyid_to_integer'>to_integer</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span>
     <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span>
 
-    <span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>.+</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Application</span><span class='op'>::</span><span class='const'>ANY_CLASSES</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_match_data'>match_data</span><span class='comma'>,</span> <span class='id identifier rubyid_transaction'>transaction</span><span class='op'>|</span>
+    <span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>.+</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Application</span><span class='op'>::</span><span class='const'>ANY_CLASSES</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_transaction'>transaction</span><span class='comma'>,</span> <span class='id identifier rubyid_match_data'>match_data</span><span class='op'>|</span>
       <span class='id identifier rubyid_transaction'>transaction</span><span class='period'>.</span><span class='id identifier rubyid_append_question!'>append_question!</span>
       <span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_rules'>rules</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_rule'>rule</span><span class='op'>|</span> <span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_process_rule_in_classes'>process_rule_in_classes</span><span class='lparen'>(</span><span class='id identifier rubyid_rule'>rule</span><span class='comma'>,</span> <span class='id identifier rubyid_match_data'>match_data</span><span class='comma'>,</span> <span class='id identifier rubyid_transaction'>transaction</span><span class='rparen'>)</span> <span class='rbrace'>}</span> <span class='comment'># During debugging, wrap the inside of the block with a begin rescue and PRINT the exception because RubyDNS hides it.
 </span>    <span class='kw'>end</span>
@@ -508,9 +508,9 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Feb 28 23:07:36 2013 by
+  Generated on Sat Apr 13 15:54:35 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6 (ruby-1.9.3).
 </div>
 
   </body>

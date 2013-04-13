@@ -90,7 +90,7 @@ def devdnsd_resolv(address = "match.dev", type = "ANY", nameserver = "127.0.0.1"
       when 1 then rv[0]
       else rv
     end
-  rescue Exception => e
+  rescue => e
     logger.error("[#{e.class}] #{e.to_s}")
   end
 
