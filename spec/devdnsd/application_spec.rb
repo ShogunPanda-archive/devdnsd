@@ -88,7 +88,7 @@ describe DevDNSd::Application do
     end
 
     let(:mamertes) {
-      mamertes_app = Mamertes::App(run: false) do
+      Mamertes::App(run: false) do
         option :configuration, [], {default: "/dev/null"}
         option :tld, [], {default: "dev"}
         option :port, [], {type: Integer, default: 7771}
@@ -257,7 +257,7 @@ describe DevDNSd::Application do
         @resource_class = cls
       end
 
-      def respond!(*args)
+      def respond!(*_)
         true
       end
     end

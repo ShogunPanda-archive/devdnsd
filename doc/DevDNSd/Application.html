@@ -6,7 +6,7 @@
 <title>
   Class: DevDNSd::Application
   
-    &mdash; Documentation by YARD 0.8.6
+    &mdash; Documentation by YARD 0.8.6.2
   
 </title>
 
@@ -567,6 +567,7 @@
       <pre class="lines">
 
 
+391
 392
 393
 394
@@ -582,14 +583,13 @@
 404
 405
 406
-407
-408</pre>
+407</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 392</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 391</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
 
   <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
@@ -659,6 +659,7 @@
       <pre class="lines">
 
 
+371
 372
 373
 374
@@ -761,11 +762,10 @@
 471
 472
 473
-474
-475</pre>
+474</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 372</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 371</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -788,7 +788,7 @@
 </span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
 </span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
 
     <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
@@ -840,7 +840,7 @@
 </span>  <span class='comment'>#
 </span>  <span class='comment'># @see #perform_server
 </span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
+    <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Stops the application.
@@ -864,9 +864,9 @@
       <span class='kw'>begin</span>
         <span class='ivar'>@config</span> <span class='op'>=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Configuration</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>configuration</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='ivar'>@logger</span><span class='rparen'>)</span>
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
-        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_logger'>get_logger</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
       <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
@@ -920,6 +920,7 @@
       <pre class="lines">
 
 
+371
 372
 373
 374
@@ -1022,11 +1023,10 @@
 471
 472
 473
-474
-475</pre>
+474</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 372</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 371</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -1049,7 +1049,7 @@
 </span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
 </span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
 
     <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
@@ -1101,7 +1101,7 @@
 </span>  <span class='comment'>#
 </span>  <span class='comment'># @see #perform_server
 </span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
+    <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Stops the application.
@@ -1125,9 +1125,9 @@
       <span class='kw'>begin</span>
         <span class='ivar'>@config</span> <span class='op'>=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Configuration</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>configuration</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='ivar'>@logger</span><span class='rparen'>)</span>
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
-        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_logger'>get_logger</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
       <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
@@ -1181,6 +1181,7 @@
       <pre class="lines">
 
 
+371
 372
 373
 374
@@ -1283,11 +1284,10 @@
 471
 472
 473
-474
-475</pre>
+474</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 372</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 371</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -1310,7 +1310,7 @@
 </span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
 </span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
 
     <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
@@ -1362,7 +1362,7 @@
 </span>  <span class='comment'>#
 </span>  <span class='comment'># @see #perform_server
 </span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
+    <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Stops the application.
@@ -1386,9 +1386,9 @@
       <span class='kw'>begin</span>
         <span class='ivar'>@config</span> <span class='op'>=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Configuration</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>configuration</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='ivar'>@logger</span><span class='rparen'>)</span>
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
-        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_logger'>get_logger</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
       <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
@@ -1442,6 +1442,7 @@
       <pre class="lines">
 
 
+371
 372
 373
 374
@@ -1544,11 +1545,10 @@
 471
 472
 473
-474
-475</pre>
+474</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 372</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 371</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -1571,7 +1571,7 @@
 </span>  <span class='comment'># @param command [Mamertes::Command] The current Mamertes command.
 </span>  <span class='comment'># @param locale [Symbol] The locale to use for the application.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
 
     <span class='ivar'>@locale</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
@@ -1623,7 +1623,7 @@
 </span>  <span class='comment'>#
 </span>  <span class='comment'># @see #perform_server
 </span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
+    <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Stops the application.
@@ -1647,9 +1647,9 @@
       <span class='kw'>begin</span>
         <span class='ivar'>@config</span> <span class='op'>=</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Configuration</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>configuration</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='ivar'>@logger</span><span class='rparen'>)</span>
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
-        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_logger'>get_logger</span>
+        <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
       <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='ivar'>@logger</span> <span class='op'>?</span> <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>STDERR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_logging_failed'>logging_failed</span><span class='lparen'>(</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
@@ -1691,15 +1691,15 @@
       <pre class="lines">
 
 
+453
 454
 455
 456
 457
-458
-459</pre>
+458</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 454</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 453</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_ruby_implementation'>check_ruby_implementation</span>
   <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rubinius</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>JRuby</span><span class='rparen'>)</span> <span class='kw'>then</span>
@@ -1809,14 +1809,14 @@
       <pre class="lines">
 
 
+434
 435
 436
 437
-438
-439</pre>
+438</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 435</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 434</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_force'>force</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_force'>force</span>
@@ -1853,12 +1853,12 @@
       <pre class="lines">
 
 
+448
 449
-450
-451</pre>
+450</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 449</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 448</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_quit'>quit</span>
   <span class='op'>::</span><span class='const'>EventMachine</span><span class='period'>.</span><span class='id identifier rubyid_stop'>stop</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
@@ -1900,15 +1900,15 @@
       <pre class="lines">
 
 
+443
 444
-445
-446</pre>
+445</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 444</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 443</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
+  <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1963,12 +1963,12 @@
       <pre class="lines">
 
 
+412
 413
-414
-415</pre>
+414</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 413</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 412</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
   <span class='ivar'>@logger</span> <span class='op'>||=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span> <span class='op'>:</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_file'>log_file</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_level'>log_level</span><span class='comma'>,</span> <span class='ivar'>@log_formatter</span><span class='rparen'>)</span>
@@ -2020,11 +2020,11 @@
       <pre class="lines">
 
 
-420
-421</pre>
+419
+420</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 420</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 419</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_start'>on_start</span>
 <span class='kw'>end</span></pre>
@@ -2075,11 +2075,11 @@
       <pre class="lines">
 
 
-426
-427</pre>
+425
+426</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 426</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 425</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_stop'>on_stop</span>
 <span class='kw'>end</span></pre>
@@ -2093,9 +2093,9 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Apr 13 15:54:36 2013 by
+  Generated on Sun Jul 14 18:03:55 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6 (ruby-1.9.3).
+  0.8.6.2 (ruby-1.9.3).
 </div>
 
   </body>

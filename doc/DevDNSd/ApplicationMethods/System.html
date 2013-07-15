@@ -6,7 +6,7 @@
 <title>
   Module: DevDNSd::ApplicationMethods::System
   
-    &mdash; Documentation by YARD 0.8.6
+    &mdash; Documentation by YARD 0.8.6.2
   
 </title>
 
@@ -394,7 +394,7 @@
       <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action_install'>action_install</span>
-  <span class='id identifier rubyid_manage_installation'>manage_installation</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_launch_agent_path'>launch_agent_path</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_resolver_path'>resolver_path</span><span class='comma'>,</span> <span class='symbol'>:create_resolver</span><span class='comma'>,</span> <span class='symbol'>:create_agent</span><span class='comma'>,</span> <span class='symbol'>:load_agent</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_manage_installation'>manage_installation</span><span class='lparen'>(</span><span class='id identifier rubyid_launch_agent_path'>launch_agent_path</span><span class='comma'>,</span> <span class='id identifier rubyid_resolver_path'>resolver_path</span><span class='comma'>,</span> <span class='symbol'>:create_resolver</span><span class='comma'>,</span> <span class='symbol'>:create_agent</span><span class='comma'>,</span> <span class='symbol'>:load_agent</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -459,14 +459,14 @@
       <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action_start'>action_start</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_logger'>get_logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_starting'>starting</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_get_logger'>get_logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_starting'>starting</span><span class='rparen'>)</span>
 
   <span class='kw'>if</span> <span class='op'>!</span><span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:fork</span><span class='rparen'>)</span> <span class='kw'>then</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_no_fork'>no_fork</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_no_fork'>no_fork</span><span class='rparen'>)</span>
     <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
 
-  <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span> <span class='op'>:</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Controller</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rparen'>)</span>
+  <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='id identifier rubyid_perform_server'>perform_server</span> <span class='op'>:</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Controller</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rparen'>)</span>
   <span class='kw'>true</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -583,7 +583,7 @@
       <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action_uninstall'>action_uninstall</span>
-  <span class='id identifier rubyid_manage_installation'>manage_installation</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_launch_agent_path'>launch_agent_path</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_resolver_path'>resolver_path</span><span class='comma'>,</span> <span class='symbol'>:delete_resolver</span><span class='comma'>,</span> <span class='symbol'>:unload_agent</span><span class='comma'>,</span> <span class='symbol'>:delete_agent</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_manage_installation'>manage_installation</span><span class='lparen'>(</span><span class='id identifier rubyid_launch_agent_path'>launch_agent_path</span><span class='comma'>,</span> <span class='id identifier rubyid_resolver_path'>resolver_path</span><span class='comma'>,</span> <span class='symbol'>:delete_resolver</span><span class='comma'>,</span> <span class='symbol'>:unload_agent</span><span class='comma'>,</span> <span class='symbol'>:delete_agent</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -641,8 +641,8 @@
       <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dns_update'>dns_update</span>
-  <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_dns_update'>dns_update</span><span class='rparen'>)</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_execute_command'>execute_command</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>dscacheutil -flushcache</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_dns_update'>dns_update</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_execute_command'>execute_command</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>dscacheutil -flushcache</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -947,9 +947,9 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Apr 13 15:54:35 2013 by
+  Generated on Sun Jul 14 18:03:54 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6 (ruby-1.9.3).
+  0.8.6.2 (ruby-1.9.3).
 </div>
 
   </body>
