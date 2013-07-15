@@ -47,13 +47,13 @@ module DevDNSd
       super(file, overrides, logger)
 
       # Make sure some arguments are of correct type
-      self.log_file = $stdout if self.log_file == "STDOUT"
-      self.log_file = $stderr if self.log_file == "STDERR"
-      self.port = self.port.to_integer
-      self.log_level = self.log_level.to_integer
+      self.log_file = $stdout if log_file == "STDOUT"
+      self.log_file = $stderr if log_file == "STDERR"
+      self.port = port.to_integer
+      self.log_level = log_level.to_integer
 
       # Add a default rule
-      self.add_rule(/.+/, "127.0.0.1") if self.rules.blank?
+      add_rule(/.+/, "127.0.0.1") if rules.blank?
     end
 
     # Adds a rule to the configuration.
@@ -63,8 +63,7 @@ module DevDNSd
     # @return [Array] The current set of rule.
     # @see Rule.create
     def add_rule(*args, &block)
-      @rules ||= []
-      @rules << DevDNSd::Rule.create(*args, &block)
+      rules << DevDNSd::Rule.create(*args, &block)
     end
   end
 end

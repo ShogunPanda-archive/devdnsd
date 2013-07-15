@@ -18,21 +18,21 @@ module DevDNSd
         #
         # @return [String] The name of the daemon.
         def daemon_name
-          File.basename(self.instance.config.pid_file, ".pid")
+          File.basename(instance.config.pid_file, ".pid")
         end
 
         # Returns the standard location of the PID file.
         #
         # @return [String] The standard location of the PID file.
         def pid_directory
-          File.dirname(self.instance.config.pid_file)
+          File.dirname(instance.config.pid_file)
         end
 
         # Returns the complete path of the PID file.
         #
         # @return [String] The complete path of the PID file.
         def pid_fn
-          self.instance.config.pid_file
+          instance.config.pid_file
         end
       end
 
@@ -65,8 +65,8 @@ module DevDNSd
       #
       # @return [Boolean] `true` if command succeeded, `false` otherwise.
       def dns_update
-        @logger.info(self.i18n.dns_update)
-        self.execute_command("dscacheutil -flushcache")
+        @logger.info(i18n.dns_update)
+        execute_command("dscacheutil -flushcache")
       end
 
       # Checks if we are running on MacOS X.
@@ -82,14 +82,14 @@ module DevDNSd
       #
       # @return [Boolean] `true` if action succeeded, `false` otherwise.
       def action_start
-        self.get_logger.info(self.i18n.starting)
+        get_logger.info(i18n.starting)
 
         if !Process.respond_to?(:fork) then
-          self.logger.warn(self.i18n.no_fork)
+          logger.warn(i18n.no_fork)
           @config.foreground = true
         end
 
-        @config.foreground ? self.perform_server : RExec::Daemon::Controller.start(self.class)
+        @config.foreground ? perform_server : RExec::Daemon::Controller.start(self.class)
         true
       end
 
@@ -105,14 +105,14 @@ module DevDNSd
       #
       # @return [Boolean] `true` if action succeeded, `false` otherwise.
       def action_install
-        manage_installation(self.launch_agent_path, self.resolver_path, :create_resolver, :create_agent, :load_agent)
+        manage_installation(launch_agent_path, resolver_path, :create_resolver, :create_agent, :load_agent)
       end
 
       # Uninstalls the application from the autolaunch.
       #
       # @return [Boolean] `true` if action succeeded, `false` otherwise.
       def action_uninstall
-        manage_installation(self.launch_agent_path, self.resolver_path, :delete_resolver, :unload_agent, :delete_agent)
+        manage_installation(launch_agent_path, resolver_path, :delete_resolver, :unload_agent, :delete_agent)
       end
 
       private
@@ -129,7 +129,7 @@ module DevDNSd
           rv = send(first_operation, launch_agent, resolver_path) if rv
           rv = send(second_operation, launch_agent, resolver_path) if rv
           rv = send(third_operation, launch_agent, resolver_path) if rv
-          self.dns_update
+          dns_update
           rv
         end
 
@@ -141,11 +141,11 @@ module DevDNSd
         # @return [Boolean] `true` if the file have been deleted, `false` otherwise.
         def delete_file(file, before_message, error_message)
           begin
-            self.logger.info(self.i18n.send(before_message, file))
+            logger.info(i18n.send(before_message, file))
             ::File.delete(file)
             true
           rescue
-            self.logger.warn(self.i18n.send(error_message))
+            logger.warn(i18n.send(error_message))
             false
           end
         end
@@ -155,8 +155,8 @@ module DevDNSd
         # @return [Boolean] `true` if the agent is enabled, `false` otherwise.
         def check_agent_available
           rv = true
-          if !self.is_osx? then
-            logger.fatal(self.i18n.no_agent)
+          if !is_osx? then
+            logger.fatal(i18n.no_agent)
             rv = false
           end
 
@@ -169,11 +169,11 @@ module DevDNSd
         # @return [Boolean] `true` if operation succeeded, `false` otherwise.
         def create_resolver(_, resolver_path)
           begin
-            self.logger.info(self.i18n.resolver_creating(resolver_path))
+            logger.info(i18n.resolver_creating(resolver_path))
             write_resolver(resolver_path)
             true
           rescue
-            self.logger.error(self.i18n.resolver_creating_error)
+            logger.error(i18n.resolver_creating_error)
             false
           end
         end
@@ -203,16 +203,15 @@ module DevDNSd
         # @return [Boolean] `true` if operation succeeded, `false` otherwise.
         def create_agent(launch_agent, _)
           begin
-            self.logger.info(self.i18n.agent_creating(launch_agent))
+            logger.info(i18n.agent_creating(launch_agent))
             write_agent(launch_agent)
-            self.execute_command("plutil -convert binary1 \"#{launch_agent}\"")
+            execute_command("plutil -convert binary1 \"#{launch_agent}\"")
             true
           rescue
-            self.logger.error(self.i18n.agent_creating_error)
+            logger.error(i18n.agent_creating_error)
             false
           end
         end
-
 
         # Writes a OSX system agent.
         #
@@ -258,11 +257,11 @@ module DevDNSd
         # @return [Boolean] `true` if operation succeeded, `false` otherwise.
         def toggle_agent(launch_agent, operation, info_message, error_message, error_level)
           begin
-            self.logger.info(self.i18n.send(info_message, launch_agent))
-            self.execute_command("launchctl #{operation} -w \"#{launch_agent}\" > /dev/null 2>&1")
+            logger.info(i18n.send(info_message, launch_agent))
+            execute_command("launchctl #{operation} -w \"#{launch_agent}\" > /dev/null 2>&1")
             true
           rescue
-            self.logger.send(error_level, self.i18n.send(error_message))
+            logger.send(error_level, i18n.send(error_message))
             false
           end
         end
@@ -285,8 +284,8 @@ module DevDNSd
 
           # Default DNS handler and event handlers
           otherwise { |transaction| transaction.failure!(:NXDomain) }
-          self.on(:start) { application.on_start }
-          self.on(:stop) { application.on_stop }
+          on(:start) { application.on_start }
+          on(:stop) { application.on_stop }
         end
       end
 
@@ -298,7 +297,7 @@ module DevDNSd
       # @param transaction [RubyDNS::Transaction] The current DNS transaction (http://rubydoc.info/gems/rubydns/RubyDNS/Transaction).
       def process_rule(rule, type, match_data, transaction)
         reply, type = perform_process_rule(rule, type, match_data, transaction)
-        self.logger.debug(reply ? self.i18n.reply(reply, type) : self.i18n.no_reply)
+        logger.debug(reply ? i18n.reply(reply, type) : i18n.no_reply)
 
         if reply then
           transaction.respond!(*finalize_reply(reply, rule, type))
@@ -322,7 +321,7 @@ module DevDNSd
         if resource_classes.present? then
           resource_classes.each do |resource_class| # Now for every class
             matches = rule.match_host(match_data[0])
-            self.process_rule(rule, resource_class, rule.is_regexp? ? matches : nil, transaction) if matches
+            process_rule(rule, resource_class, rule.is_regexp? ? matches : nil, transaction) if matches
           end
         end
       end
@@ -340,7 +339,7 @@ module DevDNSd
           reply = !rule.block.nil? ? rule.block.call(match_data, type, transaction) : rule.reply
           reply = match_data[0].gsub(rule.match, reply.gsub("$", "\\")) if rule.match.is_a?(::Regexp) && reply && match_data[0]
 
-          self.logger.debug(self.i18n.match(rule.match, type))
+          logger.debug(i18n.match(rule.match, type))
           [reply, type]
         end
 
@@ -390,7 +389,7 @@ module DevDNSd
     # @param command [Mamertes::Command] The current Mamertes command.
     # @param locale [Symbol] The locale to use for the application.
     def initialize(command, locale)
-      self.i18n_setup(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
+      i18n_setup(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
       self.i18n = locale
 
       @locale = locale
@@ -442,7 +441,7 @@ module DevDNSd
     #
     # @see #perform_server
     def self.run
-      self.instance.perform_server
+      instance.perform_server
     end
 
     # Stops the application.
@@ -466,9 +465,9 @@ module DevDNSd
         begin
           @config = DevDNSd::Configuration.new(options["configuration"], options, @logger)
           @logger = nil
-          @logger = self.get_logger
+          @logger = get_logger
         rescue Bovem::Errors::InvalidConfiguration => e
-          @logger ? @logger.fatal(e.message) : Bovem::Logger.create("STDERR").fatal(self.i18n.logging_failed(log_file))
+          @logger ? @logger.fatal(e.message) : Bovem::Logger.create("STDERR").fatal(i18n.logging_failed(log_file))
           raise ::SystemExit
         end
       end

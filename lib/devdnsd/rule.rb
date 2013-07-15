@@ -35,7 +35,7 @@ module DevDNSd
     # @param block [Proc] An optional block to compute the reply instead of using the `reply` parameter.
     # @see .create
     def initialize(match = /.+/, reply = "127.0.0.1", type = :A, options = {}, &block)
-      self.i18n_setup(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
+      i18n_setup(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
       self.i18n = options[:locale]
       setup(match, reply, type, options, block)
       validate_rule
@@ -45,7 +45,7 @@ module DevDNSd
     #
     # @return [Array|Class] The class(es) for the current rule.
     def resource_class
-      classes = @type.ensure_array.collect {|cls| self.class.symbol_to_resource_class(cls, options[:locale]) }.compact.uniq
+      classes = @type.ensure_array(nil, true, true) {|cls| self.class.symbol_to_resource_class(cls, options[:locale]) }
       classes.length == 1 ? classes.first : classes
     end
 
@@ -68,7 +68,7 @@ module DevDNSd
     # @param hostname [String] The hostname to match.
     # @return [MatchData|Boolean|Nil] Return `true` or MatchData (if the pattern is a regexp) if the rule matches, `false` or `nil` otherwise.
     def match_host(hostname)
-      self.is_regexp? ? @match.match(hostname) : (@match == hostname)
+      is_regexp? ? @match.match(hostname) : (@match == hostname)
     end
 
     # Creates a new rule.
@@ -81,7 +81,7 @@ module DevDNSd
     # @return [Rule] The new rule.
     def self.create(match, reply_or_type = nil, type = nil, options = {}, &block)
       validate_options(reply_or_type, options, block, Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"), options.is_a?(Hash) ? options[:locale] : nil))
-      setup(self.new(match), reply_or_type, type, options, block)
+      setup(new(match), reply_or_type, type, options, block)
     end
 
     # Converts a class to the correspondent symbol.
@@ -125,8 +125,8 @@ module DevDNSd
 
       # Validates a newly created rule.
       def validate_rule
-        raise(DevDNSd::Errors::InvalidRule.new(self.i18n.rule_invalid_call)) if @reply.blank? && @block.nil?
-        raise(DevDNSd::Errors::InvalidRule.new(self.i18n.rule_invalid_options)) if !@options.is_a?(::Hash)
+        raise(DevDNSd::Errors::InvalidRule.new(i18n.rule_invalid_call)) if @reply.blank? && @block.nil?
+        raise(DevDNSd::Errors::InvalidRule.new(i18n.rule_invalid_options)) if !@options.is_a?(::Hash)
       end
 
       # Setups a new rule.
