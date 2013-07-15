@@ -13,7 +13,7 @@ module DevDNSd
     MAJOR = 2
 
     # The minor version.
-    MINOR = 2
+    MINOR = 3
 
     # The patch version.
     PATCH = 0

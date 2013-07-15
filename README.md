@@ -4,6 +4,7 @@
 [![Dependency Status](https://gemnasium.com/ShogunPanda/devdnsd.png?travis)](https://gemnasium.com/ShogunPanda/devdnsd)
 [![Build Status](https://secure.travis-ci.org/ShogunPanda/devdnsd.png?branch=master)](http://travis-ci.org/ShogunPanda/devdnsd)
 [![Code Climate](https://codeclimate.com/github/ShogunPanda/devdnsd.png)](https://codeclimate.com/github/ShogunPanda/devdnsd)
+[![Coverage Status](https://coveralls.io/repos/ShogunPanda/devdnsd/badge.png)](https://coveralls.io/r/ShogunPanda/devdnsd)
 
 A small DNS server to enable local .dev domain resolution.
 

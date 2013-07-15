@@ -144,7 +144,7 @@ module DevDNSd
             self.logger.info(self.i18n.send(before_message, file))
             ::File.delete(file)
             true
-          rescue => _
+          rescue
             self.logger.warn(self.i18n.send(error_message))
             false
           end

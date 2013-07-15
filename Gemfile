@@ -9,13 +9,14 @@ source "http://rubygems.org"
 gemspec
 
 # Testing
-gem "rspec", "~> 2.13.0"
-gem "rake", "~> 10.0.3"
-gem "net-dns", "~> 0.7.1"
+gem "rspec", "~> 2.14.1"
+gem "rake", "~> 10.1.0"
+gem "net-dns", "~> 0.8.0"
 
 # Documentation
 gem "simplecov", ">= 0.7.1"
+gem "coveralls", ">= 0.6.7", require: false
 gem "pry", ">= 0"
-gem "yard", ">= 0.8.5"
-gem "kramdown", ">= 0.14.2"
+gem "yard", ">= 0.8.6"
+gem "kramdown", ">= 1.1.0"
 gem "github-markup", ">= 0.7.5"

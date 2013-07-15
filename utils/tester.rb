@@ -5,7 +5,6 @@
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
-basedir = File.expand_path(File.dirname(__FILE__))
 require "rubygems"
 require "bovem"
 require "net/dns"
@@ -32,16 +31,16 @@ class Net::DNS::Resolver
     if string.is_a?(IPAddr) then
       name = string.reverse
       type = Net::DNS::PTR
-      @logger.warn "PTR query required for address #{string}, changing type to PTR"
+      @logger.warn("PTR query required for address #{string}, changing type to PTR")
     elsif is_ip_address?(string) # See if it's an IP or IPv6 address
       begin
         name = IPAddr.new(string.chomp(".")).reverse
         type = Net::DNS::PTR
       rescue ArgumentError
-        name = string if valid? string
+        name = string if valid?(string)
       end
     else
-      name = string if valid? string
+      name = string if valid?(string)
     end
 
     # Create the packet
@@ -71,7 +70,7 @@ def devdnsd_resolv(address = "match.dev", type = "ANY", nameserver = "127.0.0.1"
   tmpfile = "/tmp/devdnsd-test-tester-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}"
 
   begin
-    Net::DNS::Resolver.new(:nameservers => nameserver, :port => port.to_i, :recursive => false, :udp_timeout => 1, :log_file => tmpfile).search(address, type).answer.each do |answer|
+    Net::DNS::Resolver.new(nameservers: nameserver, port: port.to_i, recursive: false, udp_timeout: 1, log_file: tmpfile).search(address, type).answer.each do |answer|
       type = answer.type.upcase.to_sym
 
       result = case type
