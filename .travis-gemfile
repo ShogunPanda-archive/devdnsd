@@ -8,7 +8,7 @@ source "http://rubygems.org"
 
 gemspec
 
-# Testing gems
+# Testing
 gem "rspec", "~> 2.14.1"
 gem "rake", "~> 10.1.0"
 gem "net-dns", "~> 0.8.0"
