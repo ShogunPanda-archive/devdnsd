@@ -45,7 +45,7 @@ module DevDNSd
     #
     # @return [Array|Class] The class(es) for the current rule.
     def resource_class
-      classes = @type.ensure_array(nil, true, true) {|cls| self.class.symbol_to_resource_class(cls, options[:locale]) }
+      classes = @type.ensure_array(nil, true, true, true) {|cls| self.class.symbol_to_resource_class(cls, options[:locale]) }
       classes.length == 1 ? classes.first : classes
     end
 
