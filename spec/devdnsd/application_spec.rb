@@ -8,8 +8,8 @@ require "spec_helper"
 
 describe DevDNSd::Application do
   before(:each) do
-    Bovem::Logger.stub(:default_file).and_return("/dev/null")
-    DevDNSd::Application.stub(:instance).and_return(application)
+    allow(Bovem::Logger).to receive(:default_file).and_return("/dev/null")
+    allow(DevDNSd::Application).to receive(:instance).and_return(application)
   end
 
   def create_application(overrides = {})
@@ -33,15 +33,15 @@ describe DevDNSd::Application do
   let(:launch_agent_path) { "/tmp/devdnsd-test-agent-#{Time.now.strftime("%Y%m%d-%H%M%S")}" }
 
   describe "#initialize" do
-    it("should setup the logger") do
+    it "should setup the logger" do
       expect(application.logger).not_to be_nil
     end
 
-    it("should setup the configuration") do
+    it "should setup the configuration" do
       expect(application.config).not_to be_nil
     end
 
-    it("should abort with an invalid configuration") do
+    it "should abort with an invalid configuration" do
       path = "/tmp/devdnsd-test-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}"
       file = ::File.new(path, "w")
       file.write("config.port = ")
@@ -54,14 +54,14 @@ describe DevDNSd::Application do
 
   describe ".run" do
     it "should run the server" do
-      application.should_receive(:perform_server)
+      expect(application).to receive(:perform_server)
       DevDNSd::Application.run
     end
   end
 
   describe ".quit" do
     it "should quit the application" do
-      ::EventMachine.should_receive(:stop)
+      expect(::EventMachine).to receive(:stop)
       DevDNSd::Application.quit
     end
   end
@@ -69,22 +69,22 @@ describe DevDNSd::Application do
   describe ".check_ruby_implementation" do
     it "won't run on Rubinius" do
       stub_const("Rubinius", true)
-      Kernel.should_receive(:exit).with(0)
-      Kernel.should_receive(:puts)
+      expect(Kernel).to receive(:exit).with(0)
+      expect(Kernel).to receive(:puts)
       DevDNSd::Application.check_ruby_implementation
     end
 
     it "won't run on JRuby" do
       stub_const("JRuby", true)
-      Kernel.should_receive(:exit).with(0)
-      Kernel.should_receive(:puts)
+      expect(Kernel).to receive(:exit).with(0)
+      expect(Kernel).to receive(:puts)
       DevDNSd::Application.check_ruby_implementation
     end
   end
 
   describe ".instance" do
     before(:each) do
-      DevDNSd::Application.unstub(:instance)
+      allow(DevDNSd::Application).to receive(:instance).and_call_original
     end
 
     let(:mamertes) {
@@ -104,14 +104,14 @@ describe DevDNSd::Application do
 
     it "should always return the same instance" do
       other = DevDNSd::Application.instance(mamertes)
-      DevDNSd::Application.should_not_receive(:new)
+      expect(DevDNSd::Application).not_to receive(:new)
       expect(DevDNSd::Application.instance(mamertes)).to eq(other)
       expect(DevDNSd::Application.instance).to eq(other)
     end
 
     it "should recreate an instance" do
       other = DevDNSd::Application.instance(mamertes)
-      expect(DevDNSd::Application.instance(mamertes, :en, true)).not_to eq(other)
+      expect(DevDNSd::Application.instance(mamertes, :en, true)).not_to be(other)
     end
   end
 
@@ -158,7 +158,7 @@ describe DevDNSd::Application do
     let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
 
     def test_resolve(host = "match_1.dev", type = "ANY", nameserver = "127.0.0.1", port = 7771, logger = nil)
-      application.stub(:on_start) do Thread.main[:resolver].run if Thread.main[:resolver].try(:alive?) end
+      allow(application).to receive(:on_start) do Thread.main[:resolver].run if Thread.main[:resolver].try(:alive?) end
 
       Thread.current[:resolver] = Thread.start {
         Thread.stop
@@ -181,13 +181,13 @@ describe DevDNSd::Application do
     end
 
     it "should run the server" do
-      RubyDNS.should_receive(:run_server)
+      expect(RubyDNS).to receive(:run_server)
       application.perform_server
     end
 
     it "should setup callbacks" do
-      RubyDNS::Server.any_instance.should_receive(:on).with(:start)
-      RubyDNS::Server.any_instance.should_receive(:on).with(:stop)
+      expect_any_instance_of(RubyDNS::Server).to receive(:on).with(:start)
+      expect_any_instance_of(RubyDNS::Server).to receive(:on).with(:stop)
 
       Thread.new {
         sleep(0.1)
@@ -199,21 +199,21 @@ describe DevDNSd::Application do
 
     it "should iterate the rules" do
       test_resolve do
-        application.config.rules.should_receive(:each).at_least(1)
+        expect(application.config.rules).to receive(:each).at_least(1)
         application.perform_server
       end
     end
 
     it "should call process_rule" do
       test_resolve do
-        application.should_receive(:process_rule).at_least(1)
+        expect(application).to receive(:process_rule).at_least(1)
         application.perform_server
       end
     end
 
     it "should complain about wrong rules" do
       test_resolve do
-        application.stub(:process_rule).and_raise(::Exception)
+        allow(application).to receive(:process_rule).and_raise(::Exception)
         expect { application.perform_server }.to raise_exception
       end
     end
@@ -323,7 +323,7 @@ describe DevDNSd::Application do
 
   describe "#dns_update" do
     it "should update the DNS cache" do
-      application.stub(:execute_command).and_return("EXECUTED")
+      allow(application).to receive(:execute_command).and_return("EXECUTED")
       expect(application.dns_update).to eq("EXECUTED")
     end
   end
@@ -361,22 +361,22 @@ describe DevDNSd::Application do
     it "should call perform_server in foreground" do
       application = create_application({"log_file" => log_file})
       application.config.foreground = true
-      application.should_receive(:perform_server)
+      expect(application).to receive(:perform_server)
       application.action_start
     end
 
     it "should start the daemon" do
       application = create_application({"log_file" => log_file})
-      ::RExec::Daemon::Controller.should_receive(:start)
+      expect(::RExec::Daemon::Controller).to receive(:start)
       application.action_start
     end
 
     it "should check for availability of fork" do
       application.config.foreground = false
 
-      Process.stub(:respond_to?).and_return(false)
-      application.should_receive(:perform_server)
-      application.logger.should_receive(:warn)
+      allow(Process).to receive(:respond_to?).and_return(false)
+      expect(application).to receive(:perform_server)
+      expect(application.logger).to receive(:warn)
 
       application.action_start
       expect(application.config.foreground).to be_true
@@ -385,20 +385,20 @@ describe DevDNSd::Application do
 
   describe "#action_stop" do
     it "should stop the daemon" do
-      ::RExec::Daemon::Controller.should_receive(:stop)
+      expect(::RExec::Daemon::Controller).to receive(:stop)
       application.action_stop
     end
   end
 
   describe "#action_install" do
     before(:each) do
-      application.stub(:is_osx?).and_return(true)
-      application.stub(:execute_command)
+      allow(application).to receive(:is_osx?).and_return(true)
+      allow(application).to receive(:execute_command)
     end
 
     it "should create the resolver" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
+      allow(application).to receive(:resolver_path).and_return(resolver_path)
+      allow(application).to receive(:launch_agent_path).and_return(launch_agent_path)
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
@@ -410,12 +410,12 @@ describe DevDNSd::Application do
     end
 
     it "should create the agent" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
+      allow(application).to receive(:resolver_path).and_return(resolver_path)
+      allow(application).to receive(:launch_agent_path).and_return(launch_agent_path)
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
-      application.stub(:resolver_path).and_return(resolver_path)
+      allow(application).to receive(:resolver_path).and_return(resolver_path)
       application.action_install
       expect(::File.exists?(application.launch_agent_path)).to be_true
 
@@ -424,12 +424,12 @@ describe DevDNSd::Application do
     end
 
     it "should update the DNS cache" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
+      allow(application).to receive(:resolver_path).and_return(resolver_path)
+      allow(application).to receive(:launch_agent_path).and_return(launch_agent_path)
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
-      application.should_receive(:dns_update)
+      expect(application).to receive(:dns_update)
       application.action_install
 
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -437,12 +437,12 @@ describe DevDNSd::Application do
     end
 
     it "should not create an invalid resolver" do
-      application.stub(:resolver_path).and_return("/invalid/resolver")
-      application.stub(:launch_agent_path).and_return("/invalid/agent")
+      allow(application).to receive(:resolver_path).and_return("/invalid/resolver")
+      allow(application).to receive(:launch_agent_path).and_return("/invalid/agent")
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
-      application.logger.should_receive(:error).with("Cannot create the resolver file.")
+      expect(application.logger).to receive(:error).with("Cannot create the resolver file.")
       application.action_install
 
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -450,12 +450,12 @@ describe DevDNSd::Application do
     end
 
     it "should not create an invalid agent" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return("/invalid/agent")
+      allow(application).to receive(:resolver_path).and_return(resolver_path)
+      allow(application).to receive(:launch_agent_path).and_return("/invalid/agent")
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
-      application.logger.should_receive(:error).with("Cannot create the launch agent.")
+      expect(application.logger).to receive(:error).with("Cannot create the launch agent.")
       application.action_install
 
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -463,16 +463,16 @@ describe DevDNSd::Application do
     end
 
     it "should not load an invalid agent" do
-      application.stub(:execute_command) do |command|
+      allow(application).to receive(:execute_command) do |command|
         command =~ /^launchctl/ ? raise(StandardError) : true
       end
 
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
+      allow(application).to receive(:resolver_path).and_return(resolver_path)
+      allow(application).to receive(:launch_agent_path).and_return(launch_agent_path)
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
-      application.logger.should_receive(:error).with("Cannot load the launch agent.")
+      expect(application.logger).to receive(:error).with("Cannot load the launch agent.")
       application.action_install
 
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -480,21 +480,21 @@ describe DevDNSd::Application do
     end
 
     it "should raise an exception if not running on OSX" do
-      application.stub(:is_osx?).and_return(false)
-      application.logger.should_receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
+      allow(application).to receive(:is_osx?).and_return(false)
+      expect(application.logger).to receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
       expect(application.action_install).to be_false
     end
   end
 
   describe "#action_uninstall" do
     before(:each) do
-      application.stub(:is_osx?).and_return(true)
-      application.stub(:execute_command)
+      allow(application).to receive(:is_osx?).and_return(true)
+      allow(application).to receive(:execute_command)
     end
 
     it "should remove the resolver" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
+      allow(application).to receive(:resolver_path).and_return(resolver_path)
+      allow(application).to receive(:launch_agent_path).and_return(launch_agent_path)
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
@@ -507,12 +507,12 @@ describe DevDNSd::Application do
     end
 
     it "should remove the agent" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
+      allow(application).to receive(:resolver_path).and_return(resolver_path)
+      allow(application).to receive(:launch_agent_path).and_return(launch_agent_path)
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
-      Bovem::Logger.stub(:default_file).and_return($stdout)
+      allow(Bovem::Logger).to receive(:default_file).and_return($stdout)
       application.action_install
       application.action_uninstall
       expect(::File.exists?(application.launch_agent_path)).to be_false
@@ -522,11 +522,11 @@ describe DevDNSd::Application do
     end
 
     it "should not delete an invalid resolver" do
-      application.stub(:resolver_path).and_return("/invalid/resolver")
-      application.stub(:launch_agent_path).and_return("/invalid/agent")
+      allow(application).to receive(:resolver_path).and_return("/invalid/resolver")
+      allow(application).to receive(:launch_agent_path).and_return("/invalid/agent")
 
       application.action_install
-      application.logger.should_receive(:warn).at_least(1)
+      expect(application.logger).to receive(:warn).at_least(1)
       application.action_uninstall
 
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -534,11 +534,11 @@ describe DevDNSd::Application do
     end
 
     it "should not delete an invalid agent" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return("/invalid/agent")
+      allow(application).to receive(:resolver_path).and_return(resolver_path)
+      allow(application).to receive(:launch_agent_path).and_return("/invalid/agent")
 
       application.action_install
-      application.logger.should_receive(:warn).at_least(1)
+      expect(application.logger).to receive(:warn).at_least(1)
       application.action_uninstall
 
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -546,13 +546,13 @@ describe DevDNSd::Application do
     end
 
     it "should not unload invalid agent" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return("/invalid/agent")
+      allow(application).to receive(:resolver_path).and_return(resolver_path)
+      allow(application).to receive(:launch_agent_path).and_return("/invalid/agent")
 
       application.action_install
-      application.stub(:execute_command).and_raise(StandardError)
-      application.stub(:dns_update)
-      application.logger.should_receive(:warn).at_least(1)
+      allow(application).to receive(:execute_command).and_raise(StandardError)
+      allow(application).to receive(:dns_update)
+      expect(application.logger).to receive(:warn).at_least(1)
       application.action_uninstall
 
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -560,13 +560,13 @@ describe DevDNSd::Application do
     end
 
     it "should update the DNS cache" do
-      application.stub(:resolver_path).and_return(resolver_path)
-      application.stub(:launch_agent_path).and_return(launch_agent_path)
+      allow(application).to receive(:resolver_path).and_return(resolver_path)
+      allow(application).to receive(:launch_agent_path).and_return(launch_agent_path)
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
       application.action_install
-      application.should_receive(:dns_update)
+      expect(application).to receive(:dns_update)
       application.action_uninstall
 
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
@@ -574,8 +574,8 @@ describe DevDNSd::Application do
     end
 
     it "should raise an exception if not running on OSX" do
-      application.stub(:is_osx?).and_return(false)
-      application.logger.should_receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
+      allow(application).to receive(:is_osx?).and_return(false)
+      expect(application.logger).to receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
       expect(application.action_uninstall).to be_false
     end
   end
