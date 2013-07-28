@@ -8,7 +8,7 @@ require "pathname"
 require "simplecov"
 require "coveralls"
 
-Coveralls.wear!
+Coveralls.wear! if ENV["CI"] || ENV["JENKINS_URL"]
 
 SimpleCov.start do
   root = Pathname.new(File.dirname(__FILE__)) + ".."
