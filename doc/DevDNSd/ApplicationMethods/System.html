@@ -130,6 +130,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#action_add-instance_method" title="#action_add (instance method)">- (Boolean) <strong>action_add</strong>(options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds aliases to an interface.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#action_install-instance_method" title="#action_install (instance method)">- (Boolean) <strong>action_install</strong> </a>
     
 
@@ -145,6 +168,29 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Installs the application into the autolaunch.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#action_remove-instance_method" title="#action_remove (instance method)">- (Boolean) <strong>action_remove</strong>(options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes aliases from an interface.</p>
 </div></span>
   
 </li>
@@ -345,7 +391,83 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="action_install-instance_method">
+  <h3 class="signature first" id="action_add-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>action_add</strong>(options) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Adds aliases to an interface.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The options provided by the user.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if action succeeded, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+110
+111
+112</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 110</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_action_add'>action_add</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_manage_aliases'>manage_aliases</span><span class='lparen'>(</span><span class='symbol'>:add</span><span class='comma'>,</span> <span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_add_empty'>add_empty</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="action_install-instance_method">
   
     - (<tt>Boolean</tt>) <strong>action_install</strong> 
   
@@ -386,15 +508,91 @@
       <pre class="lines">
 
 
-107
-108
-109</pre>
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action_install'>action_install</span>
   <span class='id identifier rubyid_manage_installation'>manage_installation</span><span class='lparen'>(</span><span class='id identifier rubyid_launch_agent_path'>launch_agent_path</span><span class='comma'>,</span> <span class='id identifier rubyid_resolver_path'>resolver_path</span><span class='comma'>,</span> <span class='symbol'>:create_resolver</span><span class='comma'>,</span> <span class='symbol'>:create_agent</span><span class='comma'>,</span> <span class='symbol'>:load_agent</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="action_remove-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>action_remove</strong>(options) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Removes aliases from an interface.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The options provided by the user.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if action succeeded, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 118</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_action_remove'>action_remove</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_manage_aliases'>manage_aliases</span><span class='lparen'>(</span><span class='symbol'>:remove</span><span class='comma'>,</span> <span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_remove_empty'>remove_empty</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -453,7 +651,9 @@
 91
 92
 93
-94</pre>
+94
+95
+96</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 84</span>
@@ -463,6 +663,8 @@
 
   <span class='kw'>if</span> <span class='op'>!</span><span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:fork</span><span class='rparen'>)</span> <span class='kw'>then</span>
     <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_no_fork'>no_fork</span><span class='rparen'>)</span>
+    <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@command</span><span class='period'>.</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:foreground</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='kw'>then</span>
     <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
 
@@ -516,13 +718,13 @@
       <pre class="lines">
 
 
-99
-100
 101
-102</pre>
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 101</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action_stop'>action_stop</span>
   <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Controller</span><span class='period'>.</span><span class='id identifier rubyid_stop'>stop</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rparen'>)</span>
@@ -575,12 +777,12 @@
       <pre class="lines">
 
 
-114
-115
-116</pre>
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action_uninstall'>action_uninstall</span>
   <span class='id identifier rubyid_manage_installation'>manage_installation</span><span class='lparen'>(</span><span class='id identifier rubyid_launch_agent_path'>launch_agent_path</span><span class='comma'>,</span> <span class='id identifier rubyid_resolver_path'>resolver_path</span><span class='comma'>,</span> <span class='symbol'>:delete_resolver</span><span class='comma'>,</span> <span class='symbol'>:unload_agent</span><span class='comma'>,</span> <span class='symbol'>:delete_agent</span><span class='rparen'>)</span>
@@ -947,7 +1149,7 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Aug 17 15:24:02 2013 by
+  Generated on Sun Aug 18 16:18:38 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7 (ruby-2.0.0).
 </div>

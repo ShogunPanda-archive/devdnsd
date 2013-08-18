@@ -268,21 +268,21 @@ config.add_rule("match.dev", "10.0.0.1")
       <pre class="lines">
 
 
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57</pre>
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/configuration.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/configuration.rb', line 64</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_overrides'>overrides</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_overrides'>overrides</span><span class='comma'>,</span> <span class='id identifier rubyid_logger'>logger</span><span class='rparen'>)</span>
@@ -391,12 +391,12 @@ config.add_rule("match.dev", "10.0.0.1")
       <pre class="lines">
 
 
-65
-66
-67</pre>
+83
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/configuration.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/configuration.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_rule'>add_rule</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_rules'>rules</span> <span class='op'>&lt;&lt;</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Rule</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
@@ -411,7 +411,7 @@ config.add_rule("match.dev", "10.0.0.1")
 </div>
 
     <div id="footer">
-  Generated on Sat Aug 17 15:24:03 2013 by
+  Generated on Sun Aug 18 16:18:39 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7 (ruby-2.0.0).
 </div>
