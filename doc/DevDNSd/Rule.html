@@ -6,7 +6,7 @@
 <title>
   Class: DevDNSd::Rule
   
-    &mdash; Documentation by YARD 0.8.6.2
+    &mdash; Documentation by YARD 0.8.7
   
 </title>
 
@@ -623,7 +623,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>An optional block to compute the reply instead of using the <code>reply</code> parameter. @see .create</p>
+    <p>Returns An optional block to compute the reply instead of using the <code>reply</code> parameter. @see .create</p>
 
 
   </div>
@@ -888,7 +888,7 @@
     <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_symbol'>symbol</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
 
     <span class='kw'>begin</span>
-      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
     <span class='kw'>rescue</span> <span class='op'>::</span><span class='const'>NameError</span>
       <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidRule</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>Lazier</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_class'>invalid_class</span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
@@ -968,7 +968,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>The pattern to match. Default: <code>/.+/</code>.</p>
+    <p>Returns The pattern to match. Default: <code>/.+/</code>.</p>
 
 
   </div>
@@ -1233,7 +1233,7 @@
     <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_symbol'>symbol</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
 
     <span class='kw'>begin</span>
-      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
     <span class='kw'>rescue</span> <span class='op'>::</span><span class='const'>NameError</span>
       <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidRule</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>Lazier</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_class'>invalid_class</span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
@@ -1313,7 +1313,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>A list of options for the request. Default is an empty hash.</p>
+    <p>Returns A list of options for the request. Default is an empty hash.</p>
 
 
   </div>
@@ -1578,7 +1578,7 @@
     <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_symbol'>symbol</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
 
     <span class='kw'>begin</span>
-      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
     <span class='kw'>rescue</span> <span class='op'>::</span><span class='const'>NameError</span>
       <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidRule</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>Lazier</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_class'>invalid_class</span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
@@ -1658,7 +1658,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>The IP or hostname to reply back to the client. Default: <code>127.0.0.1</code>. @see .create</p>
+    <p>Returns The IP or hostname to reply back to the client. Default: <code>127.0.0.1</code>. @see .create</p>
 
 
   </div>
@@ -1923,7 +1923,7 @@
     <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_symbol'>symbol</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
 
     <span class='kw'>begin</span>
-      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
     <span class='kw'>rescue</span> <span class='op'>::</span><span class='const'>NameError</span>
       <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidRule</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>Lazier</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_class'>invalid_class</span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
@@ -2003,7 +2003,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>The type of request to match. Default: <code>:A</code>. @see .create</p>
+    <p>Returns The type of request to match. Default: <code>:A</code>. @see .create</p>
 
 
   </div>
@@ -2268,7 +2268,7 @@
     <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_symbol'>symbol</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
 
     <span class='kw'>begin</span>
-      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
     <span class='kw'>rescue</span> <span class='op'>::</span><span class='const'>NameError</span>
       <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidRule</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>Lazier</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_class'>invalid_class</span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
@@ -2657,7 +2657,7 @@
   <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_symbol'>symbol</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
 
   <span class='kw'>begin</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Resolv::DNS::Resource::IN::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
   <span class='kw'>rescue</span> <span class='op'>::</span><span class='const'>NameError</span>
     <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidRule</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>Lazier</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_class'>invalid_class</span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
@@ -2927,9 +2927,9 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Jul 20 13:46:45 2013 by
+  Generated on Sat Aug 17 15:24:03 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.2 (ruby-1.9.3).
+  0.8.7 (ruby-2.0.0).
 </div>
 
   </body>

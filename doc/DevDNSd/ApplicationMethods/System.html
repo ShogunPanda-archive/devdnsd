@@ -6,7 +6,7 @@
 <title>
   Module: DevDNSd::ApplicationMethods::System
   
-    &mdash; Documentation by YARD 0.8.6.2
+    &mdash; Documentation by YARD 0.8.7
   
 </title>
 
@@ -777,7 +777,7 @@
       <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_osx?'>is_osx?</span>
-  <span class='op'>::</span><span class='const'>RbConfig</span><span class='op'>::</span><span class='const'>CONFIG</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>host_os</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^darwin</span><span class='regexp_end'>/</span></span>
+  <span class='op'>::</span><span class='const'>RbConfig</span><span class='op'>::</span><span class='const'>CONFIG</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>host_os</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^darwin</span><span class='regexp_end'>/</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -855,7 +855,7 @@
       <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 52</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_launch_agent_path'>launch_agent_path</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>it.cowtech.devdnsd</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HOME</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/Library/LaunchAgents/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>.plist</span><span class='tstring_end'>&quot;</span></span>
+  <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HOME</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/Library/LaunchAgents/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.plist</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -935,7 +935,7 @@
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resolver_path'>resolver_path</span><span class='lparen'>(</span><span class='id identifier rubyid_tld'>tld</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_tld'>tld</span> <span class='op'>||=</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_tld'>tld</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/etc/resolver/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tld'>tld</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/etc/resolver/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tld'>tld</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -947,9 +947,9 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Jul 20 13:46:44 2013 by
+  Generated on Sat Aug 17 15:24:02 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.2 (ruby-1.9.3).
+  0.8.7 (ruby-2.0.0).
 </div>
 
   </body>

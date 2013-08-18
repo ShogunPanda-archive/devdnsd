@@ -6,10 +6,9 @@ config.add_rule("match_2.dev", "10.0.2.1", :MX)
 
 config.add_rule("match_3.dev") do "10.0.3.1" end
 
-config.add_rule("match_4.dev", :CNAME) do "10.0.4.1" end
+config.add_rule("match_4.dev", :CNAME) do "cowtech.it" end
 
-
-config.add_rule(/match_5_(\d+)\.dev/, "10.0.5.$1")
+config.add_rule(/match_5_(\d+)\.dev/, "ns.cowtech.it", :NS)
 
 config.add_rule(/match_6_(\d+).dev/, "10.0.6.$1", :PTR)
 
@@ -17,10 +16,8 @@ config.add_rule(/match_7_(\d+).dev/) do "10.0.7.$1" end
 
 config.add_rule(/match_8_(\d+).dev/, :PTR) do "10.0.8.$1" end
 
-
 config.add_rule("match_9.dev") do false end
 
 config.add_rule("match_10.dev", [:A, :MX]) do |match, type, transaction| type == :A ? "10.0.10.1" : "10.0.10.2" end
-
 
 config.add_rule("quit.dev") do DevDNSd::Application.quit end

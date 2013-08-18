@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@cowtech.it>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
@@ -13,16 +13,14 @@ describe DevDNSd::Application do
   end
 
   def create_application(overrides = {})
-    mamertes_app = Mamertes::App(run: false) do
+    DevDNSd::Application.new(Bovem::Application.create(run: false) {
       option :configuration, [], {default: overrides["configuration"] || "/dev/null"}
       option :tld, [], {default: overrides["tld"] || "dev"}
       option :port, [], {type: Integer, default: overrides["port"] || 7771}
       option :pid_file, [:P, "pid-file"], {type: String, default: "/var/run/devdnsd.pid"}
       option :log_file, [:l, "log-file"], {default: overrides["log_file"] || "/dev/null"}
       option :log_level, [:L, "log-level"], {type: Integer, default: overrides["log_level"] || 1}
-    end
-
-    DevDNSd::Application.new(mamertes_app, :en)
+    }, :en)
   end
 
   let(:log_file) { "/tmp/devdnsd-test-log-#{Time.now.strftime("%Y%m%d-%H%M%S")}" }
@@ -61,6 +59,7 @@ describe DevDNSd::Application do
 
   describe ".quit" do
     it "should quit the application" do
+      allow(EM).to receive(:add_timer).and_yield
       expect(::EventMachine).to receive(:stop)
       DevDNSd::Application.quit
     end
@@ -87,8 +86,8 @@ describe DevDNSd::Application do
       allow(DevDNSd::Application).to receive(:instance).and_call_original
     end
 
-    let(:mamertes) {
-      Mamertes::App(run: false) do
+    let(:bovem) {
+      Bovem::Application.create(run: false) do
         option :configuration, [], {default: "/dev/null"}
         option :tld, [], {default: "dev"}
         option :port, [], {type: Integer, default: 7771}
@@ -99,19 +98,19 @@ describe DevDNSd::Application do
     }
 
     it "should create a new instance" do
-      expect(DevDNSd::Application.instance(mamertes)).to be_a(DevDNSd::Application)
+      expect(DevDNSd::Application.instance(bovem)).to be_a(DevDNSd::Application)
     end
 
     it "should always return the same instance" do
-      other = DevDNSd::Application.instance(mamertes)
+      other = DevDNSd::Application.instance(bovem)
       expect(DevDNSd::Application).not_to receive(:new)
-      expect(DevDNSd::Application.instance(mamertes)).to eq(other)
+      expect(DevDNSd::Application.instance(bovem)).to eq(other)
       expect(DevDNSd::Application.instance).to eq(other)
     end
 
     it "should recreate an instance" do
-      other = DevDNSd::Application.instance(mamertes)
-      expect(DevDNSd::Application.instance(mamertes, :en, true)).not_to be(other)
+      other = DevDNSd::Application.instance(bovem)
+      expect(DevDNSd::Application.instance(bovem, :en, true)).not_to be(other)
     end
   end
 
@@ -158,26 +157,19 @@ describe DevDNSd::Application do
     let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
 
     def test_resolve(host = "match_1.dev", type = "ANY", nameserver = "127.0.0.1", port = 7771, logger = nil)
-      allow(application).to receive(:on_start) do Thread.main[:resolver].run if Thread.main[:resolver].try(:alive?) end
+      result = nil
 
-      Thread.current[:resolver] = Thread.start {
-        Thread.stop
-        Thread.main[:result] = devdnsd_resolv(host, type, nameserver, port, logger)
-      }
+      EM.run do
+        EM.add_timer(0.01) { application.perform_server }
+        EM.add_timer(0.1) {
+          Fiber.new {
+            result = devdnsd_resolv(host, type, nameserver, port, logger)
+            EM.stop
+          }.resume
+        }
+      end
 
-      Thread.current[:server] = Thread.start {
-        sleep(0.1)
-        if block_given? then
-          yield
-        else
-          application.perform_server
-        end
-      }
-
-      Thread.current[:resolver].join
-      Thread.kill(Thread.current[:server])
-      Thread.main[:running] = false
-      Thread.main[:result]
+      result
     end
 
     it "should run the server" do
@@ -189,12 +181,10 @@ describe DevDNSd::Application do
       expect_any_instance_of(RubyDNS::Server).to receive(:on).with(:start)
       expect_any_instance_of(RubyDNS::Server).to receive(:on).with(:stop)
 
-      Thread.new {
-        sleep(0.1)
-        application.class.quit
-      }
-
-      application.perform_server
+      EM.run do
+        EM.add_timer(0.01) { application.perform_server }
+        EM.add_timer(0.2) { DevDNSd::Application.quit }
+      end
     end
 
     it "should iterate the rules" do
@@ -223,12 +213,12 @@ describe DevDNSd::Application do
         expect(test_resolve("match_1.dev")).to eq(["10.0.1.1", :A])
         expect(test_resolve("match_2.dev")).to eq(["10.0.2.1", :MX])
         expect(test_resolve("match_3.dev")).to eq(["10.0.3.1", :A])
-        expect(test_resolve("match_4.dev")).to eq(["10.0.4.1", :CNAME])
+        expect(test_resolve("match_4.dev")).to eq(["cowtech.it", :CNAME])
       end
 
       it "basing on a regexp pattern" do
-        expect(test_resolve("match_5_11.dev")).to eq(["10.0.5.11", :A])
-        expect(test_resolve("match_5_22.dev")).to eq(["10.0.5.22", :A])
+        expect(test_resolve("match_5_11.dev")).to eq(["ns.cowtech.it", :NS])
+        expect(test_resolve("match_5_22.dev")).to eq(["ns.cowtech.it", :NS])
         expect(test_resolve("match_6_33.dev")).to eq(["10.0.6.33", :PTR])
         expect(test_resolve("match_6_44.dev")).to eq(["10.0.6.44", :PTR])
         expect(test_resolve("match_7_55.dev")).to eq(["10.0.7.55", :A])
@@ -243,8 +233,8 @@ describe DevDNSd::Application do
       end
 
       it "and reject invalid matches (with or without rules)" do
-        expect(test_resolve("match_9.dev")).to be_nil
-        expect(test_resolve("invalid.dev")).to be_nil
+        expect(test_resolve("match_9.dev")).to eq([])
+        expect(test_resolve("invalid.dev")).to eq([])
       end
     end
   end
