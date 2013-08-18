@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun_panda@cowtech.it>.
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun@cowtech.it>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.name = "devdnsd"
   gem.version = DevDNSd::Version::STRING
   gem.authors = ["Shogun"]
-  gem.email = ["shogun_panda@cowtech.it"]
+  gem.email = ["shogun@cowtech.it"]
   gem.homepage = "http://sw.cow.tc/devdnsd"
   gem.summary = %q{A small DNS server to enable local domain resolution.}
   gem.description = %q{A small DNS server to enable local domain resolution.}
