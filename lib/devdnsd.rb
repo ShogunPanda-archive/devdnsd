@@ -10,6 +10,7 @@ require "rubydns"
 require "rexec/daemon"
 require "mustache"
 require "ipaddr"
+require "fiber"
 
 Lazier.load!(:object)
 
