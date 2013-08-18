@@ -23,7 +23,7 @@ Bovem::Application.create(name: "DevDNSd Resolver", version: "1.0.0", descriptio
 
   command :start do
     description localizer.command_start
-    option "foreground", [:n], {:help => localizer.application_help_foreground}
+    option "foreground", [:n, "foreground"], {:help => localizer.application_help_foreground}
     action { |command| DevDNSd::Application.instance(command).action_start() }
   end
 
@@ -42,7 +42,32 @@ Bovem::Application.create(name: "DevDNSd Resolver", version: "1.0.0", descriptio
     action { |command| DevDNSd::Application.instance(command).action_uninstall() }
   end
 
+  command :aliases do
+    description localizer.command_aliases
+    option :interface, [], {type: String, help: localizer.application_help_interface, default: "lo0", meta: localizer.application_meta_interface}
+    option :addresses, [], {type: Array, help: localizer.application_help_addresses, meta: localizer.application_meta_addresses}
+    option :start_address, [:s, "start-address"], {type: String, help: localizer.application_help_start_address, default: "10.0.0.1", meta: localizer.application_meta_address}
+    option :aliases, [:S], {type: Integer, help: localizer.application_help_aliases, default: 5, meta: localizer.application_meta_aliases}
+    option :add_command, [:A, "add-command"], {type: String, help: localizer.application_help_add_command, default: "sudo ifconfig {{interface}} alias {{address}}", meta: localizer.application_meta_command}
+    option :remove_command, [:R, "remove-command"], {type: String, help: localizer.application_help_remove_command, default: "sudo ifconfig {{interface}} -alias {{address}}", meta: localizer.application_meta_command}
+    option :dry_run, [:n, "dry-run"], {help: localizer.application_help_dry_run}
+
+    command :add do
+      description localizer.command_add
+      action { |command| DevDNSd::Application.instance(command).action_add(command.parent.get_options) }
+    end
+
+    command :remove do
+      description localizer.command_remove
+      action { |command| DevDNSd::Application.instance(command).action_remove(command.parent.get_options) }
+    end
+
+    action do |command|
+      self.commands["add"].execute(command.options[:dry_run].value)
+    end
+  end
+
   action do |command|
-    self.commands["start"].execute([])
+    DevDNSd::Application.instance(command).action_add(command.get_options)
   end
 end

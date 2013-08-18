@@ -8,6 +8,8 @@ require "rubygems"
 require "bovem"
 require "rubydns"
 require "rexec/daemon"
+require "mustache"
+require "ipaddr"
 
 Lazier.load!(:object)
 

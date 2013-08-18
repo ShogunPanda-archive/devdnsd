@@ -31,6 +31,24 @@ module DevDNSd
     # The rules of the server. By default, every hostname is resolved with `127.0.0.1`.
     property :rules, default: []
 
+    # The default interface to manage for aliases. Default: `lo0`.
+    property :interface, default: "lo0"
+
+    # The default list of aliases to add. Default: `[]`.
+    property :addresses, default: []
+
+    # The starting address for sequential aliases. Default: `10.0.0.1`.
+    property :start_address, default: "10.0.0.1"
+
+    # The number of aliases to add. Default: `5`.
+    property :aliases, default: 5
+
+    # The command to run for adding an alias. Default: `sudo ifconfig {{interface}} alias {{address}}`.
+    property :add_command, default: "sudo ifconfig {{interface}} alias {{address}}"
+
+    # The command to run for removing an alias. Default: `sudo ifconfig {{interface}} alias {{address}}`.
+    property :remove_command, default: "sudo ifconfig {{interface}} -alias {{address}}"
+
     # Creates a new configuration.
     # A configuration file is a plain Ruby file with a top-level {Configuration config} object.
     #

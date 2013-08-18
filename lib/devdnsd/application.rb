@@ -101,6 +101,23 @@ module DevDNSd
         true
       end
 
+      # Adds aliases to an interface.
+      #
+      # @param options [Hash] The options provided by the user.
+      # @return [Boolean] `true` if action succeeded, `false` otherwise.
+      def action_add(options)
+        manage_aliases(:add, i18n.add_empty, options)
+      end
+
+      # Removes aliases from an interface.
+      #
+      # @param options [Hash] The options provided by the user.
+      # @return [Boolean] `true` if action succeeded, `false` otherwise.
+      def action_remove(options)
+        manage_aliases(:remove, i18n.add_empty, options)
+      end
+
+
       # Installs the application into the autolaunch.
       #
       # @return [Boolean] `true` if action succeeded, `false` otherwise.
@@ -267,6 +284,181 @@ module DevDNSd
         end
     end
 
+    # Methods to handle interfaces aliases.
+    module Aliases
+      extend ActiveSupport::Concern
+
+      # Manages aliases.
+      #
+      # @param operation [Symbol] The type of operation. Can be `:add` or `:remove`.
+      # @param message [String] The message to show if no addresses are found.
+      # @param options [Hash] The options provided by the user.
+      def manage_aliases(operation, message, options)
+        config = self.config
+        options.each { |k, v| config.send("#{k}=", v) if config.respond_to?("#{k}=") }
+
+        addresses = compute_addresses
+
+        if addresses.present? then
+          # Now, for every address, call the command
+          addresses.all? {|address| manage_address(operation, address, options[:dry_run]) }
+        else
+          @logger.error(message)
+        end
+      end
+
+      # Adds or removes an alias from the interface.
+      #
+      # @param type [Symbol] The operation to execute. Can be `:add` or `:remove`.
+      # @param address [String] The address to manage.
+      # @param dry_run [Boolean] If only show which modifications will be done.
+      # @return [Boolean] `true` if operation succeeded, `false` otherwise.
+      def manage_address(type, address, dry_run)
+        locale = i18n
+        rv, command, prefix = setup_management(type, address)
+
+        # Now execute
+        if rv then
+          if !dry_run then
+            execute_manage(command, prefix, type, address, self.config)
+          else
+            log_management(:dry_run, prefix, type, locale.remove, locale.add, address, config)
+          end
+        end
+
+        rv
+      end
+
+      private
+        # Setups management.
+        #
+        # @param type [Symbol] The type of operation. Can be `:add` or `:remove`.
+        # @param address [String] The address to manage.
+        # @return [Array] A list of parameters for the management.
+        def setup_management(type, address)
+          begin
+            @addresses ||= compute_addresses
+            length = @addresses.length
+            length_s = length.to_s.length
+            [true, build_command(type, address), "{mark=blue}[{mark=bright white}#{((@addresses.index(address) || 0) + 1).indexize(length_s)}{mark=reset blue}/{/mark}#{length}{/mark}]{/mark}"]
+          rescue ArgumentError
+            [false]
+          end
+        end
+
+        # Computes the list of address to manage.
+        #
+        # @param type [Symbol] The type of addresses to consider. Valid values are `:ipv4`, `:ipv6`, otherwise all addresses are considered.
+        # @return [Array] The list of addresses to add or remove from the interface.
+        def compute_addresses(type = :all)
+          config = self.config
+          config.addresses.present? ? filter_addresses(config, type) : generate_addresses(config, type)
+        end
+
+        # Filters a list of addresses to return just certain type(s).
+        #
+        # @param config [Configuration] The current configuration.
+        # @param type [Symbol] The type of addresses to return.
+        # @return [Array] A list of IPs.
+        def filter_addresses(config, type)
+          filters =  [:ipv4, :ipv6].select {|i| type == i || type == :all }.compact
+          config.addresses.select { |address| filters.any? {|filter| send("is_#{filter}?", address) } }.compact.uniq
+        end
+
+        # Generates a list of addresses which are immediate successors of a start address.
+        #
+        # @param config [Configuration] The current configuration.
+        # @param type [Symbol] The type of addresses to return.
+        # @return [Array] A list of IPs.
+        def generate_addresses(config, type)
+          begin
+            ip = IPAddr.new(config.start_address.ensure_string)
+            raise ArgumentError if type != :all && !ip.send("#{type}?")
+
+            [config.aliases, 1].max.times.collect {|_|
+              current = ip
+              ip = ip.succ
+              current
+            }
+          rescue ArgumentError
+            []
+          end
+        end
+
+        # Checks if and address is a valid IPv4 address.
+        #
+        # @param address [String] The address to check.
+        # @return [Boolean] `true` if the address is a valid IPv4 address, `false` otherwise.
+        def is_ipv4?(address)
+          address = address.ensure_string
+
+          mo = /\A(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\Z/.match(address)
+          (mo && mo.captures.all? {|i| i.to_i < 256}) ? true : false
+        end
+
+        # Checks if and address is a valid IPv6 address.
+        #
+        # @param address [String] The address to check.
+        # @return [Boolean] `true` if the address is a valid IPv6 address, `false` otherwise.
+        def is_ipv6?(address)
+          address = address.ensure_string
+
+          catch(:valid) do
+            # IPv6 (normal)
+            throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*\Z/ =~ address
+            throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*)?\Z/ =~ address
+            throw(:valid, true) if /\A::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*)?\Z/ =~ address
+            # IPv6 (IPv4 compat)
+            throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:/ =~ address && is_ipv4?($')
+            throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:)?/ =~ address && is_ipv4?($')
+            throw(:valid, true) if /\A::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:)?/ =~ address && is_ipv4?($')
+
+            false
+          end
+        end
+
+        # Builds the command to execute.
+        #
+        # @param type [Symbol] The type of operation. Can be `:add` or `:remove`.
+        # @param address [String] The address to manage.
+        # @return [String] The command to execute.
+        def build_command(type, address)
+          Mustache.render(config.send((type == :remove) ? :remove_command : :add_command), {interface: config.interface, address: address.to_s}) + " > /dev/null 2>&1"
+        end
+
+        # Executes management.
+        #
+        # @param command [String] The command to execute.
+        # @param prefix [String] The prefix to apply to the message.
+        # @param type [Symbol] The type of operation. Can be `:add` or `:remove`.
+        # @param address [String] The address that will be managed.
+        # @param config [Configuration] The current configuration.
+        # @return [Boolean] `true` if operation succeeded, `false` otherwise.
+        def execute_manage(command, prefix, type, address, config)
+          locale = i18n
+          log_management(:run, prefix, type, locale.removing, locale.adding, address, config)
+          rv = execute_command(command)
+          labels = (type == :remove ? [locale.remove, locale.from] : [locale.add, locale.to])
+          @logger.error(@command.application.console.replace_markers(locale.general_error(labels[0], address, labels[1], config.interface))) if !rv
+          rv
+        end
+
+        # Logs an operation.
+        #
+        # @param message [Symbol] The message to print.
+        # @param prefix [String] The prefix to apply to the message.
+        # @param type [Symbol] The type of operation. Can be `:add` or `:remove`.
+        # @param remove_label [String] The label to use for removing.
+        # @param add_label [String] The label to use for adding.
+        # @param address [String] The address that will be managed.
+        # @param config [Configuration] The current configuration.
+        def log_management(message, prefix, type, remove_label, add_label, address, config)
+          locale = i18n
+          labels = (type == :remove ? [remove_label, locale.from] : [add_label, locale.to])
+          @logger.info(@command.application.console.replace_markers(i18n.send(message, prefix, labels[0], address, labels[1], config.interface)))
+        end
+    end
+
     # Methods to process requests.
     module Server
       # Starts the DNS server.
@@ -377,6 +569,7 @@ module DevDNSd
 
     include Lazier::I18n
     include DevDNSd::ApplicationMethods::System
+    include DevDNSd::ApplicationMethods::Aliases
     include DevDNSd::ApplicationMethods::Server
 
     attr_reader :config

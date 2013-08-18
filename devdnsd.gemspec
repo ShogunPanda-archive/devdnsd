@@ -26,6 +26,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency("bovem", "~> 3.0.2")
   gem.add_dependency("rubydns", "~> 0.6.4")
   gem.add_dependency("rexec", "~> 1.5.2")
+  gem.add_dependency("mustache", "~> 0.99.4")
 end
 
 
