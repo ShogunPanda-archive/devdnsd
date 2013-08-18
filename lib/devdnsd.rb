@@ -16,6 +16,3 @@ require "devdnsd/configuration"
 require "devdnsd/errors"
 require "devdnsd/rule"
 require "devdnsd/version" if !defined?(DevDNSd::Version)
-
-# DevDNSd is only supported on MRI
-DevDNSd::Application.check_ruby_implementation

@@ -60,24 +60,13 @@ describe DevDNSd::Application do
   describe ".quit" do
     it "should quit the application" do
       allow(EM).to receive(:add_timer).and_yield
-      expect(::EventMachine).to receive(:stop)
+      expect(EM).to receive(:stop)
       DevDNSd::Application.quit
     end
-  end
 
-  describe ".check_ruby_implementation" do
-    it "won't run on Rubinius" do
-      stub_const("Rubinius", true)
-      expect(Kernel).to receive(:exit).with(0)
-      expect(Kernel).to receive(:puts)
-      DevDNSd::Application.check_ruby_implementation
-    end
-
-    it "won't run on JRuby" do
-      stub_const("JRuby", true)
-      expect(Kernel).to receive(:exit).with(0)
-      expect(Kernel).to receive(:puts)
-      DevDNSd::Application.check_ruby_implementation
+    it "should not blow up in case of errors" do
+      allow(EM).to receive(:add_timer).and_raise(RuntimeError)
+      expect { DevDNSd::Application.quit }.not_to raise_error
     end
   end
 
