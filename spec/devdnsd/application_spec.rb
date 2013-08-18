@@ -490,13 +490,20 @@ describe DevDNSd::Application do
   describe "#action_start" do
     it "should call perform_server in foreground" do
       application = create_application({"log_file" => log_file})
-      application.config.foreground = true
+      application.instance_variable_set(:@command, Bovem::Command.new {
+        option :foreground, [:n, "foreground"], {default: true}
+      })
+
       expect(application).to receive(:perform_server)
       application.action_start
     end
 
     it "should start the daemon" do
       application = create_application({"log_file" => log_file})
+      application.instance_variable_set(:@command, Bovem::Command.new {
+        option :foreground, [:n, "foreground"], {default: false}
+      })
+
       expect(::RExec::Daemon::Controller).to receive(:start)
       application.action_start
     end

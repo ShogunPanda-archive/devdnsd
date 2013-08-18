@@ -23,7 +23,7 @@ Bovem::Application.create(name: "DevDNSd Resolver", version: "1.0.0", descriptio
 
   command :start do
     description localizer.command_start
-    option "foreground", [:n, "foreground"], {:help => localizer.application_help_foreground}
+    option :foreground, [:n, "foreground"], {:help => localizer.application_help_foreground}
     action { |command| DevDNSd::Application.instance(command).action_start() }
   end
 

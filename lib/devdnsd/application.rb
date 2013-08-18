@@ -342,7 +342,7 @@ module DevDNSd
         config.addresses.present? ? filter_addresses(config, type) : generate_addresses(config, type)
       end
 
-      # Checks if and address is a valid IPv4 address.
+      # Checks if an address is a valid IPv4 address.
       #
       # @param address [String] The address to check.
       # @return [Boolean] `true` if the address is a valid IPv4 address, `false` otherwise.
@@ -353,7 +353,7 @@ module DevDNSd
         (mo && mo.captures.all? {|i| i.to_i < 256}) ? true : false
       end
 
-      # Checks if and address is a valid IPv6 address.
+      # Checks if an address is a valid IPv6 address.
       #
       # @param address [String] The address to check.
       # @return [Boolean] `true` if the address is a valid IPv6 address, `false` otherwise.
