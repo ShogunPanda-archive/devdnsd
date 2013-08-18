@@ -70,6 +70,15 @@ describe DevDNSd::Application do
     end
   end
 
+  describe ".check_ruby_implementation" do
+    it "won't run on JRuby" do
+      stub_const("JRuby", true)
+      expect(Kernel).to receive(:exit).with(0)
+      expect(Kernel).to receive(:puts)
+      DevDNSd::Application.check_ruby_implementation
+    end
+  end
+
   describe ".instance" do
     before(:each) do
       allow(DevDNSd::Application).to receive(:instance).and_call_original

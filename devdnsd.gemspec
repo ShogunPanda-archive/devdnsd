@@ -24,8 +24,8 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = ">= 1.9.3"
 
   gem.add_dependency("bovem", "~> 3.0.2")
-  gem.add_dependency("rubydns", "~> 0.6.3")
-  gem.add_dependency("rexec", "~> 1.5.1")
+  gem.add_dependency("rubydns", "~> 0.6.4")
+  gem.add_dependency("rexec", "~> 1.5.2")
 end
 
 

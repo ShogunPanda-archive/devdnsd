@@ -16,3 +16,6 @@ require "devdnsd/configuration"
 require "devdnsd/errors"
 require "devdnsd/rule"
 require "devdnsd/version" if !defined?(DevDNSd::Version)
+
+# DevDNSd is not supported on JRuby
+DevDNSd::Application.check_ruby_implementation
