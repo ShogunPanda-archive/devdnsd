@@ -14,7 +14,7 @@ module DevDNSd
   # @attribute reply
   #   @return [String] The IP or hostname to reply back to the client. Default: `127.0.0.1`. @see .create
   # @attribute options
-  #   @return [Hash] A list of options for the request. Default is an empty hash.
+  #   @return [Hash] A list of options for the request. Default is an empty hash. Supported key are `:priority` and `:ttl`, both integers
   # @attribute block
   #   @return [Proc] An optional block to compute the reply instead of using the `reply` parameter. @see .create
   class Rule

@@ -345,6 +345,148 @@ describe DevDNSd::Application do
     end
   end
 
+  describe "#manage_aliases" do
+    it "should override configuration" do
+      allow(application).to receive(:manage_address)
+      application.manage_aliases(:add, "MESSAGE", {aliases: 10})
+      expect(application.config.aliases).to eq(10)
+    end
+
+    it "should log an error if no interfaces are found" do
+      allow(application).to receive(:compute_addresses).and_return([])
+      expect(application.logger).to receive(:error).with("MESSAGE")
+      expect(application.manage_aliases(:add, "MESSAGE", {aliases: 10})).to be_false
+    end
+
+    it "should call #manage_address for each address" do
+      expect(application).to receive(:manage_address).with("OPERATION", IPAddr.new("10.0.0.1"), "DRY_RUN").and_return(true)
+      expect(application).to receive(:manage_address).with("OPERATION", IPAddr.new("10.0.0.2"), "DRY_RUN").and_return(true)
+      expect(application).to receive(:manage_address).with("OPERATION", IPAddr.new("10.0.0.3"), "DRY_RUN").and_return(true)
+      expect(application.manage_aliases("OPERATION", "MESSAGE", {aliases: 3, dry_run: "DRY_RUN"})).to be_true
+    end
+  end
+
+  describe "#manage_address" do
+    it "should show a right message to the user" do
+      expect(application.logger).to receive(:info).with(/.+.*3.*\/.*5.*.+ *Adding.* address .*10.0.0.3.* to interface .*lo0.*/)
+      application.manage_address(:add, "10.0.0.3")
+
+      expect(application.logger).to receive(:info).with(/.+.*3.*\/.*5.*.+ *Removing.* address .*10.0.0.3.* from interface .*lo0.*/)
+      application.manage_address(:remove, "10.0.0.3")
+    end
+
+    it "should call the right system command" do
+      expect(application).to receive(:execute_command).with("sudo ifconfig lo0 alias 10.0.0.3 > /dev/null 2>&1")
+      application.manage_address(:add, "10.0.0.3")
+
+      expect(application).to receive(:execute_command).with("sudo ifconfig lo0 -alias 10.0.0.3 > /dev/null 2>&1")
+      application.manage_address(:remove, "10.0.0.3")
+    end
+
+    it "should return true if the command succeded" do
+      application.config.add_command = "echo {{interface}}"
+      expect(application.manage_address(:add, "10.0.0.3")).to be_true
+    end
+
+    it "should return false if the command failed" do
+      expect(application.manage_address(:add, "10.0.0.256")).to be_false
+    end
+
+    it "should respect dry-run mode" do
+      expect(application).not_to receive(:execute_command)
+      expect(application.logger).to receive(:info).with(/.+.*3.*\/.*5.*.+ I will .*add.* address .*10.0.0.3.* to interface .*lo0.*/)
+      expect(application.logger).to receive(:info).with(/.+.*3.*\/.*5.*.+ I will .*remove.* address .*10.0.0.3.* from interface .*lo0.*/)
+
+      application.manage_address(:add, "10.0.0.3", true)
+      application.manage_address(:remove, "10.0.0.3", true)
+    end
+  end
+
+  describe "#compute_addresses" do
+    describe "should use only the explicit list if given" do
+      before(:each) do
+        application.config.addresses = ["10.0.0.1", "::1", "INVALID 1", "10.0.0.2", "INVALID 2", "2001:0db8:0::0:1428:57ab"]
+      end
+
+      it "considering all address" do
+        expect(application.compute_addresses).to eq(["10.0.0.1", "::1", "10.0.0.2", "2001:0db8:0::0:1428:57ab"])
+      end
+
+      it "considering only IPv4" do
+        expect(application.compute_addresses(:ipv4)).to eq(["10.0.0.1", "10.0.0.2"])
+        application.config.addresses = ["::1", "INVALID 1"]
+        expect(application.compute_addresses(:ipv4)).to eq([])
+      end
+
+      it "considering only IPv6" do
+        expect(application.compute_addresses(:ipv6)).to eq(["::1", "2001:0db8:0::0:1428:57ab"])
+        application.config.addresses = ["10.0.0.1", "INVALID 1"]
+        expect(application.compute_addresses(:ipv6)).to eq([])
+      end
+    end
+
+    describe "should compute a sequential list of address" do
+      it "considering all address" do
+        application.config.start_address = "10.0.1.1"
+        expect(application.compute_addresses).to eq(["10.0.1.1", "10.0.1.2", "10.0.1.3", "10.0.1.4", "10.0.1.5"])
+
+        application.config.start_address = "10.0.0.1"
+        application.config.aliases = 3
+        expect(application.compute_addresses).to eq(["10.0.0.1", "10.0.0.2", "10.0.0.3"])
+
+        application.config.start_address = "10.0.1.1"
+        application.config.aliases = -1
+        expect(application.compute_addresses).to eq(["10.0.1.1"])
+      end
+
+      it "considering only IPv4" do
+        application.config.start_address = "::1"
+        expect(application.compute_addresses(:ipv4)).to eq([])
+      end
+
+      it "considering only IPv6" do
+        application.config.start_address = "10.0.0.1"
+        expect(application.compute_addresses(:ipv6)).to eq([])
+      end
+    end
+  end
+
+  describe "#is_ipv4?" do
+    it "correctly detects valid IPv4 address" do
+      expect(application.is_ipv4?("10.0.0.1")).to be_true
+      expect(application.is_ipv4?("255.0.0.1")).to be_true
+      expect(application.is_ipv4?("192.168.0.1")).to be_true
+    end
+
+    it "rejects other values" do
+      expect(application.is_ipv4?("10.0.0.256")).to be_false
+      expect(application.is_ipv4?("10.0.0.-1")).to be_false
+      expect(application.is_ipv4?("::1")).to be_false
+      expect(application.is_ipv4?("INVALID")).to be_false
+      expect(application.is_ipv4?(nil)).to be_false
+    end
+  end
+
+  describe "#is_ipv6?" do
+    it "correctly detects valid IPv4 address" do
+      expect(application.is_ipv6?("2001:0db8:0000:0000:0000:1428:57ab")).to be_true
+      expect(application.is_ipv6?("2001:0db8:0:000:00:1428:57ab")).to be_true
+      expect(application.is_ipv6?("2001:0db8:0::1428:57ab")).to be_true
+      expect(application.is_ipv6?("2001::")).to be_true
+      expect(application.is_ipv6?("::1")).to be_true
+      expect(application.is_ipv6?("::2:1")).to be_true
+      expect(application.is_ipv6?("2011::10.0.0.1")).to be_true
+      expect(application.is_ipv6?("2011::0:10.0.0.1")).to be_true
+    end
+
+    it "rejects other values" do
+      expect(application.is_ipv6?("::H")).to be_false
+      expect(application.is_ipv6?("192.168.0.256")).to be_false
+      expect(application.is_ipv6?("INVALID")).to be_false
+      expect(application.is_ipv6?(nil)).to be_false
+    end
+  end
+
   describe "#action_start" do
     it "should call perform_server in foreground" do
       application = create_application({"log_file" => log_file})
@@ -565,6 +707,20 @@ describe DevDNSd::Application do
       allow(application).to receive(:is_osx?).and_return(false)
       expect(application.logger).to receive(:fatal).with("Install DevDNSd as a local resolver is only available on MacOSX.")
       expect(application.action_uninstall).to be_false
+    end
+  end
+
+  describe "#action_add" do
+    it "should #manage_aliases" do
+      expect(application).to receive(:manage_aliases).with(:add, "No valid addresses to add to the interface found.", {a: 1})
+      application.action_add({a: 1})
+    end
+  end
+
+  describe "#action_remove" do
+    it "should #manage_aliases" do
+      expect(application).to receive(:manage_aliases).with(:remove, "No valid addresses to remove from the interface found.", {a: 1})
+      application.action_remove({a: 1})
     end
   end
 end

@@ -87,6 +87,8 @@ module DevDNSd
         if !Process.respond_to?(:fork) then
           logger.warn(i18n.no_fork)
           @config.foreground = true
+        elsif @command.options[:foreground].value then
+          @config.foreground = true
         end
 
         @config.foreground ? perform_server : RExec::Daemon::Controller.start(self.class)
@@ -114,7 +116,7 @@ module DevDNSd
       # @param options [Hash] The options provided by the user.
       # @return [Boolean] `true` if action succeeded, `false` otherwise.
       def action_remove(options)
-        manage_aliases(:remove, i18n.add_empty, options)
+        manage_aliases(:remove, i18n.remove_empty, options)
       end
 
 
@@ -293,6 +295,7 @@ module DevDNSd
       # @param operation [Symbol] The type of operation. Can be `:add` or `:remove`.
       # @param message [String] The message to show if no addresses are found.
       # @param options [Hash] The options provided by the user.
+      # @return [Boolean] `true` if operation succeeded, `false` otherwise.
       def manage_aliases(operation, message, options)
         config = self.config
         options.each { |k, v| config.send("#{k}=", v) if config.respond_to?("#{k}=") }
@@ -304,6 +307,7 @@ module DevDNSd
           addresses.all? {|address| manage_address(operation, address, options[:dry_run]) }
         else
           @logger.error(message)
+          false
         end
       end
 
@@ -313,7 +317,7 @@ module DevDNSd
       # @param address [String] The address to manage.
       # @param dry_run [Boolean] If only show which modifications will be done.
       # @return [Boolean] `true` if operation succeeded, `false` otherwise.
-      def manage_address(type, address, dry_run)
+      def manage_address(type, address, dry_run = false)
         locale = i18n
         rv, command, prefix = setup_management(type, address)
 
@@ -327,6 +331,47 @@ module DevDNSd
         end
 
         rv
+      end
+
+      # Computes the list of address to manage.
+      #
+      # @param type [Symbol] The type of addresses to consider. Valid values are `:ipv4`, `:ipv6`, otherwise all addresses are considered.
+      # @return [Array] The list of addresses to add or remove from the interface.
+      def compute_addresses(type = :all)
+        config = self.config
+        config.addresses.present? ? filter_addresses(config, type) : generate_addresses(config, type)
+      end
+
+      # Checks if and address is a valid IPv4 address.
+      #
+      # @param address [String] The address to check.
+      # @return [Boolean] `true` if the address is a valid IPv4 address, `false` otherwise.
+      def is_ipv4?(address)
+        address = address.ensure_string
+
+        mo = /\A(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\Z/.match(address)
+        (mo && mo.captures.all? {|i| i.to_i < 256}) ? true : false
+      end
+
+      # Checks if and address is a valid IPv6 address.
+      #
+      # @param address [String] The address to check.
+      # @return [Boolean] `true` if the address is a valid IPv6 address, `false` otherwise.
+      def is_ipv6?(address)
+        address = address.ensure_string
+
+        catch(:valid) do
+          # IPv6 (normal)
+          throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*\Z/ =~ address
+          throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*)?\Z/ =~ address
+          throw(:valid, true) if /\A::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*)?\Z/ =~ address
+          # IPv6 (IPv4 compat)
+          throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:/ =~ address && is_ipv4?($')
+          throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:)?/ =~ address && is_ipv4?($')
+          throw(:valid, true) if /\A::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:)?/ =~ address && is_ipv4?($')
+
+          false
+        end
       end
 
       private
@@ -344,15 +389,6 @@ module DevDNSd
           rescue ArgumentError
             [false]
           end
-        end
-
-        # Computes the list of address to manage.
-        #
-        # @param type [Symbol] The type of addresses to consider. Valid values are `:ipv4`, `:ipv6`, otherwise all addresses are considered.
-        # @return [Array] The list of addresses to add or remove from the interface.
-        def compute_addresses(type = :all)
-          config = self.config
-          config.addresses.present? ? filter_addresses(config, type) : generate_addresses(config, type)
         end
 
         # Filters a list of addresses to return just certain type(s).
@@ -382,38 +418,6 @@ module DevDNSd
             }
           rescue ArgumentError
             []
-          end
-        end
-
-        # Checks if and address is a valid IPv4 address.
-        #
-        # @param address [String] The address to check.
-        # @return [Boolean] `true` if the address is a valid IPv4 address, `false` otherwise.
-        def is_ipv4?(address)
-          address = address.ensure_string
-
-          mo = /\A(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\Z/.match(address)
-          (mo && mo.captures.all? {|i| i.to_i < 256}) ? true : false
-        end
-
-        # Checks if and address is a valid IPv6 address.
-        #
-        # @param address [String] The address to check.
-        # @return [Boolean] `true` if the address is a valid IPv6 address, `false` otherwise.
-        def is_ipv6?(address)
-          address = address.ensure_string
-
-          catch(:valid) do
-            # IPv6 (normal)
-            throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*\Z/ =~ address
-            throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*)?\Z/ =~ address
-            throw(:valid, true) if /\A::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*)?\Z/ =~ address
-            # IPv6 (IPv4 compat)
-            throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:/ =~ address && is_ipv4?($')
-            throw(:valid, true) if /\A[\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:)?/ =~ address && is_ipv4?($')
-            throw(:valid, true) if /\A::([\dA-Fa-f]{1,4}(:[\dA-Fa-f]{1,4})*:)?/ =~ address && is_ipv4?($')
-
-            false
           end
         end
 
@@ -542,10 +546,20 @@ module DevDNSd
         # @param type [Symbol] The type of query.
         def finalize_reply(reply, rule, type)
           rv = []
-          rv << rule.options.delete(:preference).to_integer(10) if type == :MX
+          rv << rule.options.delete(:priority).to_integer(10) if type == :MX
           rv << ([:A, :AAAA].include?(type) ? reply : Resolv::DNS::Name.create(reply))
-          rv << rule.options.merge({resource_class: DevDNSd::Rule.symbol_to_resource_class(type, @locale)})
+          rv << rule.options.merge({resource_class: DevDNSd::Rule.symbol_to_resource_class(type, @locale), ttl: validate_ttl(rule.options.delete(:ttl))})
           rv
+        end
+
+        # Validates a TTL.
+        #
+        # @param current [Fixnum] The current value.
+        # @param default [Fixnum] The value to return if current is not valid.
+        # @return [Fixnum] The validated TTL.
+        def validate_ttl(current, default = 300)
+          current = current.to_integer
+          current > 0 ? current : default
         end
     end
   end
