@@ -8,7 +8,7 @@
 require "rubygems"
 require "devdnsd"
 
-Bovem::Application.create(name: "DevDNSd Resolver", version: "1.0.0", description: "Gestisce i record DNS via Rackspace Cloud API.") do
+Bovem::Application.create do
   localizer = Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../locales/")).i18n
   name "DevDNSd"
   description localizer.application_description
