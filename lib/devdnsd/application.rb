@@ -189,7 +189,13 @@ module DevDNSd
         def create_resolver(_, resolver_path)
           begin
             logger.info(i18n.resolver_creating(resolver_path))
-            write_resolver(resolver_path)
+
+            ::File.open(resolver_path, "w") {|f|
+              f.write("nameserver 127.0.0.1\n")
+              f.write("port #{@config.port}")
+              f.flush
+            }
+
             true
           rescue
             logger.error(i18n.resolver_creating_error)
@@ -201,11 +207,6 @@ module DevDNSd
         #
         # @param resolver_path [String] The resolver path.
         def write_resolver(resolver_path)
-          ::File.open(resolver_path, "w") {|f|
-            f.write("nameserver 127.0.0.1\n")
-            f.write("port #{@config.port}")
-            f.flush
-          }
         end
 
         # Deletes a OSX resolver.
@@ -223,7 +224,13 @@ module DevDNSd
         def create_agent(launch_agent, _)
           begin
             logger.info(i18n.agent_creating(launch_agent))
-            write_agent(launch_agent)
+            program, args = prepare_agent
+            
+            ::File.open(launch_agent, "w") {|f|
+              f.write({"KeepAlive" => true, "Label" => "it.cowtech.devdnsd", "Program" => program, "ProgramArguments" => args, "RunAtLoad" => true}.to_plist)
+              f.flush
+            }
+
             true
           rescue
             logger.error(i18n.agent_creating_error)
@@ -231,14 +238,14 @@ module DevDNSd
           end
         end
 
-        # Writes a OSX system agent.
+        # Prepares arguments for an agent.
         #
-        # @param launch_agent [String] The agent path.
-        def write_agent(launch_agent)
-          ::File.open(launch_agent, "w") {|f|
-            f.write({"KeepAlive" => true, "Label" => "it.cowtech.devdnsd", "Program" => (::Pathname.new(Dir.pwd) + $0).to_s, "ProgramArguments" => (ARGV ? ARGV[0, ARGV.length - 1] : []), "RunAtLoad" => true}.to_plist)
-            f.flush
-          }
+        # @return [Array] The arguments for an agent.
+        def prepare_agent
+          [
+            (::Pathname.new(Dir.pwd) + $0).to_s,
+            (ARGV ? ARGV[0, ARGV.length - 1] : [])
+          ]
         end
 
         # Deletes a OSX system agent.
