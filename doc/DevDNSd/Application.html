@@ -579,6 +579,7 @@
       <pre class="lines">
 
 
+597
 598
 599
 600
@@ -593,11 +594,10 @@
 609
 610
 611
-612
-613</pre>
+612</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 598</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 597</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -669,6 +669,7 @@
       <pre class="lines">
 
 
+576
 577
 578
 579
@@ -774,11 +775,10 @@
 679
 680
 681
-682
-683</pre>
+682</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 577</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 576</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -936,6 +936,7 @@
       <pre class="lines">
 
 
+576
 577
 578
 579
@@ -1041,11 +1042,10 @@
 679
 680
 681
-682
-683</pre>
+682</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 577</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 576</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -1203,6 +1203,7 @@
       <pre class="lines">
 
 
+576
 577
 578
 579
@@ -1308,11 +1309,10 @@
 679
 680
 681
-682
-683</pre>
+682</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 577</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 576</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -1470,6 +1470,7 @@
       <pre class="lines">
 
 
+576
 577
 578
 579
@@ -1575,11 +1576,10 @@
 679
 680
 681
-682
-683</pre>
+682</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 577</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 576</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -1725,15 +1725,15 @@
       <pre class="lines">
 
 
+661
 662
 663
 664
 665
-666
-667</pre>
+666</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 662</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 661</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_ruby_implementation'>check_ruby_implementation</span>
   <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>JRuby</span><span class='rparen'>)</span> <span class='kw'>then</span>
@@ -1843,14 +1843,14 @@
       <pre class="lines">
 
 
+639
 640
 641
 642
-643
-644</pre>
+643</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 640</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 639</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_force'>force</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_force'>force</span>
@@ -1887,15 +1887,15 @@
       <pre class="lines">
 
 
+653
 654
 655
 656
 657
-658
-659</pre>
+658</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 654</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 653</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_quit'>quit</span>
   <span class='kw'>begin</span>
@@ -1940,12 +1940,12 @@
       <pre class="lines">
 
 
+648
 649
-650
-651</pre>
+650</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 649</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 648</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
   <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
@@ -2003,12 +2003,12 @@
       <pre class="lines">
 
 
+617
 618
-619
-620</pre>
+619</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 618</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 617</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
   <span class='ivar'>@logger</span> <span class='op'>||=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span> <span class='op'>:</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_file'>log_file</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_level'>log_level</span><span class='comma'>,</span> <span class='ivar'>@log_formatter</span><span class='rparen'>)</span>
@@ -2060,11 +2060,11 @@
       <pre class="lines">
 
 
-625
-626</pre>
+624
+625</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 625</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 624</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_start'>on_start</span>
 <span class='kw'>end</span></pre>
@@ -2115,11 +2115,11 @@
       <pre class="lines">
 
 
-631
-632</pre>
+630
+631</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 631</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 630</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_stop'>on_stop</span>
 <span class='kw'>end</span></pre>
@@ -2133,7 +2133,7 @@
 </div>
 
     <div id="footer">
-  Generated on Sun Aug 18 21:44:06 2013 by
+  Generated on Mon Sep  2 15:11:18 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7 (ruby-2.0.0).
 </div>

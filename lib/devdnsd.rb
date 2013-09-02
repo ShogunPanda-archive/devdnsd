@@ -11,6 +11,7 @@ require "rexec/daemon"
 require "mustache"
 require "ipaddr"
 require "fiber"
+require "plist"
 
 Lazier.load!(:object)
 

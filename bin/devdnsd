@@ -14,16 +14,16 @@ Bovem::Application.create do
   description localizer.application_description
   version DevDNSd::Version::STRING
 
-  option :configuration, [], {:type => String, :help => localizer.application_help_configuration, :default => "~/.devdnsd_config", :meta => localizer.application_meta_file}
-  option :tld, [], {:type => String, :help => localizer.application_help_tld, :default => "dev", :meta => localizer.application_meta_domain}
-  option :port, [], {:type => Integer, :help => localizer.application_help_port, :default => 7771, :meta => localizer.application_meta_port}
-  option :pid_file, [:P, "pid-file"], {:type => String, :help => localizer.application_help_pid_file, :default => "/var/run/devdnsd.pid", :meta => localizer.application_meta_file}
-  option :log_file, [:l, "log-file"], {:type => String, :help => localizer.application_help_log_file, :default => "/var/log/devdnsd.log", :meta => localizer.application_meta_file}
-  option :log_level, [:L, "log-level"], {:type => Integer, :help => localizer.application_help_log_level, :default => 1, :meta => localizer.application_meta_level}
+  option :configuration, [], {type: String, help: localizer.application_help_configuration, default: "~/.devdnsd_config", meta: localizer.application_meta_file}
+  option :tld, [], {type: String, help: localizer.application_help_tld, default: "dev", meta: localizer.application_meta_domain}
+  option :port, [], {type: Integer, help: localizer.application_help_port, default: 7771, meta: localizer.application_meta_port}
+  option :pid_file, [:P, "pid-file"], {type: String, help: localizer.application_help_pid_file, default: "/var/run/devdnsd.pid", meta: localizer.application_meta_file}
+  option :log_file, [:l, "log-file"], {type: String, help: localizer.application_help_log_file, default: "/var/log/devdnsd.log", meta: localizer.application_meta_file}
+  option :log_level, [:L, "log-level"], {type: Integer, help: localizer.application_help_log_level, default: 1, meta: localizer.application_meta_level}
 
   command :start do
     description localizer.command_start
-    option :foreground, [:n, "foreground"], {:help => localizer.application_help_foreground}
+    option :foreground, [:n, "foreground"], {help: localizer.application_help_foreground}
     action { |command| DevDNSd::Application.instance(command).action_start() }
   end
 

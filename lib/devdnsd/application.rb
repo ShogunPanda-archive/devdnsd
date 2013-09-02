@@ -224,7 +224,6 @@ module DevDNSd
           begin
             logger.info(i18n.agent_creating(launch_agent))
             write_agent(launch_agent)
-            execute_command("plutil -convert binary1 \"#{launch_agent}\"")
             true
           rescue
             logger.error(i18n.agent_creating_error)
@@ -237,7 +236,7 @@ module DevDNSd
         # @param launch_agent [String] The agent path.
         def write_agent(launch_agent)
           ::File.open(launch_agent, "w") {|f|
-            f.write({"KeepAlive" => true, "Label" => "it.cowtech.devdnsd", "Program" => (::Pathname.new(Dir.pwd) + $0).to_s, "ProgramArguments" => (ARGV ? ARGV[0, ARGV.length - 1] : []), "RunAtLoad" => true}.to_json)
+            f.write({"KeepAlive" => true, "Label" => "it.cowtech.devdnsd", "Program" => (::Pathname.new(Dir.pwd) + $0).to_s, "ProgramArguments" => (ARGV ? ARGV[0, ARGV.length - 1] : []), "RunAtLoad" => true}.to_plist)
             f.flush
           }
         end
@@ -411,7 +410,7 @@ module DevDNSd
             ip = IPAddr.new(config.start_address.ensure_string)
             raise ArgumentError if type != :all && !ip.send("#{type}?")
 
-            [config.aliases, 1].max.times.collect {|_|
+            [config.aliases, 1].max.times.map {|_|
               current = ip
               ip = ip.succ
               current
