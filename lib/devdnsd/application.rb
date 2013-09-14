@@ -225,7 +225,7 @@ module DevDNSd
           begin
             logger.info(i18n.agent_creating(launch_agent))
             program, args = prepare_agent
-            
+
             ::File.open(launch_agent, "w") {|f|
               f.write({"KeepAlive" => true, "Label" => "it.cowtech.devdnsd", "Program" => program, "ProgramArguments" => args, "RunAtLoad" => true}.to_plist)
               f.flush
