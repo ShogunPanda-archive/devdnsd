@@ -6,7 +6,7 @@
 <title>
   Module: DevDNSd::ApplicationMethods::System::ClassMethods
   
-    &mdash; Documentation by YARD 0.8.7
+    &mdash; Documentation by YARD 0.8.7.2
   
 </title>
 
@@ -135,7 +135,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#pid_directory-instance_method" title="#pid_directory (instance method)">- (String) <strong>pid_directory</strong> </a>
+      <a href="#log_directory-instance_method" title="#log_directory (instance method)">- (String) <strong>log_directory</strong> </a>
     
 
     
@@ -149,7 +149,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the standard location of the PID file.</p>
+    <span class="summary_desc"><div class='inline'><p>Returns the standard location of the log file.</p>
 </div></span>
   
 </li>
@@ -158,7 +158,30 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#pid_fn-instance_method" title="#pid_fn (instance method)">- (String) <strong>pid_fn</strong> </a>
+      <a href="#log_file_path-instance_method" title="#log_file_path (instance method)">- (String) <strong>log_file_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the complete path of the log file.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#process_file_path-instance_method" title="#process_file_path (instance method)">- (String) <strong>process_file_path</strong> </a>
     
 
     
@@ -173,6 +196,31 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Returns the complete path of the PID file.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#working_directory-instance_method" title="#working_directory (instance method)">- (String) <strong>working_directory</strong> </a>
+    
+
+    
+      (also: #runtime_directory)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the standard location of the PID file.</p>
 </div></span>
   
 </li>
@@ -245,11 +293,186 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="pid_directory-instance_method">
+  <h3 class="signature " id="log_directory-instance_method">
   
-    - (<tt>String</tt>) <strong>pid_directory</strong> 
+    - (<tt>String</tt>) <strong>log_directory</strong> 
   
 
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the standard location of the log file.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The standard location of the log file.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_log_directory'>log_directory</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_log_file'>log_file</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="log_file_path-instance_method">
+  
+    - (<tt>String</tt>) <strong>log_file_path</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the complete path of the log file.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The complete path of the log file.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_log_file_path'>log_file_path</span>
+  <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_log_file'>log_file</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="process_file_path-instance_method">
+  
+    - (<tt>String</tt>) <strong>process_file_path</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the complete path of the PID file.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The complete path of the PID file.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 35</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_process_file_path'>process_file_path</span>
+  <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_pid_file'>pid_file</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="working_directory-instance_method">
+  
+    - (<tt>String</tt>) <strong>working_directory</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='runtime_directory-instance_method'>runtime_directory</span></span>
+    </span>
   
 
   
@@ -293,65 +516,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 27</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_pid_directory'>pid_directory</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_working_directory'>working_directory</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_pid_file'>pid_file</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="pid_fn-instance_method">
-  
-    - (<tt>String</tt>) <strong>pid_fn</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Returns the complete path of the PID file.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>The complete path of the PID file.</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-34
-35
-36</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 34</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_pid_fn'>pid_fn</span>
-  <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_pid_file'>pid_file</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -363,9 +529,9 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Sep  2 15:43:19 2013 by
+  Generated on Thu Sep 26 10:55:09 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7 (ruby-2.0.0).
+  0.8.7.2 (ruby-2.0.0).
 </div>
 
   </body>
