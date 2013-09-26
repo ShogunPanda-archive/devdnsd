@@ -24,15 +24,30 @@ module DevDNSd
         # Returns the standard location of the PID file.
         #
         # @return [String] The standard location of the PID file.
-        def pid_directory
+        def working_directory
           File.dirname(instance.config.pid_file)
         end
+        alias_method :runtime_directory, :working_directory
 
         # Returns the complete path of the PID file.
         #
         # @return [String] The complete path of the PID file.
-        def pid_fn
+        def process_file_path
           instance.config.pid_file
+        end
+
+        # Returns the complete path of the log file.
+        #
+        # @return [String] The complete path of the log file.
+        def log_file_path
+          instance.config.log_file
+        end
+
+        # Returns the standard location of the log file.
+        #
+        # @return [String] The standard location of the log file.
+        def log_directory
+          File.dirname(instance.config.log_file)
         end
       end
 

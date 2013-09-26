@@ -112,29 +112,55 @@ describe DevDNSd::Application do
     end
   end
 
-  describe ".pid_fn" do
+  describe ".process_file_path" do
     let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
 
     it "returns the default file" do
-      expect(DevDNSd::Application.pid_fn).to eq("/var/run/devdnsd.pid")
+      expect(DevDNSd::Application.process_file_path).to eq("/var/run/devdnsd.pid")
     end
 
     it "return the set file" do
       DevDNSd::Application.instance.config.pid_file = "/this/is/a/daemon.pid"
-      expect(DevDNSd::Application.pid_fn).to eq("/this/is/a/daemon.pid")
+      expect(DevDNSd::Application.process_file_path).to eq("/this/is/a/daemon.pid")
     end
   end
 
-  describe ".pid_directory" do
+  describe ".log_file_path" do
+    let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
+
+    it "returns the default file" do
+      expect(DevDNSd::Application.log_file_path).to eq(log_file)
+    end
+
+    it "return the set file" do
+      DevDNSd::Application.instance.config.log_file = "/this/is/a/daemon.log"
+      expect(DevDNSd::Application.log_file_path).to eq("/this/is/a/daemon.log")
+    end
+  end
+
+  describe ".working_directory" do
     let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
 
     it "returns the default path" do
-      expect(DevDNSd::Application.pid_directory).to eq("/var/run")
+      expect(DevDNSd::Application.working_directory).to eq("/var/run")
     end
 
     it "return the set path basing on the PID file" do
       DevDNSd::Application.instance.config.pid_file = "/this/is/a/daemon.pid"
-      expect(DevDNSd::Application.pid_directory).to eq("/this/is/a")
+      expect(DevDNSd::Application.working_directory).to eq("/this/is/a")
+    end
+  end
+
+  describe ".log_directory" do
+    let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
+
+    it "returns the default path" do
+      expect(DevDNSd::Application.log_directory).to eq(File.dirname(log_file))
+    end
+
+    it "return the set path basing on the PID file" do
+      DevDNSd::Application.instance.config.log_file = "/this/is/a/daemon.log"
+      expect(DevDNSd::Application.log_directory).to eq("/this/is/a")
     end
   end
 
