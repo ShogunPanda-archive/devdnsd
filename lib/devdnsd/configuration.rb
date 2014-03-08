@@ -19,11 +19,11 @@ module DevDNSd
     # The TLD to manage. Default: `dev`.
     property :tld, default: "dev"
 
-    # The PID file to use. Default: `/var/run/devdnsd.pid`.
-    property :pid_file, default: "/var/log/devdnsd.pid"
+    # The PID file to use. Default: `~/.devdnsd/daemon.pid`.
+    property :pid_file, default: "~/.devdnsd/daemon.pid"
 
-    # The file to log to. Default: `/var/log/devdnsd.log`.
-    property :log_file, default: "/var/log/devdnsd.log"
+    # The file to log to. Default: `/var/log/daemon.log`.
+    property :log_file, default: "~/.devdnsd/daemon.log"
 
     # The minimum severity to log. Default: `Logger::INFO`.
     property :log_level, default: Logger::INFO
@@ -65,8 +65,13 @@ module DevDNSd
       super(file, overrides, logger)
 
       # Make sure some arguments are of correct type
-      self.log_file = $stdout if log_file == "STDOUT"
-      self.log_file = $stderr if log_file == "STDERR"
+      self.log_file = case log_file
+        when "STDOUT" then $stdout
+        when "STDERR" then $stderr
+        else File.absolute_path(File.expand_path(log_file))
+      end
+
+      self.pid_file = File.absolute_path(File.expand_path(pid_file))
       self.port = port.to_integer
       self.log_level = log_level.to_integer
 

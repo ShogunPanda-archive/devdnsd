@@ -12,6 +12,7 @@ require "mustache"
 require "ipaddr"
 require "fiber"
 require "plist"
+require "tempfile"
 
 Lazier.load!(:object)
 

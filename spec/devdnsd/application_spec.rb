@@ -339,7 +339,7 @@ describe DevDNSd::Application do
 
   describe "#dns_update" do
     it "should update the DNS cache" do
-      allow(application).to receive(:execute_command).and_return("EXECUTED")
+      allow(application).to receive(:execute_command).exactly(3).and_return("EXECUTED")
       expect(application.dns_update).to eq("EXECUTED")
     end
   end

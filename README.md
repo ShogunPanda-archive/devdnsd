@@ -37,7 +37,7 @@ Just type `devdnsd help` and you'll see all available options.
 
 ## Configuration
 
-By defaults, DevDNSd uses a configuration file in `~/.devdnsd_config`, but you can change the path using the `--config` switch.
+By defaults, DevDNSd uses a configuration file in `~/.devdnsd/default.conf`, but you can change the path using the `--config` switch.
 
 The file is a plain Ruby file with a single `config` object that supports the following directives.
 

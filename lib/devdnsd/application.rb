@@ -73,7 +73,7 @@ module DevDNSd
       # @param command [String] The command to execute.
       # @return [Boolean] `true` if command succeeded, `false` otherwise.
       def execute_command(command)
-        system(command)
+        system("#{command} 2&>1 > /dev/null")
       end
 
       # Updates DNS cache.
@@ -81,7 +81,15 @@ module DevDNSd
       # @return [Boolean] `true` if command succeeded, `false` otherwise.
       def dns_update
         @logger.info(i18n.dns_update)
-        execute_command("dscacheutil -flushcache")
+
+        script = Tempfile.new("devdnsd-dns-cache-script")
+        script.write("dscacheutil -flushcache\n")
+        script.write("killall -9 mDNSResponder\n")
+        script.write("killall -9 mDNSResponderHelper\n")
+        script.close
+
+        system("/usr/bin/osascript -e 'do shell script \"sh #{script.path}\" with administrator privileges'")
+        script.unlink
       end
 
       # Checks if we are running on MacOS X.
@@ -203,14 +211,15 @@ module DevDNSd
         # @return [Boolean] `true` if operation succeeded, `false` otherwise.
         def create_resolver(_, resolver_path)
           begin
-            logger.info(i18n.resolver_creating(resolver_path))
+            logger.info(replace_markers(i18n.resolver_creating(resolver_path)))
 
-            ::File.open(resolver_path, "w") {|f|
-              f.write("nameserver 127.0.0.1\n")
-              f.write("port #{@config.port}")
-              f.flush
-            }
+            script = Tempfile.new("devdnsd-install-script")
+            script.write("mkdir -p '#{File.dirname(resolver_path)}'\n")
+            script.write("echo 'nameserver 127.0.0.1\\nport #{@config.port}' >> #{resolver_path}")
+            script.close
 
+            system("/usr/bin/osascript -e 'do shell script \"sh #{script.path}\" with administrator privileges'")
+            script.unlink
             true
           rescue
             logger.error(i18n.resolver_creating_error)
@@ -218,18 +227,19 @@ module DevDNSd
           end
         end
 
-        # Writes a OSX resolver.
-        #
-        # @param resolver_path [String] The resolver path.
-        def write_resolver(resolver_path)
-        end
-
         # Deletes a OSX resolver.
         #
         # @param resolver_path [String] The resolver path.
         # @return [Boolean] `true` if operation succeeded, `false` otherwise.
         def delete_resolver(_, resolver_path)
-          delete_file(resolver_path, :resolver_deleting, :resolver_deleting_error)
+          begin
+            logger.info(i18n.resolver_deleting(resolver_path))
+            system("/usr/bin/osascript -e 'do shell script \"rm #{resolver_path}\" with administrator privileges'")
+            true
+          rescue
+            logger.warn(i18n.resolver_deleting_error)
+            false
+          end
         end
 
         # Creates a OSX system agent.
@@ -238,7 +248,7 @@ module DevDNSd
         # @return [Boolean] `true` if operation succeeded, `false` otherwise.
         def create_agent(launch_agent, _)
           begin
-            logger.info(i18n.agent_creating(launch_agent))
+            logger.info(replace_markers(i18n.agent_creating(launch_agent)))
             program, args = prepare_agent
 
             ::File.open(launch_agent, "w") {|f|
@@ -304,6 +314,14 @@ module DevDNSd
             logger.send(error_level, i18n.send(error_message))
             false
           end
+        end
+
+        # Replaces markers in a log message.
+        #
+        # @param message [String] The message to process.
+        # @return [String] The processed message.
+        def replace_markers(message)
+          @command.application.console.replace_markers(message)
         end
     end
 
@@ -464,7 +482,7 @@ module DevDNSd
           log_management(:run, prefix, type, locale.removing, locale.adding, address, config)
           rv = execute_command(command)
           labels = (type == :remove ? [locale.remove, locale.from] : [locale.add, locale.to])
-          @logger.error(@command.application.console.replace_markers(locale.general_error(labels[0], address, labels[1], config.interface))) if !rv
+          @logger.error(replace_markers(locale.general_error(labels[0], address, labels[1], config.interface))) if !rv
           rv
         end
 
@@ -480,7 +498,7 @@ module DevDNSd
         def log_management(message, prefix, type, remove_label, add_label, address, config)
           locale = i18n
           labels = (type == :remove ? [remove_label, locale.from] : [add_label, locale.to])
-          @logger.info(@command.application.console.replace_markers(i18n.send(message, prefix, labels[0], address, labels[1], config.interface)))
+          @logger.info(replace_markers(i18n.send(message, prefix, labels[0], address, labels[1], config.interface)))
         end
     end
 
@@ -624,7 +642,7 @@ module DevDNSd
       options = @command.application.get_options.reject {|_, v| v.nil? }
 
       # Setup logger
-      @logger = Bovem::Logger.create(Bovem::Logger.get_real_file(options["log_file"]) || Bovem::Logger.default_file, Logger::INFO)
+      create_logger(options)
 
       # Open configuration
       read_configuration(options)
@@ -687,18 +705,59 @@ module DevDNSd
     end
 
     private
+      # Creates a logger.
+      #
+      # @param options [Hash] The configuration to use.
+      def create_logger(options)
+        warn_failure = false
+        orig_file = file = Bovem::Logger.get_real_file(options["log_file"]) || Bovem::Logger.default_file
+
+        if file.is_a?(String) then
+          file = File.absolute_path(File.expand_path(file))
+
+          begin
+            FileUtils.mkdir_p(File.dirname(file))
+            @logger = Bovem::Logger.create(file, Logger::INFO)
+          rescue
+            file = $stdout
+            warn_failure = true
+          end
+        end
+
+        @logger = Bovem::Logger.create(file, Logger::INFO)
+        @logger.warn(replace_markers(i18n.logging_failed(orig_file))) if warn_failure
+        @logger
+      end
+
       # Reads configuration.
       #
       # @param options [Hash] The configuration to read.
       def read_configuration(options)
+        path = ::File.absolute_path(File.expand_path(options["configuration"]))
+
         begin
-          @config = DevDNSd::Configuration.new(options["configuration"], options, @logger)
+          @config = DevDNSd::Configuration.new(path, options, @logger)
+          ensure_directory_for(@config.log_file) if @config.log_file.is_a?(String)
+          ensure_directory_for(@config.pid_file)
+
           @logger = nil
           @logger = get_logger
         rescue Bovem::Errors::InvalidConfiguration => e
-          logger = Bovem::Logger.create("STDERR")
+          logger = Bovem::Logger.create($stderr)
           logger.fatal(e.message)
-          logger.warn(@command.application.console.replace_markers(i18n.application_create_config(options["configuration"])))
+          logger.warn(replace_markers(i18n.application_create_config(path)))
+          raise ::SystemExit
+        end
+      end
+
+      # Creates a folder for a file.
+      #
+      # @param [String] The path of the file.
+      def ensure_directory_for(path)
+        begin
+          FileUtils.mkdir_p(File.dirname(path))
+        rescue
+          @logger.warn(replace_markers(i18n.invalid_directory(File.dirname(path))))
           raise ::SystemExit
         end
       end
