@@ -755,7 +755,7 @@ module DevDNSd
 
       # Creates a folder for a file.
       #
-      # @param [String] The path of the file.
+      # @param path [String] The path of the file.
       def ensure_directory_for(path)
         begin
           FileUtils.mkdir_p(File.dirname(path))
