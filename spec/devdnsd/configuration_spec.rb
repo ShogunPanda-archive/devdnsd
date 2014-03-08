@@ -14,10 +14,15 @@ describe DevDNSd::Configuration do
       expect(config.address).to eq("0.0.0.0")
       expect(config.port).to eq(7771)
       expect(config.tld).to eq("dev")
-      expect(config.log_file).to eq("/var/log/devdnsd.log")
+      expect(config.log_file).to eq(File.absolute_path(File.expand_path("~/.devdnsd/daemon.log")))
       expect(config.log_level).to eq(::Logger::INFO)
       expect(config.rules.count).to eq(1)
       expect(config.foreground).to eq(false)
+    end
+
+    it "should log to standard output or standard error" do
+      expect(DevDNSd::Configuration.new(nil, log_file: "STDOUT").log_file).to eq($stdout)
+      expect(DevDNSd::Configuration.new(nil, log_file: "STDERR").log_file).to eq($stderr)
     end
   end
 

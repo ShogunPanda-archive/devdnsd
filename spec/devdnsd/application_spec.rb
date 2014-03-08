@@ -17,7 +17,7 @@ describe DevDNSd::Application do
       option :configuration, [], {default: overrides["configuration"] || "/dev/null"}
       option :tld, [], {default: overrides["tld"] || "dev"}
       option :port, [], {type: Integer, default: overrides["port"] || 7771}
-      option :pid_file, [:P, "pid-file"], {type: String, default: "/var/run/devdnsd.pid"}
+      option :pid_file, [:P, "pid-file"], {type: String, default: overrides["pid_file"] || "/var/run/devdnsd.pid"}
       option :log_file, [:l, "log-file"], {default: overrides["log_file"] || "/dev/null"}
       option :log_level, [:L, "log-level"], {type: Integer, default: overrides["log_level"] || 1}
     }, :en)
@@ -35,6 +35,12 @@ describe DevDNSd::Application do
       expect(application.logger).not_to be_nil
     end
 
+    it "should fallback logger to STDOUT" do
+      allow_any_instance_of(DevDNSd::Application).to receive(:read_configuration)
+      expect(Bovem::Logger).to receive(:create).with($stdout, Logger::INFO)
+      create_application({"log_file" => "/invalid/logger"})
+    end
+
     it "should setup the configuration" do
       expect(application.config).not_to be_nil
     end
@@ -49,6 +55,12 @@ describe DevDNSd::Application do
 
       expect { create_application({"configuration" => file.path, "log_file" => log_file}) }.to raise_error(::SystemExit)
       ::File.unlink(path)
+    end
+
+    it "should abort when the log file is invalid" do
+      allow_any_instance_of(Bovem::Logger).to receive(:fatal)
+      allow_any_instance_of(Bovem::Logger).to receive(:warn)
+      expect { create_application({"pid_file" => "/invalid/pid", "log_file" => log_file}) }.to raise_error(::SystemExit)
     end
   end
 
@@ -339,8 +351,8 @@ describe DevDNSd::Application do
 
   describe "#dns_update" do
     it "should update the DNS cache" do
-      allow(application).to receive(:execute_command).exactly(3).and_return("EXECUTED")
-      expect(application.dns_update).to eq("EXECUTED")
+      allow(Kernel).to receive(:system).and_return("EXECUTED")
+      application.dns_update
     end
   end
 
@@ -559,6 +571,7 @@ describe DevDNSd::Application do
     before(:each) do
       allow(application).to receive(:is_osx?).and_return(true)
       allow(application).to receive(:execute_command)
+      expect(Kernel).to receive(:system).at_least(1)
     end
 
     it "should create the resolver" do
@@ -567,6 +580,7 @@ describe DevDNSd::Application do
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
+      allow(application).to receive(:create_resolver) {|_, path| FileUtils.touch(path) }
       application.action_install
       expect(::File.exists?(resolver_path)).to be_true
 
@@ -607,6 +621,8 @@ describe DevDNSd::Application do
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
 
+      allow(application).to receive(:create_agent).and_return(true)
+      expect_any_instance_of(R18n::Translation).to receive(:resolver_creating).and_raise(ArgumentError)
       expect(application.logger).to receive(:error).with("Cannot create the resolver file.")
       application.action_install
 
@@ -655,6 +671,7 @@ describe DevDNSd::Application do
     before(:each) do
       allow(application).to receive(:is_osx?).and_return(true)
       allow(application).to receive(:execute_command)
+      expect(Kernel).to receive(:system).at_least(1)
     end
 
     it "should remove the resolver" do
@@ -666,6 +683,23 @@ describe DevDNSd::Application do
       application.action_install
       application.action_uninstall
       expect(::File.exists?(resolver_path)).to be_false
+
+      ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
+      ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
+    end
+
+    it "should not remove an invalid resolver" do
+      allow(application).to receive(:resolver_path).and_return("/invalid/resolver")
+      allow(application).to receive(:launch_agent_path).and_return("/invalid/agent")
+      ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
+      ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)
+
+      allow(application).to receive(:unload_agent).and_return(true)
+      expect_any_instance_of(R18n::Translation).to receive(:resolver_deleting).and_raise(ArgumentError)
+      expect(application.logger).to receive(:warn)
+      expect(application.logger).to receive(:warn).with("Cannot delete the resolver file.")
+
+      application.action_uninstall
 
       ::File.unlink(application.resolver_path) if ::File.exists?(application.resolver_path)
       ::File.unlink(application.launch_agent_path) if ::File.exists?(application.launch_agent_path)

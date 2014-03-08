@@ -34,12 +34,18 @@ Bovem::Application.create do
 
   command :install do
     description localizer.command_install
-    action { |command| DevDNSd::Application.instance(command).action_install }
+    action { |command|
+      command.application.options[:log_file].set("STDOUT")
+      DevDNSd::Application.instance(command).action_install
+    }
   end
 
   command :uninstall do
     description localizer.command_uninstall
-    action { |command| DevDNSd::Application.instance(command).action_uninstall }
+    action { |command|
+      command.application.options[:log_file].set("STDOUT")
+      DevDNSd::Application.instance(command).action_uninstall
+    }
   end
 
   command :aliases do

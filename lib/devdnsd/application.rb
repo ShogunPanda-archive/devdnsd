@@ -83,12 +83,12 @@ module DevDNSd
         @logger.info(i18n.dns_update)
 
         script = Tempfile.new("devdnsd-dns-cache-script")
-        script.write("dscacheutil -flushcache\n")
-        script.write("killall -9 mDNSResponder\n")
-        script.write("killall -9 mDNSResponderHelper\n")
+        script.write("dscacheutil -flushcache 2&>1 > /dev/null\n")
+        script.write("killall -9 mDNSResponder 2&>1 > /dev/null\n")
+        script.write("killall -9 mDNSResponderHelper 2&>1 > /dev/null\n")
         script.close
 
-        system("/usr/bin/osascript -e 'do shell script \"sh #{script.path}\" with administrator privileges'")
+        Kernel.system("/usr/bin/osascript -e 'do shell script \"sh #{script.path}\" with administrator privileges' 2&>1 > /dev/null")
         script.unlink
       end
 
@@ -168,6 +168,8 @@ module DevDNSd
         # @return [Boolean] `true` if operation succeeded, `false` otherwise.
         def manage_installation(launch_agent, resolver_path, first_operation, second_operation, third_operation)
           rv = check_agent_available
+
+          logger.warn(replace_markers(i18n.admin_privileges_warning))
           rv = send(first_operation, launch_agent, resolver_path) if rv
           rv = send(second_operation, launch_agent, resolver_path) if rv
           rv = send(third_operation, launch_agent, resolver_path) if rv
@@ -215,13 +217,14 @@ module DevDNSd
 
             script = Tempfile.new("devdnsd-install-script")
             script.write("mkdir -p '#{File.dirname(resolver_path)}'\n")
-            script.write("echo 'nameserver 127.0.0.1\\nport #{@config.port}' >> #{resolver_path}")
+            script.write("rm -rf '#{resolver_path}'\n")
+            script.write("echo 'nameserver 127.0.0.1\\nport #{@config.port}' >> '#{resolver_path}'")
             script.close
 
-            system("/usr/bin/osascript -e 'do shell script \"sh #{script.path}\" with administrator privileges'")
+            Kernel.system("/usr/bin/osascript -e 'do shell script \"sh #{script.path}\" with administrator privileges' 2&>1 > /dev/null")
             script.unlink
             true
-          rescue
+          rescue Exception
             logger.error(i18n.resolver_creating_error)
             false
           end
@@ -234,9 +237,9 @@ module DevDNSd
         def delete_resolver(_, resolver_path)
           begin
             logger.info(i18n.resolver_deleting(resolver_path))
-            system("/usr/bin/osascript -e 'do shell script \"rm #{resolver_path}\" with administrator privileges'")
+            Kernel.system("/usr/bin/osascript -e 'do shell script \"rm #{resolver_path}\" with administrator privileges' 2&>1 > /dev/null")
             true
-          rescue
+          rescue Exception
             logger.warn(i18n.resolver_deleting_error)
             false
           end
@@ -725,7 +728,7 @@ module DevDNSd
         end
 
         @logger = Bovem::Logger.create(file, Logger::INFO)
-        @logger.warn(replace_markers(i18n.logging_failed(orig_file))) if warn_failure
+        @logger.warn(replace_markers(i18n.logging_failed(orig_file))) if @logger && warn_failure
         @logger
       end
 

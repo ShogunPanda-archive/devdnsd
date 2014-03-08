@@ -17,6 +17,7 @@
     reply: "Reply is %1 with type %2."
     no_reply: "No reply found."
     no_agent: "Install DevDNSd as a local resolver is only available on MacOSX."
+    admin_privileges_warning: "Basing on your setup, the system might ask you up to twice to grant {mark=bright}osascript{/mark} application admin privileges."
     resolver_creating: "Creating the resolver in {mark=bright}%1{/mark} ..."
     resolver_creating_error: "Cannot create the resolver file."
     resolver_deleting: "Deleting the resolver %1 ..."
