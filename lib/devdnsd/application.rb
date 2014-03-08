@@ -696,7 +696,9 @@ module DevDNSd
           @logger = nil
           @logger = get_logger
         rescue Bovem::Errors::InvalidConfiguration => e
-          @logger ? @logger.fatal(e.message) : Bovem::Logger.create("STDERR").fatal(i18n.logging_failed(log_file))
+          logger = Bovem::Logger.create("STDERR")
+          logger.fatal(e.message)
+          logger.warn(@command.application.console.replace_markers(i18n.application_create_config(options["configuration"])))
           raise ::SystemExit
         end
       end

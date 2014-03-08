@@ -55,6 +55,7 @@
     application_meta_addresses: "INDIRIZZI"
     application_meta_aliases: "ALIAS"
     application_meta_command: "COMANDO"
+    application_create_config: "Per eseguire devdnsd, per favore crea il file {mark=bright}%1{/mark}. Un file vuoto è sufficiente."
     command_start: "Avvia server."
     command_install: "Installa il server."
     command_uninstall: "Disinstalla il server."

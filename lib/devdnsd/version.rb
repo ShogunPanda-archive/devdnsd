@@ -16,7 +16,7 @@ module DevDNSd
     MINOR = 0
 
     # The patch version.
-    PATCH = 6
+    PATCH = 7
 
     # The current version number of DevDNSd.
     STRING = [MAJOR, MINOR, PATCH].compact.join(".")

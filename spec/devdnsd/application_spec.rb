@@ -40,6 +40,8 @@ describe DevDNSd::Application do
     end
 
     it "should abort with an invalid configuration" do
+      allow_any_instance_of(Bovem::Logger).to receive(:fatal)
+      allow_any_instance_of(Bovem::Logger).to receive(:warn)
       path = "/tmp/devdnsd-test-#{Time.now.strftime("%Y%m%d-%H:%M:%S")}"
       file = ::File.new(path, "w")
       file.write("config.port = ")
