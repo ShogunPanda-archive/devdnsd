@@ -10,12 +10,12 @@ gemspec
 
 # Testing
 gem "rspec", "~> 2.14.1"
-gem "rake", "~> 10.1.0"
+gem "rake", "~> 10.1.1"
 
 # Documentation
-gem "simplecov", ">= 0.7.1"
-gem "coveralls", ">= 0.6.7", require: false
+gem "simplecov", ">= 0.8.2"
+gem "coveralls", ">= 0.7.0", require: false
 gem "pry", ">= 0"
-gem "yard", ">= 0.8.7"
-gem "kramdown", ">= 1.2.0"
-gem "github-markup", ">= 0.7.5"
+gem "yard", ">= 0.8.7.3"
+gem "kramdown", ">= 1.3.2"
+gem "github-markup", ">= 1.0.3"

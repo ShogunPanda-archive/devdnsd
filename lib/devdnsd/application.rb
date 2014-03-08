@@ -495,7 +495,6 @@ module DevDNSd
           self.logger = application.logger
 
           match(/.+/, DevDNSd::Application::ANY_CLASSES) do |transaction, match_data|
-            transaction.append_question!
             application.config.rules.each { |rule| application.process_rule_in_classes(rule, match_data, transaction) } # During debugging, wrap the inside of the block with a begin rescue and PRINT the exception because RubyDNS hides it.
           end
 

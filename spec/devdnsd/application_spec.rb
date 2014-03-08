@@ -202,8 +202,8 @@ describe DevDNSd::Application do
     end
 
     it "should setup callbacks" do
-      expect_any_instance_of(RubyDNS::Server).to receive(:on).with(:start)
-      expect_any_instance_of(RubyDNS::Server).to receive(:on).with(:stop)
+      expect_any_instance_of(RubyDNS::RuleBasedServer).to receive(:on).with(:start)
+      expect_any_instance_of(RubyDNS::RuleBasedServer).to receive(:on).with(:stop)
 
       EM.run do
         EM.add_timer(0.01) { application.perform_server }
