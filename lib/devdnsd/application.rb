@@ -241,8 +241,7 @@ module DevDNSd
             logger.info(replace_markers(i18n.resolver_creating(resolver_path)))
 
             script = Tempfile.new("devdnsd-install-script")
-            script.write("mkdir -p '#{File.dirname(resolver_path)}'\n")
-            script.write("rm -rf '#{resolver_path}'\n")
+            script.write("mkdir -p '#{File.dirname(resolver_path)}'\nrm -rf '#{resolver_path}'\n")
             script.write("echo 'nameserver 127.0.0.1\\nport #{@config.port}' >> '#{resolver_path}'")
             script.close
 
@@ -780,9 +779,7 @@ module DevDNSd
           @logger = nil
           @logger = get_logger
         rescue Bovem::Errors::InvalidConfiguration => e
-          logger = Bovem::Logger.create($stderr)
-          logger.fatal(e.message)
-          logger.warn(replace_markers(i18n.application_create_config(path)))
+          log_failed_configuration(path, e)
           raise ::SystemExit
         end
       end
@@ -797,6 +794,16 @@ module DevDNSd
           @logger.warn(replace_markers(i18n.invalid_directory(File.dirname(path))))
           raise ::SystemExit
         end
+      end
+
+      # Logs a failed configuration
+      #
+      # @param path [String] The path of the invalid file.
+      # @param exception [Exception] The occurred exception.
+      def log_failed_configuration(path, exception)
+        logger = Bovem::Logger.create($stderr)
+        logger.fatal(exception.message)
+        logger.warn(replace_markers(i18n.application_create_config(path)))
       end
   end
 end
