@@ -233,28 +233,30 @@
       <pre class="lines">
 
 
-513
-514
-515
-516
-517
-518
-519
-520
-521
-522
-523
-524
-525
-526
-527</pre>
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 513</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 537</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_perform_server'>perform_server</span>
   <span class='id identifier rubyid_application'>application</span> <span class='op'>=</span> <span class='kw'>self</span>
-  <span class='const'>RubyDNS</span><span class='op'>::</span><span class='id identifier rubyid_run_server'>run_server</span><span class='lparen'>(</span><span class='label'>listen:</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='symbol'>:udp</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span><span class='period'>.</span><span class='id identifier rubyid_to_integer'>to_integer</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span>
+
+  <span class='const'>RubyDNS</span><span class='op'>::</span><span class='id identifier rubyid_run_server'>run_server</span><span class='lparen'>(</span><span class='label'>listen:</span> <span class='id identifier rubyid_build_listen_interfaces'>build_listen_interfaces</span><span class='rparen'>)</span> <span class='kw'>do</span>
     <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span>
 
     <span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>.+</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='const'>DevDNSd</span><span class='op'>::</span><span class='const'>Application</span><span class='op'>::</span><span class='const'>ANY_CLASSES</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_transaction'>transaction</span><span class='comma'>,</span> <span class='id identifier rubyid_match_data'>match_data</span><span class='op'>|</span>
@@ -361,21 +363,21 @@
       <pre class="lines">
 
 
-535
-536
-537
-538
-539
-540
-541
-542
-543
-544
-545
-546</pre>
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 535</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 560</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_process_rule'>process_rule</span><span class='lparen'>(</span><span class='id identifier rubyid_rule'>rule</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_match_data'>match_data</span><span class='comma'>,</span> <span class='id identifier rubyid_transaction'>transaction</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_reply'>reply</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_perform_process_rule'>perform_process_rule</span><span class='lparen'>(</span><span class='id identifier rubyid_rule'>rule</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_match_data'>match_data</span><span class='comma'>,</span> <span class='id identifier rubyid_transaction'>transaction</span><span class='rparen'>)</span>
@@ -468,21 +470,21 @@
       <pre class="lines">
 
 
-553
-554
-555
-556
-557
-558
-559
-560
-561
-562
-563
-564</pre>
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 553</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 578</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_process_rule_in_classes'>process_rule_in_classes</span><span class='lparen'>(</span><span class='id identifier rubyid_rule'>rule</span><span class='comma'>,</span> <span class='id identifier rubyid_match_data'>match_data</span><span class='comma'>,</span> <span class='id identifier rubyid_transaction'>transaction</span><span class='rparen'>)</span>
   <span class='comment'># Get the subset of handled class that is valid for the rule
@@ -506,7 +508,7 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Mar  8 15:25:56 2014 by
+  Generated on Sun Mar  9 19:54:07 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.1.0).
 </div>

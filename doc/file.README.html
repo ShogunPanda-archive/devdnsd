@@ -99,6 +99,15 @@
 
 <p><strong>You’re done!</strong></p>
 
+<h2 id="dual-stack-ipv4ipv6-usage">Dual stack (IPv4/IPv6) usage</h2>
+
+<p>If you experience slowness in resolving host from clients (Chrome, curl etc.) when you don’t specify the address type, make sure you have both a <code>A</code> and <code>AAAA</code> rules set for the same host, like this:</p>
+
+<p><code>ruby
+config.add_rule(/\.dev$/, "127.0.0.1")
+config.add_rule(/\.dev$/, "::1", :AAAA)
+</code></p>
+
 <h2 id="advanced-usage">Advanced usage</h2>
 
 <p>Just type <code>devdnsd help</code> and you’ll see all available options.</p>
@@ -166,7 +175,7 @@ This argument is ignored if you pass the block, as it assumes that the second ar
 </div></div>
 
     <div id="footer">
-  Generated on Sat Mar  8 15:25:56 2014 by
+  Generated on Sun Mar  9 19:54:07 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.1.0).
 </div>

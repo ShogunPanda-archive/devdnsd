@@ -513,7 +513,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ApplicationMethods/System.html" title="DevDNSd::ApplicationMethods::System (module)">DevDNSd::ApplicationMethods::System</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ApplicationMethods/System.html#action_add-instance_method" title="DevDNSd::ApplicationMethods::System#action_add (method)">#action_add</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_install-instance_method" title="DevDNSd::ApplicationMethods::System#action_install (method)">#action_install</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_remove-instance_method" title="DevDNSd::ApplicationMethods::System#action_remove (method)">#action_remove</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_start-instance_method" title="DevDNSd::ApplicationMethods::System#action_start (method)">#action_start</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_stop-instance_method" title="DevDNSd::ApplicationMethods::System#action_stop (method)">#action_stop</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_uninstall-instance_method" title="DevDNSd::ApplicationMethods::System#action_uninstall (method)">#action_uninstall</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#dns_update-instance_method" title="DevDNSd::ApplicationMethods::System#dns_update (method)">#dns_update</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#execute_command-instance_method" title="DevDNSd::ApplicationMethods::System#execute_command (method)">#execute_command</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#is_osx%3F-instance_method" title="DevDNSd::ApplicationMethods::System#is_osx? (method)">#is_osx?</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#launch_agent_path-instance_method" title="DevDNSd::ApplicationMethods::System#launch_agent_path (method)">#launch_agent_path</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#resolver_path-instance_method" title="DevDNSd::ApplicationMethods::System#resolver_path (method)">#resolver_path</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="ApplicationMethods/System.html#action_add-instance_method" title="DevDNSd::ApplicationMethods::System#action_add (method)">#action_add</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_install-instance_method" title="DevDNSd::ApplicationMethods::System#action_install (method)">#action_install</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_remove-instance_method" title="DevDNSd::ApplicationMethods::System#action_remove (method)">#action_remove</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_restart-instance_method" title="DevDNSd::ApplicationMethods::System#action_restart (method)">#action_restart</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_start-instance_method" title="DevDNSd::ApplicationMethods::System#action_start (method)">#action_start</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_status-instance_method" title="DevDNSd::ApplicationMethods::System#action_status (method)">#action_status</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_stop-instance_method" title="DevDNSd::ApplicationMethods::System#action_stop (method)">#action_stop</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#action_uninstall-instance_method" title="DevDNSd::ApplicationMethods::System#action_uninstall (method)">#action_uninstall</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#dns_update-instance_method" title="DevDNSd::ApplicationMethods::System#dns_update (method)">#dns_update</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#execute_command-instance_method" title="DevDNSd::ApplicationMethods::System#execute_command (method)">#execute_command</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#is_osx%3F-instance_method" title="DevDNSd::ApplicationMethods::System#is_osx? (method)">#is_osx?</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#launch_agent_path-instance_method" title="DevDNSd::ApplicationMethods::System#launch_agent_path (method)">#launch_agent_path</a></span>, <span class='object_link'><a href="ApplicationMethods/System.html#resolver_path-instance_method" title="DevDNSd::ApplicationMethods::System#resolver_path (method)">#resolver_path</a></span></p>
 
   
   
@@ -579,25 +579,25 @@
       <pre class="lines">
 
 
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648
-649
-650
-651
-652
-653
-654</pre>
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 639</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 672</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_i18n_setup'>i18n_setup</span><span class='lparen'>(</span><span class='symbol'>:devdnsd</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_absolute_path'>absolute_path</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/../../locales/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -669,39 +669,6 @@
       <pre class="lines">
 
 
-618
-619
-620
-621
-622
-623
-624
-625
-626
-627
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648
-649
-650
 651
 652
 653
@@ -818,10 +785,51 @@
 764
 765
 766
-767</pre>
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 618</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 651</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -954,16 +962,14 @@
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
       <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-        <span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='gvar'>$stderr</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_application_create_config'>application_create_config</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_log_failed_configuration'>log_failed_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
 
     <span class='comment'># Creates a folder for a file.
 </span>    <span class='comment'>#
-</span>    <span class='comment'># @param [String] The path of the file.
+</span>    <span class='comment'># @param path [String] The path of the file.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_ensure_directory_for'>ensure_directory_for</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
       <span class='kw'>begin</span>
         <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_mkdir_p'>mkdir_p</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -971,6 +977,16 @@
         <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_directory'>invalid_directory</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Logs a failed configuration
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param path [String] The path of the invalid file.
+</span>    <span class='comment'># @param exception [Exception] The occurred exception.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_log_failed_configuration'>log_failed_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_exception'>exception</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='gvar'>$stderr</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_exception'>exception</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_application_create_config'>application_create_config</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1022,39 +1038,6 @@
       <pre class="lines">
 
 
-618
-619
-620
-621
-622
-623
-624
-625
-626
-627
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648
-649
-650
 651
 652
 653
@@ -1171,10 +1154,51 @@
 764
 765
 766
-767</pre>
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 618</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 651</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -1307,16 +1331,14 @@
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
       <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-        <span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='gvar'>$stderr</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_application_create_config'>application_create_config</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_log_failed_configuration'>log_failed_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
 
     <span class='comment'># Creates a folder for a file.
 </span>    <span class='comment'>#
-</span>    <span class='comment'># @param [String] The path of the file.
+</span>    <span class='comment'># @param path [String] The path of the file.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_ensure_directory_for'>ensure_directory_for</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
       <span class='kw'>begin</span>
         <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_mkdir_p'>mkdir_p</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -1324,6 +1346,16 @@
         <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_directory'>invalid_directory</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Logs a failed configuration
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param path [String] The path of the invalid file.
+</span>    <span class='comment'># @param exception [Exception] The occurred exception.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_log_failed_configuration'>log_failed_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_exception'>exception</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='gvar'>$stderr</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_exception'>exception</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_application_create_config'>application_create_config</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1375,39 +1407,6 @@
       <pre class="lines">
 
 
-618
-619
-620
-621
-622
-623
-624
-625
-626
-627
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648
-649
-650
 651
 652
 653
@@ -1524,10 +1523,51 @@
 764
 765
 766
-767</pre>
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 618</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 651</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -1660,16 +1700,14 @@
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
       <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-        <span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='gvar'>$stderr</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_application_create_config'>application_create_config</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_log_failed_configuration'>log_failed_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
 
     <span class='comment'># Creates a folder for a file.
 </span>    <span class='comment'>#
-</span>    <span class='comment'># @param [String] The path of the file.
+</span>    <span class='comment'># @param path [String] The path of the file.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_ensure_directory_for'>ensure_directory_for</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
       <span class='kw'>begin</span>
         <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_mkdir_p'>mkdir_p</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -1677,6 +1715,16 @@
         <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_directory'>invalid_directory</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Logs a failed configuration
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param path [String] The path of the invalid file.
+</span>    <span class='comment'># @param exception [Exception] The occurred exception.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_log_failed_configuration'>log_failed_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_exception'>exception</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='gvar'>$stderr</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_exception'>exception</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_application_create_config'>application_create_config</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1728,39 +1776,6 @@
       <pre class="lines">
 
 
-618
-619
-620
-621
-622
-623
-624
-625
-626
-627
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648
-649
-650
 651
 652
 653
@@ -1877,10 +1892,51 @@
 764
 765
 766
-767</pre>
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 618</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 651</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='comment'># Class for ANY DNS request.
@@ -2013,16 +2069,14 @@
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='kw'>nil</span>
         <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
       <span class='kw'>rescue</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Errors</span><span class='op'>::</span><span class='const'>InvalidConfiguration</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-        <span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='gvar'>$stderr</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_application_create_config'>application_create_config</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_log_failed_configuration'>log_failed_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
 
     <span class='comment'># Creates a folder for a file.
 </span>    <span class='comment'>#
-</span>    <span class='comment'># @param [String] The path of the file.
+</span>    <span class='comment'># @param path [String] The path of the file.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_ensure_directory_for'>ensure_directory_for</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
       <span class='kw'>begin</span>
         <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_mkdir_p'>mkdir_p</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -2030,6 +2084,16 @@
         <span class='ivar'>@logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_directory'>invalid_directory</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>SystemExit</span>
       <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Logs a failed configuration
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param path [String] The path of the invalid file.
+</span>    <span class='comment'># @param exception [Exception] The occurred exception.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_log_failed_configuration'>log_failed_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_exception'>exception</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span> <span class='op'>=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='gvar'>$stderr</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_exception'>exception</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_application_create_config'>application_create_config</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2069,15 +2133,15 @@
       <pre class="lines">
 
 
-703
-704
-705
-706
-707
-708</pre>
+736
+737
+738
+739
+740
+741</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 703</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 736</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_ruby_implementation'>check_ruby_implementation</span>
   <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>JRuby</span><span class='rparen'>)</span> <span class='kw'>then</span>
@@ -2187,14 +2251,14 @@
       <pre class="lines">
 
 
-681
-682
-683
-684
-685</pre>
+714
+715
+716
+717
+718</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 681</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 714</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_force'>force</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_force'>force</span>
@@ -2231,15 +2295,15 @@
       <pre class="lines">
 
 
-695
-696
-697
-698
-699
-700</pre>
+728
+729
+730
+731
+732
+733</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 695</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 728</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_quit'>quit</span>
   <span class='kw'>begin</span>
@@ -2284,12 +2348,12 @@
       <pre class="lines">
 
 
-690
-691
-692</pre>
+723
+724
+725</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 690</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 723</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
   <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_perform_server'>perform_server</span>
@@ -2347,12 +2411,12 @@
       <pre class="lines">
 
 
-659
-660
-661</pre>
+692
+693
+694</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 659</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 692</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_logger'>get_logger</span>
   <span class='ivar'>@logger</span> <span class='op'>||=</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_default_file'>default_file</span> <span class='op'>:</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_file'>log_file</span><span class='comma'>,</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_log_level'>log_level</span><span class='comma'>,</span> <span class='ivar'>@log_formatter</span><span class='rparen'>)</span>
@@ -2404,11 +2468,11 @@
       <pre class="lines">
 
 
-666
-667</pre>
+699
+700</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 666</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 699</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_start'>on_start</span>
 <span class='kw'>end</span></pre>
@@ -2459,11 +2523,11 @@
       <pre class="lines">
 
 
-672
-673</pre>
+705
+706</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 672</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 705</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_stop'>on_stop</span>
 <span class='kw'>end</span></pre>
@@ -2477,7 +2541,7 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Mar  8 15:25:57 2014 by
+  Generated on Sun Mar  9 19:54:08 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.1.0).
 </div>

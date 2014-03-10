@@ -199,6 +199,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#action_restart-instance_method" title="#action_restart (instance method)">- (Boolean) <strong>action_restart</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Restarts the server in background.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#action_start-instance_method" title="#action_start (instance method)">- (Boolean) <strong>action_start</strong> </a>
     
 
@@ -214,6 +237,29 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Starts the server in background.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#action_status-instance_method" title="#action_status (instance method)">- (Boolean) <strong>action_status</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Shows the status of the server.</p>
 </div></span>
   
 </li>
@@ -451,12 +497,12 @@
       <pre class="lines">
 
 
-133
-134
-135</pre>
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 158</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action_add'>action_add</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_manage_aliases'>manage_aliases</span><span class='lparen'>(</span><span class='symbol'>:add</span><span class='comma'>,</span> <span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_add_empty'>add_empty</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -508,12 +554,12 @@
       <pre class="lines">
 
 
-149
-150
-151</pre>
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action_install'>action_install</span>
   <span class='id identifier rubyid_manage_installation'>manage_installation</span><span class='lparen'>(</span><span class='id identifier rubyid_launch_agent_path'>launch_agent_path</span><span class='comma'>,</span> <span class='id identifier rubyid_resolver_path'>resolver_path</span><span class='comma'>,</span> <span class='symbol'>:create_resolver</span><span class='comma'>,</span> <span class='symbol'>:create_agent</span><span class='comma'>,</span> <span class='symbol'>:load_agent</span><span class='rparen'>)</span>
@@ -584,15 +630,76 @@
       <pre class="lines">
 
 
-141
-142
-143</pre>
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 166</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action_remove'>action_remove</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_manage_aliases'>manage_aliases</span><span class='lparen'>(</span><span class='symbol'>:remove</span><span class='comma'>,</span> <span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_remove_empty'>remove_empty</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="action_restart-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>action_restart</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Restarts the server in background.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if action succeeded, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+132
+133
+134
+135
+136</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 132</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_action_restart'>action_restart</span>
+  <span class='id identifier rubyid_action_stop'>action_stop</span>
+  <span class='id identifier rubyid_action_start'>action_start</span>
+  <span class='kw'>true</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -670,6 +777,81 @@
 
   <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_foreground'>foreground</span> <span class='op'>?</span> <span class='id identifier rubyid_perform_server'>perform_server</span> <span class='op'>:</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>Controller</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='rparen'>)</span>
   <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="action_status-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>action_status</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Shows the status of the server</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>true</code> if action succeeded, <code>false</code> otherwise.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 141</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_action_status'>action_status</span>
+  <span class='id identifier rubyid_daemon'>daemon</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span>
+  <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>ProcessFile</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span><span class='lparen'>(</span><span class='id identifier rubyid_daemon'>daemon</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pid'>pid</span> <span class='op'>=</span> <span class='const'>RExec</span><span class='op'>::</span><span class='const'>Daemon</span><span class='op'>::</span><span class='const'>ProcessFile</span><span class='period'>.</span><span class='id identifier rubyid_recall'>recall</span><span class='lparen'>(</span><span class='id identifier rubyid_daemon'>daemon</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='symbol'>:crashed</span> <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='symbol'>:unknown</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_daemon'>daemon</span><span class='period'>.</span><span class='id identifier rubyid_crashed?'>crashed?</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='symbol'>:running</span> <span class='kw'>then</span>
+    <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_status_running'>status_running</span><span class='lparen'>(</span><span class='id identifier rubyid_pid'>pid</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>elsif</span>
+    <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='id identifier rubyid_replace_markers'>replace_markers</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>status_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_status'>status</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -777,12 +959,12 @@
       <pre class="lines">
 
 
-156
-157
-158</pre>
+181
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/devdnsd/application.rb', line 181</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action_uninstall'>action_uninstall</span>
   <span class='id identifier rubyid_manage_installation'>manage_installation</span><span class='lparen'>(</span><span class='id identifier rubyid_launch_agent_path'>launch_agent_path</span><span class='comma'>,</span> <span class='id identifier rubyid_resolver_path'>resolver_path</span><span class='comma'>,</span> <span class='symbol'>:delete_resolver</span><span class='comma'>,</span> <span class='symbol'>:unload_agent</span><span class='comma'>,</span> <span class='symbol'>:delete_agent</span><span class='rparen'>)</span>
@@ -1165,7 +1347,7 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Mar  8 15:25:56 2014 by
+  Generated on Sun Mar  9 19:54:07 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.1.0).
 </div>

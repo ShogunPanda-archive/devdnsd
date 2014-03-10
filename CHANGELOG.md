@@ -2,7 +2,7 @@
 
 * Added `restart`, `clean` and `status` commands.
 * The `address` configuration option is now `bind_addresses` and it supports multiple values.
-* Start dropping support for Ruby 1.9 - For now only in the Travis build.
+* Start dropping support for Ruby <2.1 - For now only in the Travis build.
 
 ### 3.0.8 / 2014-03-08
 
