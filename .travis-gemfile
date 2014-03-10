@@ -15,7 +15,7 @@ gem "simplecov", ">= 0.8.2"
 gem "coveralls", ">= 0.7.0", require: false
 
 platforms :rbx do
-  gem 'racc'
-  gem 'rubysl', '~> 2.0'
-  gem 'psych'
+  gem "racc"
+  gem "rubysl", "~> 2.0"
+  gem "psych"
 end
