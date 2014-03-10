@@ -27,9 +27,22 @@ Bovem::Application.create do
     action { |command| DevDNSd::Application.instance(command).action_start }
   end
 
+  command :status do
+    description localizer.command_status
+    action { |command|
+      command.application.options[:log_file].set("STDOUT")
+      DevDNSd::Application.instance(command).action_status
+    }
+  end
+
   command :stop do
     description localizer.command_stop
     action { |command| DevDNSd::Application.instance(command).action_stop }
+  end
+
+  command :restart do
+    description localizer.command_restart
+    action { |command| DevDNSd::Application.instance(command).action_restart }
   end
 
   command :install do
@@ -45,6 +58,16 @@ Bovem::Application.create do
     action { |command|
       command.application.options[:log_file].set("STDOUT")
       DevDNSd::Application.instance(command).action_uninstall
+    }
+  end
+
+  command :clean do
+    description localizer.command_clean
+    action { |command|
+      command.application.options[:log_file].set("STDOUT")
+      app = DevDNSd::Application.instance(command)
+      app.logger.warn(app.i18n.admin_privileges_warning)
+      app.dns_update
     }
   end
 

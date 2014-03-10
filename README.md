@@ -31,6 +31,15 @@ Of course, DevDNSd is inspired by [pow](https://github.com/37signals/pow), but i
 
 **You're done!**
 
+## Dual stack (IPv4/IPv6) usage
+
+If you experience slowness in resolving host from clients (Chrome, curl etc.) when you don't specify the address type, make sure you have both a `A` and `AAAA` rules set for the same host, like this:
+
+```ruby
+config.add_rule(/\.dev$/, "127.0.0.1")
+config.add_rule(/\.dev$/, "::1", :AAAA)
+```
+
 ## Advanced usage
 
 Just type `devdnsd help` and you'll see all available options.

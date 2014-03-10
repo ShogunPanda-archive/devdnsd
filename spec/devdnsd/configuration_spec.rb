@@ -11,7 +11,7 @@ describe DevDNSd::Configuration do
   describe "#initialize" do
     it "sets default arguments and rules" do
       config = DevDNSd::Configuration.new
-      expect(config.address).to eq("0.0.0.0")
+      expect(config.bind_addresses).to eq(["0.0.0.0"])
       expect(config.port).to eq(7771)
       expect(config.tld).to eq("dev")
       expect(config.log_file).to eq(File.absolute_path(File.expand_path("~/.devdnsd/daemon.log")))

@@ -10,8 +10,8 @@ module DevDNSd
     # If to run the server in foreground. Default: `false`.
     property :foreground, default: false
 
-    # The address to listen to. Default: `0.0.0.0`.
-    property :address, default: "0.0.0.0"
+    # The addresses to listen to. Default: `["0.0.0.0"]`.
+    property :bind_addresses, default: ["0.0.0.0"]
 
     # The port to listen to. Default: `7771`.
     property :port, default: 7771

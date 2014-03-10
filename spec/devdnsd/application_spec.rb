@@ -192,9 +192,9 @@ describe DevDNSd::Application do
   end
 
   describe "#perform_server" do
-    let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config}) }
+    let(:application){ create_application({"log_file" => log_file, "configuration" => sample_config, "port" => 60771}) }
 
-    def test_resolve(host = "match_1.dev", type = "ANY", nameserver = "127.0.0.1", port = 7771, logger = nil)
+    def test_resolve(host = "match_1.dev", type = "ANY", nameserver = "127.0.0.1", port = 60771, logger = nil)
       result = nil
 
       EM.run do
@@ -564,6 +564,48 @@ describe DevDNSd::Application do
     it "should stop the daemon" do
       expect(::RExec::Daemon::Controller).to receive(:stop)
       application.action_stop
+    end
+  end
+
+  describe "#action_restart" do
+    it "should stop and restart the server" do
+      expect(application).to receive(:action_stop)
+      expect(application).to receive(:action_start)
+      application.action_restart
+    end
+  end
+
+  describe "#action_status" do
+    it "should get the status of the daemon when running" do
+      expect(RExec::Daemon::ProcessFile).to receive(:status).and_return(:running)
+      expect(RExec::Daemon::ProcessFile).to receive(:recall).and_return(123)
+
+      expect(application.logger).to receive(:info).with("The server is running with process ID 123.")
+      application.action_status
+    end
+
+    it "should get the status of the daemon when stopped" do
+      expect(RExec::Daemon::ProcessFile).to receive(:status).and_return(:stopped)
+      expect(RExec::Daemon::ProcessFile).to receive(:recall).and_return(123)
+
+      expect(application.logger).to receive(:info).with("The server is stopped.")
+      application.action_status
+    end
+
+    it "should get the status of the daemon when crashed" do
+      expect(RExec::Daemon::ProcessFile).to receive(:status).and_return(:unknown)
+      expect(application.class).to receive(:crashed?).and_return(true)
+
+      expect(application.logger).to receive(:info).with("The server crashed. See the log for more information.")
+      application.action_status
+    end
+
+    it "should get the status of the daemon when unknown" do
+      expect(RExec::Daemon::ProcessFile).to receive(:status).and_return(:unknown)
+      expect(application.class).to receive(:crashed?).and_return(false)
+
+      expect(application.logger).to receive(:info).with("The server status is unknown.")
+      application.action_status
     end
   end
 

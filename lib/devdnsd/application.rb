@@ -126,6 +126,31 @@ module DevDNSd
         true
       end
 
+      # Restarts the server in background.
+      #
+      # @return [Boolean] `true` if action succeeded, `false` otherwise.
+      def action_restart
+        action_stop
+        action_start
+        true
+      end
+
+      # Shows the status of the server
+      #
+      # @return [Boolean] `true` if action succeeded, `false` otherwise.
+      def action_status
+        daemon = self.class
+        status = RExec::Daemon::ProcessFile.status(daemon)
+        pid = RExec::Daemon::ProcessFile.recall(daemon).to_s
+        status = :crashed if status == :unknown && daemon.crashed?
+
+        if status == :running then
+          logger.info(replace_markers(i18n.status_running(pid)))
+        elsif
+          logger.info(replace_markers(i18n.send("status_#{status}")))
+        end
+      end
+
       # Adds aliases to an interface.
       #
       # @param options [Hash] The options provided by the user.
@@ -512,7 +537,8 @@ module DevDNSd
       # @return [Object] The result of stop callbacks.
       def perform_server
         application = self
-        RubyDNS::run_server(listen: [[:udp, @config.address, @config.port.to_integer]]) do
+
+        RubyDNS::run_server(listen: build_listen_interfaces) do
           self.logger = application.logger
 
           match(/.+/, DevDNSd::Application::ANY_CLASSES) do |transaction, match_data|
@@ -564,6 +590,14 @@ module DevDNSd
       end
 
       private
+        # Builds the list of listening interfaces.
+        #
+        # @return [Array] Array of addresses.
+        def build_listen_interfaces
+          port = @config.port.to_integer
+          @config.bind_addresses.ensure_array {|address| [:udp, address, port] }
+        end
+
         # Performs the processing of a rule.
         #
         # @param rule [Rule] The rule to process.
