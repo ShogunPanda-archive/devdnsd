@@ -335,7 +335,7 @@ module DevDNSd
         def toggle_agent(launch_agent, operation, info_message, error_message, error_level)
           begin
             logger.info(i18n.send(info_message, launch_agent))
-            execute_command("launchctl #{operation} -w \"#{launch_agent}\" > /dev/null 2>&1")
+            execute_command("launchctl #{operation} -w \"#{launch_agent}\" > /dev/null 2&>1")
             true
           rescue
             logger.send(error_level, i18n.send(error_message))
@@ -493,7 +493,7 @@ module DevDNSd
         # @param address [String] The address to manage.
         # @return [String] The command to execute.
         def build_command(type, address)
-          Mustache.render(config.send((type == :remove) ? :remove_command : :add_command), {interface: config.interface, address: address.to_s}) + " > /dev/null 2>&1"
+          Mustache.render(config.send((type == :remove) ? :remove_command : :add_command), {interface: config.interface, address: address.to_s}) + " > /dev/null 2&>1"
         end
 
         # Executes management.

@@ -416,10 +416,10 @@ describe DevDNSd::Application do
     end
 
     it "should call the right system command" do
-      expect(application).to receive(:execute_command).with("sudo ifconfig lo0 alias 10.0.0.3 > /dev/null 2>&1")
+      expect(application).to receive(:execute_command).with("sudo ifconfig lo0 alias 10.0.0.3 > /dev/null 2&>1")
       application.manage_address(:add, "10.0.0.3")
 
-      expect(application).to receive(:execute_command).with("sudo ifconfig lo0 -alias 10.0.0.3 > /dev/null 2>&1")
+      expect(application).to receive(:execute_command).with("sudo ifconfig lo0 -alias 10.0.0.3 > /dev/null 2&>1")
       application.manage_address(:remove, "10.0.0.3")
     end
 

@@ -1,3 +1,7 @@
+### 3.1.1 / 2014-03-09
+
+* Minor typo fix.
+
 ### 3.1.0 / 2014-03-09
 
 * Added `restart`, `clean` and `status` commands.
