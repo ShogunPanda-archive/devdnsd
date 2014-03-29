@@ -73,7 +73,7 @@ module DevDNSd
       # @param command [String] The command to execute.
       # @return [Boolean] `true` if command succeeded, `false` otherwise.
       def execute_command(command)
-        system("#{command} 2&>1 > /dev/null")
+        system("#{command} 2>&1 > /dev/null")
       end
 
       # Updates DNS cache.
@@ -83,12 +83,12 @@ module DevDNSd
         @logger.info(i18n.dns_update)
 
         script = Tempfile.new("devdnsd-dns-cache-script")
-        script.write("dscacheutil -flushcache 2&>1 > /dev/null\n")
-        script.write("killall -9 mDNSResponder 2&>1 > /dev/null\n")
-        script.write("killall -9 mDNSResponderHelper 2&>1 > /dev/null\n")
+        script.write("dscacheutil -flushcache 2>&1 > /dev/null\n")
+        script.write("killall -9 mDNSResponder 2>&1 > /dev/null\n")
+        script.write("killall -9 mDNSResponderHelper 2>&1 > /dev/null\n")
         script.close
 
-        Kernel.system("/usr/bin/osascript -e 'do shell script \"sh #{script.path}\" with administrator privileges' 2&>1 > /dev/null")
+        Kernel.system("/usr/bin/osascript -e 'do shell script \"sh #{script.path}\" with administrator privileges' 2>&1 > /dev/null")
         script.unlink
       end
 
@@ -245,7 +245,7 @@ module DevDNSd
             script.write("echo 'nameserver 127.0.0.1\\nport #{@config.port}' >> '#{resolver_path}'")
             script.close
 
-            Kernel.system("/usr/bin/osascript -e 'do shell script \"sh #{script.path}\" with administrator privileges' 2&>1 > /dev/null")
+            Kernel.system("/usr/bin/osascript -e 'do shell script \"sh #{script.path}\" with administrator privileges' 2>&1 > /dev/null")
             script.unlink
             true
           rescue Exception
@@ -261,7 +261,7 @@ module DevDNSd
         def delete_resolver(_, resolver_path)
           begin
             logger.info(i18n.resolver_deleting(resolver_path))
-            Kernel.system("/usr/bin/osascript -e 'do shell script \"rm #{resolver_path}\" with administrator privileges' 2&>1 > /dev/null")
+            Kernel.system("/usr/bin/osascript -e 'do shell script \"rm #{resolver_path}\" with administrator privileges' 2>&1 > /dev/null")
             true
           rescue Exception
             logger.warn(i18n.resolver_deleting_error)
@@ -335,7 +335,7 @@ module DevDNSd
         def toggle_agent(launch_agent, operation, info_message, error_message, error_level)
           begin
             logger.info(i18n.send(info_message, launch_agent))
-            execute_command("launchctl #{operation} -w \"#{launch_agent}\" > /dev/null 2&>1")
+            execute_command("launchctl #{operation} -w \"#{launch_agent}\" > /dev/null 2>&1")
             true
           rescue
             logger.send(error_level, i18n.send(error_message))
@@ -493,7 +493,7 @@ module DevDNSd
         # @param address [String] The address to manage.
         # @return [String] The command to execute.
         def build_command(type, address)
-          Mustache.render(config.send((type == :remove) ? :remove_command : :add_command), {interface: config.interface, address: address.to_s}) + " > /dev/null 2&>1"
+          Mustache.render(config.send((type == :remove) ? :remove_command : :add_command), {interface: config.interface, address: address.to_s}) + " > /dev/null 2>&1"
         end
 
         # Executes management.
@@ -690,7 +690,7 @@ module DevDNSd
     #
     # @return [Logger] The current logger of the application.
     def get_logger
-      @logger ||= Bovem::Logger.create(@config.foreground ? Bovem::Logger.default_file : @config.log_file, @config.log_level, @log_formatter)
+      @logger ||= Bovem::Logger.create(@config.foreground ? $stdout : @config.log_file, @config.log_level, @log_formatter)
     end
 
     # This method is called when the server starts. By default is a no-op.
@@ -755,6 +755,7 @@ module DevDNSd
             FileUtils.mkdir_p(File.dirname(file))
             @logger = Bovem::Logger.create(file, Logger::INFO)
           rescue
+            options["log_file"] = "STDOUT"
             file = $stdout
             warn_failure = true
           end
