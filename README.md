@@ -6,6 +6,7 @@
 [![Code Climate](https://codeclimate.com/github/ShogunPanda/devdnsd.png)](https://codeclimate.com/github/ShogunPanda/devdnsd)
 [![Coverage Status](https://coveralls.io/repos/ShogunPanda/devdnsd/badge.png)](https://coveralls.io/r/ShogunPanda/devdnsd)
 [![Bitdeli Trend](https://d2weczhvl823v0.cloudfront.net/ShogunPanda/devdnsd/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+<iframe src="http://ghbtns.com/github-btn.html?user=ShogunPanda&repo=devdnsd&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="135" height="20"></iframe>
 
 A small DNS server to enable local .dev domain resolution.
 
