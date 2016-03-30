@@ -31,9 +31,10 @@ module DevDNSd
       Resolv::DNS::Resource::IN::PTR, Resolv::DNS::Resource::IN::SOA, Resolv::DNS::Resource::IN::TXT
     ].freeze
 
-    include DevDNSd::System
     include DevDNSd::Aliases
     include DevDNSd::Server
+    include DevDNSd::System
+    include DevDNSd::OSX
 
     attr_reader :config
     attr_reader :command
@@ -50,7 +51,7 @@ module DevDNSd
       @i18n = Bovem::I18n.new(locale, root: "devdnsd", path: ::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/")
       @locale = locale
       @command = command
-      options = @command.application.get_options.reject { |_, v| v.nil? }.merge(@command.get_options.reject { |_, v| v.nil? })
+      options = load_options
 
       # Setup logger
       create_logger(options)
@@ -123,6 +124,11 @@ module DevDNSd
     end
 
     private
+
+    # :nodoc:
+    def load_options
+      @command.application.get_options.reject { |_, v| v.nil? }.merge(@command.get_options.reject { |_, v| v.nil? })
+    end
 
     # :nodoc:
     def create_logger(options)

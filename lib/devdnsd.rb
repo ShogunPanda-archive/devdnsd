@@ -16,6 +16,7 @@ require "devdnsd/version" unless defined?(DevDNSd::Version)
 require "devdnsd/aliases"
 require "devdnsd/server"
 require "devdnsd/system"
+require "devdnsd/osx"
 require "devdnsd/application"
 require "devdnsd/configuration"
 require "devdnsd/errors"

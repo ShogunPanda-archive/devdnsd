@@ -14,7 +14,7 @@ module DevDNSd
     def perform_server
       application = self
 
-      @server = RubyDNS.run_server(asynchronous: !@config.foreground, listen: build_listen_interfaces) do
+      @server = RubyDNS.run_server(server_options) do
         self.logger = application.logger
 
         match(/.+/, DevDNSd::Application::ANY_CLASSES) do |transaction, match_data|
@@ -67,6 +67,11 @@ module DevDNSd
     end
 
     private
+
+    # :nodoc:
+    def server_options
+      {asynchronous: !@config.foreground, listen: build_listen_interfaces}
+    end
 
     # :nodoc:
     def build_listen_interfaces
