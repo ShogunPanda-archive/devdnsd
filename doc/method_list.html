@@ -20,7 +20,11 @@
   </head>
   <body>
     <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) {
+      var hasFrames = false;
+      try {
+        hasFrames = window.top.frames.main ? true : false;
+      } catch (e) { }
+      if (hasFrames) {
         document.getElementById('base_target').target = 'main';
         document.body.className = 'frames';
       }
@@ -48,61 +52,73 @@
         
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#action_add-instance_method" title="DevDNSd::ApplicationMethods::System#action_add (method)">#action_add</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+    <span class='object_link'><a href="DevDNSd/Application.html#%3Ai18n-instance_method" title="DevDNSd::Application#:i18n (method)">#:i18n</a></span>
+    <small>DevDNSd::Application</small>
   </li>
   
 
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#action_install-instance_method" title="DevDNSd::ApplicationMethods::System#action_install (method)">#action_install</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+    <span class='object_link'><a href="DevDNSd/System.html#action_add-instance_method" title="DevDNSd::System#action_add (method)">#action_add</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#action_remove-instance_method" title="DevDNSd::ApplicationMethods::System#action_remove (method)">#action_remove</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+    <span class='object_link'><a href="DevDNSd/System.html#action_install-instance_method" title="DevDNSd::System#action_install (method)">#action_install</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#action_restart-instance_method" title="DevDNSd::ApplicationMethods::System#action_restart (method)">#action_restart</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+    <span class='object_link'><a href="DevDNSd/System.html#action_remove-instance_method" title="DevDNSd::System#action_remove (method)">#action_remove</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#action_start-instance_method" title="DevDNSd::ApplicationMethods::System#action_start (method)">#action_start</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+    <span class='object_link'><a href="DevDNSd/System.html#action_restart-instance_method" title="DevDNSd::System#action_restart (method)">#action_restart</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#action_status-instance_method" title="DevDNSd::ApplicationMethods::System#action_status (method)">#action_status</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+    <span class='object_link'><a href="DevDNSd/System.html#action_start-instance_method" title="DevDNSd::System#action_start (method)">#action_start</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#action_stop-instance_method" title="DevDNSd::ApplicationMethods::System#action_stop (method)">#action_stop</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+    <span class='object_link'><a href="DevDNSd/System.html#action_status-instance_method" title="DevDNSd::System#action_status (method)">#action_status</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#action_uninstall-instance_method" title="DevDNSd::ApplicationMethods::System#action_uninstall (method)">#action_uninstall</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+    <span class='object_link'><a href="DevDNSd/System.html#action_stop-instance_method" title="DevDNSd::System#action_stop (method)">#action_stop</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r1 ">
+    <span class='object_link'><a href="DevDNSd/System.html#action_uninstall-instance_method" title="DevDNSd::System#action_uninstall (method)">#action_uninstall</a></span>
+    <small>DevDNSd::System</small>
+  </li>
+  
+
+  <li class="r2 ">
     <span class='object_link'><a href="DevDNSd/Configuration.html#add_rule-instance_method" title="DevDNSd::Configuration#add_rule (method)">#add_rule</a></span>
     <small>DevDNSd::Configuration</small>
   </li>
   
 
-  <li class="r2 ">
+  <li class="r1 ">
     <span class='object_link'><a href="DevDNSd/Rule.html#block-instance_method" title="DevDNSd::Rule#block (method)">#block</a></span>
+    <small>DevDNSd::Rule</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="DevDNSd/Rule.html#block%3F-instance_method" title="DevDNSd::Rule#block? (method)">#block?</a></span>
     <small>DevDNSd::Rule</small>
   </li>
   
@@ -120,8 +136,8 @@
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/Aliases.html#compute_addresses-instance_method" title="DevDNSd::ApplicationMethods::Aliases#compute_addresses (method)">#compute_addresses</a></span>
-    <small>DevDNSd::ApplicationMethods::Aliases</small>
+    <span class='object_link'><a href="DevDNSd/Aliases.html#compute_addresses-instance_method" title="DevDNSd::Aliases#compute_addresses (method)">#compute_addresses</a></span>
+    <small>DevDNSd::Aliases</small>
   </li>
   
 
@@ -138,31 +154,31 @@
   
 
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System/ClassMethods.html#daemon_name-instance_method" title="DevDNSd::ApplicationMethods::System::ClassMethods#daemon_name (method)">#daemon_name</a></span>
-    <small>DevDNSd::ApplicationMethods::System::ClassMethods</small>
+    <span class='object_link'><a href="DevDNSd/System.html#daemon_name-instance_method" title="DevDNSd::System#daemon_name (method)">#daemon_name</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#dns_update-instance_method" title="DevDNSd::ApplicationMethods::System#dns_update (method)">#dns_update</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+    <span class='object_link'><a href="DevDNSd/System.html#dns_update-instance_method" title="DevDNSd::System#dns_update (method)">#dns_update</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#execute_command-instance_method" title="DevDNSd::ApplicationMethods::System#execute_command (method)">#execute_command</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+    <span class='object_link'><a href="DevDNSd/System.html#execute_command-instance_method" title="DevDNSd::System#execute_command (method)">#execute_command</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/Application.html#get_logger-instance_method" title="DevDNSd::Application#get_logger (method)">#get_logger</a></span>
+    <span class='object_link'><a href="DevDNSd/Application.html#i18n-instance_method" title="DevDNSd::Application#i18n (method)">#i18n</a></span>
     <small>DevDNSd::Application</small>
   </li>
   
 
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/Rule.html#has_block%3F-instance_method" title="DevDNSd::Rule#has_block? (method)">#has_block?</a></span>
+    <span class='object_link'><a href="DevDNSd/Rule.html#initialize-instance_method" title="DevDNSd::Rule#initialize (method)">#initialize</a></span>
     <small>DevDNSd::Rule</small>
   </li>
   
@@ -180,134 +196,122 @@
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/Rule.html#initialize-instance_method" title="DevDNSd::Rule#initialize (method)">#initialize</a></span>
-    <small>DevDNSd::Rule</small>
-  </li>
-  
-
-  <li class="r2 ">
     <span class='object_link'><a href="DevDNSd/Application.html#instance-class_method" title="DevDNSd::Application.instance (method)">instance</a></span>
     <small>DevDNSd::Application</small>
   </li>
   
 
-  <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/Aliases.html#is_ipv4%3F-instance_method" title="DevDNSd::ApplicationMethods::Aliases#is_ipv4? (method)">#is_ipv4?</a></span>
-    <small>DevDNSd::ApplicationMethods::Aliases</small>
-  </li>
-  
-
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/Aliases.html#is_ipv6%3F-instance_method" title="DevDNSd::ApplicationMethods::Aliases#is_ipv6? (method)">#is_ipv6?</a></span>
-    <small>DevDNSd::ApplicationMethods::Aliases</small>
+    <span class='object_link'><a href="DevDNSd/Aliases.html#ipv4%3F-instance_method" title="DevDNSd::Aliases#ipv4? (method)">#ipv4?</a></span>
+    <small>DevDNSd::Aliases</small>
   </li>
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#is_osx%3F-instance_method" title="DevDNSd::ApplicationMethods::System#is_osx? (method)">#is_osx?</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+    <span class='object_link'><a href="DevDNSd/Aliases.html#ipv6%3F-instance_method" title="DevDNSd::Aliases#ipv6? (method)">#ipv6?</a></span>
+    <small>DevDNSd::Aliases</small>
   </li>
   
 
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/Rule.html#is_regexp%3F-instance_method" title="DevDNSd::Rule#is_regexp? (method)">#is_regexp?</a></span>
-    <small>DevDNSd::Rule</small>
+    <span class='object_link'><a href="DevDNSd/System.html#launch_agent_path-instance_method" title="DevDNSd::System#launch_agent_path (method)">#launch_agent_path</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#launch_agent_path-instance_method" title="DevDNSd::ApplicationMethods::System#launch_agent_path (method)">#launch_agent_path</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
-  </li>
-  
-
-  <li class="r2 ">
     <span class='object_link'><a href="DevDNSd/Application.html#locale-instance_method" title="DevDNSd::Application#locale (method)">#locale</a></span>
     <small>DevDNSd::Application</small>
   </li>
   
 
+  <li class="r2 ">
+    <span class='object_link'><a href="DevDNSd/System.html#log_directory-instance_method" title="DevDNSd::System#log_directory (method)">#log_directory</a></span>
+    <small>DevDNSd::System</small>
+  </li>
+  
+
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System/ClassMethods.html#log_directory-instance_method" title="DevDNSd::ApplicationMethods::System::ClassMethods#log_directory (method)">#log_directory</a></span>
-    <small>DevDNSd::ApplicationMethods::System::ClassMethods</small>
+    <span class='object_link'><a href="DevDNSd/System.html#log_file_path-instance_method" title="DevDNSd::System#log_file_path (method)">#log_file_path</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System/ClassMethods.html#log_file_path-instance_method" title="DevDNSd::ApplicationMethods::System::ClassMethods#log_file_path (method)">#log_file_path</a></span>
-    <small>DevDNSd::ApplicationMethods::System::ClassMethods</small>
-  </li>
-  
-
-  <li class="r1 ">
     <span class='object_link'><a href="DevDNSd/Application.html#logger-instance_method" title="DevDNSd::Application#logger (method)">#logger</a></span>
     <small>DevDNSd::Application</small>
   </li>
   
 
+  <li class="r1 ">
+    <span class='object_link'><a href="DevDNSd/Aliases.html#manage_address-instance_method" title="DevDNSd::Aliases#manage_address (method)">#manage_address</a></span>
+    <small>DevDNSd::Aliases</small>
+  </li>
+  
+
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/Aliases.html#manage_address-instance_method" title="DevDNSd::ApplicationMethods::Aliases#manage_address (method)">#manage_address</a></span>
-    <small>DevDNSd::ApplicationMethods::Aliases</small>
+    <span class='object_link'><a href="DevDNSd/Aliases.html#manage_aliases-instance_method" title="DevDNSd::Aliases#manage_aliases (method)">#manage_aliases</a></span>
+    <small>DevDNSd::Aliases</small>
   </li>
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/Aliases.html#manage_aliases-instance_method" title="DevDNSd::ApplicationMethods::Aliases#manage_aliases (method)">#manage_aliases</a></span>
-    <small>DevDNSd::ApplicationMethods::Aliases</small>
-  </li>
-  
-
-  <li class="r2 ">
     <span class='object_link'><a href="DevDNSd/Rule.html#match-instance_method" title="DevDNSd::Rule#match (method)">#match</a></span>
     <small>DevDNSd::Rule</small>
   </li>
   
 
-  <li class="r1 ">
+  <li class="r2 ">
     <span class='object_link'><a href="DevDNSd/Rule.html#match_host-instance_method" title="DevDNSd::Rule#match_host (method)">#match_host</a></span>
     <small>DevDNSd::Rule</small>
   </li>
   
 
-  <li class="r2 ">
+  <li class="r1 ">
     <span class='object_link'><a href="DevDNSd/Application.html#on_start-instance_method" title="DevDNSd::Application#on_start (method)">#on_start</a></span>
     <small>DevDNSd::Application</small>
   </li>
   
 
-  <li class="r1 ">
+  <li class="r2 ">
     <span class='object_link'><a href="DevDNSd/Application.html#on_stop-instance_method" title="DevDNSd::Application#on_stop (method)">#on_stop</a></span>
     <small>DevDNSd::Application</small>
   </li>
   
 
-  <li class="r2 ">
+  <li class="r1 ">
     <span class='object_link'><a href="DevDNSd/Rule.html#options-instance_method" title="DevDNSd::Rule#options (method)">#options</a></span>
     <small>DevDNSd::Rule</small>
   </li>
   
 
-  <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/Server.html#perform_server-instance_method" title="DevDNSd::ApplicationMethods::Server#perform_server (method)">#perform_server</a></span>
-    <small>DevDNSd::ApplicationMethods::Server</small>
-  </li>
-  
-
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System/ClassMethods.html#process_file_path-instance_method" title="DevDNSd::ApplicationMethods::System::ClassMethods#process_file_path (method)">#process_file_path</a></span>
-    <small>DevDNSd::ApplicationMethods::System::ClassMethods</small>
+    <span class='object_link'><a href="DevDNSd/System.html#osx%3F-instance_method" title="DevDNSd::System#osx? (method)">#osx?</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/Server.html#process_rule-instance_method" title="DevDNSd::ApplicationMethods::Server#process_rule (method)">#process_rule</a></span>
-    <small>DevDNSd::ApplicationMethods::Server</small>
+    <span class='object_link'><a href="DevDNSd/Server.html#perform_server-instance_method" title="DevDNSd::Server#perform_server (method)">#perform_server</a></span>
+    <small>DevDNSd::Server</small>
   </li>
   
 
   <li class="r2 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/Server.html#process_rule_in_classes-instance_method" title="DevDNSd::ApplicationMethods::Server#process_rule_in_classes (method)">#process_rule_in_classes</a></span>
-    <small>DevDNSd::ApplicationMethods::Server</small>
+    <span class='object_link'><a href="DevDNSd/System.html#process_file_path-instance_method" title="DevDNSd::System#process_file_path (method)">#process_file_path</a></span>
+    <small>DevDNSd::System</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="DevDNSd/Server.html#process_rule-instance_method" title="DevDNSd::Server#process_rule (method)">#process_rule</a></span>
+    <small>DevDNSd::Server</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="DevDNSd/Server.html#process_rule_in_classes-instance_method" title="DevDNSd::Server#process_rule_in_classes (method)">#process_rule_in_classes</a></span>
+    <small>DevDNSd::Server</small>
   </li>
   
 
@@ -318,50 +322,68 @@
   
 
   <li class="r2 ">
+    <span class='object_link'><a href="DevDNSd/Rule.html#regexp%3F-instance_method" title="DevDNSd::Rule#regexp? (method)">#regexp?</a></span>
+    <small>DevDNSd::Rule</small>
+  </li>
+  
+
+  <li class="r1 ">
     <span class='object_link'><a href="DevDNSd/Rule.html#reply-instance_method" title="DevDNSd::Rule#reply (method)">#reply</a></span>
     <small>DevDNSd::Rule</small>
   </li>
   
 
-  <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System.html#resolver_path-instance_method" title="DevDNSd::ApplicationMethods::System#resolver_path (method)">#resolver_path</a></span>
-    <small>DevDNSd::ApplicationMethods::System</small>
+  <li class="r2 ">
+    <span class='object_link'><a href="DevDNSd/System.html#resolver_path-instance_method" title="DevDNSd::System#resolver_path (method)">#resolver_path</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 
-  <li class="r2 ">
+  <li class="r1 ">
     <span class='object_link'><a href="DevDNSd/Rule.html#resource_class-instance_method" title="DevDNSd::Rule#resource_class (method)">#resource_class</a></span>
     <small>DevDNSd::Rule</small>
   </li>
   
 
-  <li class="r1 ">
+  <li class="r2 ">
     <span class='object_link'><a href="DevDNSd/Rule.html#resource_class_to_symbol-class_method" title="DevDNSd::Rule.resource_class_to_symbol (method)">resource_class_to_symbol</a></span>
     <small>DevDNSd::Rule</small>
   </li>
   
 
-  <li class="r2 ">
+  <li class="r1 ">
     <span class='object_link'><a href="DevDNSd/Application.html#run-class_method" title="DevDNSd::Application.run (method)">run</a></span>
     <small>DevDNSd::Application</small>
   </li>
   
 
+  <li class="r2 ">
+    <span class='object_link'><a href="DevDNSd/Application.html#server-instance_method" title="DevDNSd::Application#server (method)">#server</a></span>
+    <small>DevDNSd::Application</small>
+  </li>
+  
+
   <li class="r1 ">
+    <span class='object_link'><a href="DevDNSd/Application.html#shutdown-instance_method" title="DevDNSd::Application#shutdown (method)">#shutdown</a></span>
+    <small>DevDNSd::Application</small>
+  </li>
+  
+
+  <li class="r2 ">
     <span class='object_link'><a href="DevDNSd/Rule.html#symbol_to_resource_class-class_method" title="DevDNSd::Rule.symbol_to_resource_class (method)">symbol_to_resource_class</a></span>
     <small>DevDNSd::Rule</small>
   </li>
   
 
-  <li class="r2 ">
+  <li class="r1 ">
     <span class='object_link'><a href="DevDNSd/Rule.html#type-instance_method" title="DevDNSd::Rule#type (method)">#type</a></span>
     <small>DevDNSd::Rule</small>
   </li>
   
 
-  <li class="r1 ">
-    <span class='object_link'><a href="DevDNSd/ApplicationMethods/System/ClassMethods.html#working_directory-instance_method" title="DevDNSd::ApplicationMethods::System::ClassMethods#working_directory (method)">#working_directory</a></span>
-    <small>DevDNSd::ApplicationMethods::System::ClassMethods</small>
+  <li class="r2 ">
+    <span class='object_link'><a href="DevDNSd/System.html#working_directory-instance_method" title="DevDNSd::System#working_directory (method)">#working_directory</a></span>
+    <small>DevDNSd::System</small>
   </li>
   
 

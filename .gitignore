@@ -2,11 +2,7 @@ Gemfile.lock
 tester.rb
 coverage/
 pkg/
-utils/
+tmp/
 .idea/
 .yardoc/
-.bundle/
-
-/metrics
-/.metrics
-/tmp/metric_fu
+.bundle

@@ -5,94 +5,100 @@
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
-require "rubygems"
+$:.unshift(File.absolute_path(File.dirname(__FILE__) + "/../lib/"))
 require "devdnsd"
 
 Bovem::Application.create do
-  localizer = Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../locales/")).i18n
+  i18n = Bovem::I18n.new(root: "devdnsd", path: ::Pathname.new(::File.dirname(__FILE__)).to_s + "/../locales/")
   name "DevDNSd"
-  description localizer.application_description
+  description i18n.application_description
   version DevDNSd::Version::STRING
 
-  option :configuration, [], {type: String, help: localizer.application_help_configuration, default: "~/.devdnsd/default.conf", meta: localizer.application_meta_file}
-  option :tld, [], {type: String, help: localizer.application_help_tld, default: "dev", meta: localizer.application_meta_domain}
-  option :port, [], {type: Integer, help: localizer.application_help_port, default: 7771, meta: localizer.application_meta_port}
-  option :pid_file, [:P, "pid-file"], {type: String, help: localizer.application_help_pid_file, default: "~/.devdnsd/daemon.pid", meta: localizer.application_meta_file}
-  option :log_file, [:l, "log-file"], {type: String, help: localizer.application_help_log_file, default: "~/.devdnsd/daemon.log", meta: localizer.application_meta_file}
-  option :log_level, [:L, "log-level"], {type: Integer, help: localizer.application_help_log_level, default: 1, meta: localizer.application_meta_level}
+  option :configuration, [], {type: String, help: i18n.application_help_configuration, default: "~/.devdnsd/default.conf", meta: i18n.application_meta_file}
+  option :tld, [], {type: String, help: i18n.application_help_tld, default: "dev", meta: i18n.application_meta_domain}
+  option :port, [], {type: Integer, help: i18n.application_help_port, default: 7771, meta: i18n.application_meta_port}
+  option :pid_file, [:P, "pid-file"], {type: String, help: i18n.application_help_pid_file, default: "~/.devdnsd/daemon.pid", meta: i18n.application_meta_file}
+  option :log_file, [:l, "log-file"], {type: String, help: i18n.application_help_log_file, default: "~/.devdnsd/daemon.log", meta: i18n.application_meta_file}
+  option :log_level, [:L, "log-level"], {type: Integer, help: i18n.application_help_log_level, default: 1, meta: i18n.application_meta_level}
 
   command :start do
-    description localizer.command_start
-    option :foreground, [:n, "foreground"], {help: localizer.application_help_foreground}
+    description i18n.command_start
+    option :foreground, [:n, "foreground"], {help: i18n.application_help_foreground}
     action { |command| DevDNSd::Application.instance(command).action_start }
   end
 
   command :status do
-    description localizer.command_status
-    action { |command|
+    description i18n.command_status
+    action do |command|
       command.application.options[:log_file].set("STDOUT")
       DevDNSd::Application.instance(command).action_status
-    }
+    end
   end
 
   command :stop do
-    description localizer.command_stop
+    description i18n.command_stop
     action { |command| DevDNSd::Application.instance(command).action_stop }
   end
 
   command :restart do
-    description localizer.command_restart
+    description i18n.command_restart
     action { |command| DevDNSd::Application.instance(command).action_restart }
   end
 
   command :install do
-    description localizer.command_install
-    action { |command|
+    description i18n.command_install
+    action do |command|
       command.application.options[:log_file].set("STDOUT")
       DevDNSd::Application.instance(command).action_install
-    }
+    end
   end
 
   command :uninstall do
-    description localizer.command_uninstall
-    action { |command|
+    description i18n.command_uninstall
+    action do |command|
       command.application.options[:log_file].set("STDOUT")
       DevDNSd::Application.instance(command).action_uninstall
-    }
+    end
   end
 
   command :clean do
-    description localizer.command_clean
-    action { |command|
+    description i18n.command_clean
+    action do |command|
       command.application.options[:log_file].set("STDOUT")
       app = DevDNSd::Application.instance(command)
       app.logger.warn(app.i18n.admin_privileges_warning)
       app.dns_update
-    }
+    end
   end
 
   command :aliases do
-    description localizer.command_aliases
-    option :interface, [], {type: String, help: localizer.application_help_interface, default: "lo0", meta: localizer.application_meta_interface}
-    option :addresses, [], {type: Array, help: localizer.application_help_addresses, meta: localizer.application_meta_addresses}
-    option :start_address, [:s, "start-address"], {type: String, help: localizer.application_help_start_address, default: "10.0.0.1", meta: localizer.application_meta_address}
-    option :aliases, [:S], {type: Integer, help: localizer.application_help_aliases, default: 5, meta: localizer.application_meta_aliases}
-    option :add_command, [:A, "add-command"], {type: String, help: localizer.application_help_add_command, default: "sudo ifconfig {{interface}} alias {{address}}", meta: localizer.application_meta_command}
-    option :remove_command, [:R, "remove-command"], {type: String, help: localizer.application_help_remove_command, default: "sudo ifconfig {{interface}} -alias {{address}}", meta: localizer.application_meta_command}
-    option :dry_run, [:n, "dry-run"], {help: localizer.application_help_dry_run}
+    description i18n.command_aliases
+    option :interface, [], {type: String, help: i18n.application_help_interface, default: "lo0", meta: i18n.application_meta_interface}
+    option :addresses, [], {type: Array, help: i18n.application_help_addresses, meta: i18n.application_meta_addresses}
+    option :start_address, [:s, "start-address"], {
+      type: String, help: i18n.application_help_start_address, default: "10.0.0.1", meta: i18n.application_meta_address
+    }
+    option :aliases, [:S], {type: Integer, help: i18n.application_help_aliases, default: 5, meta: i18n.application_meta_aliases}
+    option :add_command, [:A, "add-command"], {
+      type: String, help: i18n.application_help_add_command, default: "sudo ifconfig {{interface}} alias {{address}}", meta: i18n.application_meta_command
+    }
+    option :remove_command, [:R, "remove-command"], {
+      type: String, help: i18n.application_help_remove_command, default: "sudo ifconfig {{interface}} -alias {{address}}", meta: i18n.application_meta_command
+    }
+    option :dry_run, [:n, "dry-run"], {help: i18n.application_help_dry_run}
 
     command :add do
-      description localizer.command_add
+      description i18n.command_add
       action { |command| DevDNSd::Application.instance(command).action_add(command.parent.get_options) }
     end
 
     command :remove do
-      description localizer.command_remove
+      description i18n.command_remove
       action { |command| DevDNSd::Application.instance(command).action_remove(command.parent.get_options) }
     end
 
     action do |command|
-      self.commands["add"].execute(command.options[:dry_run].value)
+      commands["add"].execute(command.options[:dry_run].value)
     end
   end
 

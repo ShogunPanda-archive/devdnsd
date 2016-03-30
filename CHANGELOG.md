@@ -1,3 +1,14 @@
+### 4.0.0 / 2016-03-30
+
+* Refactored `DevDNSd::Application`.
+* Changed signatures of `DevDNSd::Rule.create` and `DevDNSd::Rule#initialize`.
+* Changed signatures of `DevDNSd::Configuration.add_rule`.
+* Removed `DevDNSd::Aliases#is_ipv4?` and `DevDNSd::Aliases#is_ipv6?` aliases.
+* Dropped support for Ruby < 2.3.
+* Replaced `rexec` with `process-daemon`.
+* Updated dependencies.
+* Linted code.
+
 ### 3.1.2 / 2014-03-29
 
 * Minor fixes.

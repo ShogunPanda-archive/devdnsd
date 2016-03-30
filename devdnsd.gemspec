@@ -9,7 +9,7 @@ require "./lib/devdnsd/version"
 Gem::Specification.new do |gem|
   gem.name = "devdnsd"
   gem.version = DevDNSd::Version::STRING
-  gem.homepage = "http://sw.cow.tc/devdnsd"
+  gem.homepage = "http://sw.cowtech.it/devdnsd"
   gem.summary = %q{A small DNS server to enable local domain resolution.}
   gem.description = %q{A small DNS server to enable local domain resolution.}
   gem.rubyforge_project = "devdnsd"
@@ -23,12 +23,13 @@ Gem::Specification.new do |gem|
   gem.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.require_paths = ["lib"]
 
-  gem.required_ruby_version = ">= 1.9.3"
+  gem.required_ruby_version = ">= 2.3.0"
 
-  gem.add_dependency("bovem", "~> 3.0.5")
-  gem.add_dependency("rubydns", "~> 0.7.0")
-  gem.add_dependency("mustache", "~> 0.99.5")
-  gem.add_dependency("plist", "~> 3.1.0")
+  gem.add_dependency("bovem", "~> 4.0")
+  gem.add_dependency("rubydns", "~> 1.0")
+  gem.add_dependency("process-daemon", "~> 1.0")
+  gem.add_dependency("mustache", "~> 1.0")
+  gem.add_dependency("plist", "~> 3.2")
 end
 
 

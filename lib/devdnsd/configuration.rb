@@ -65,28 +65,37 @@ module DevDNSd
       super(file, overrides, logger)
 
       # Make sure some arguments are of correct type
-      self.log_file = case log_file
-        when "STDOUT" then $stdout
-        when "STDERR" then $stderr
-        else File.absolute_path(File.expand_path(log_file))
-      end
+      self.log_file = resolve_log_file
 
       self.pid_file = File.absolute_path(File.expand_path(pid_file))
       self.port = port.to_integer
       self.log_level = log_level.to_integer
 
       # Add a default rule
-      add_rule(/.+/, "127.0.0.1") if rules.blank?
+      add_rule(match: /.+/, reply: "127.0.0.1") if rules.blank?
     end
 
     # Adds a rule to the configuration.
     #
-    # @param args [Array] The rule's arguments.
-    # @param block [Proc] An optional block for the rule.
+    # @param match [String|Regexp] The pattern to match.
+    # @param reply [String|Symbol] The IP or hostname to reply back to the client. It can be omitted (and it will be ignored) if a block is provided.
+    # @param type [Symbol] The type of request to match.
+    # @param options [Hash] A list of options for the request.
+    # @param block [Proc] An optional block to compute the reply instead of using the `reply` parameter.
     # @return [Array] The current set of rule.
-    # @see Rule.create
-    def add_rule(*args, &block)
-      rules << DevDNSd::Rule.create(*args, &block)
+    def add_rule(match: /.+/, reply: "127.0.0.1", type: :A, options: {}, &block)
+      rules << DevDNSd::Rule.create(match: match, reply: reply, type: type, options: options, &block)
+    end
+
+    private
+
+    # :nodoc:
+    def resolve_log_file
+      case log_file
+      when "STDOUT" then $stdout
+      when "STDERR" then $stderr
+      else File.absolute_path(File.expand_path(log_file))
+      end
     end
   end
 end

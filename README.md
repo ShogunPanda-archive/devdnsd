@@ -5,11 +5,10 @@
 [![Build Status](https://secure.travis-ci.org/ShogunPanda/devdnsd.png?branch=master)](http://travis-ci.org/ShogunPanda/devdnsd)
 [![Code Climate](https://codeclimate.com/github/ShogunPanda/devdnsd.png)](https://codeclimate.com/github/ShogunPanda/devdnsd)
 [![Coverage Status](https://coveralls.io/repos/ShogunPanda/devdnsd/badge.png)](https://coveralls.io/r/ShogunPanda/devdnsd)
-[![Bitdeli Trend](https://d2weczhvl823v0.cloudfront.net/ShogunPanda/devdnsd/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 A small DNS server to enable local .dev domain resolution.
 
-http://sw.cow.tc/devdnsd
+http://sw.cowtech.it/devdnsd
 
 http://rdoc.info/gems/devdnsd
 
@@ -36,8 +35,8 @@ Of course, DevDNSd is inspired by [pow](https://github.com/37signals/pow), but i
 If you experience slowness in resolving host from clients (Chrome, curl etc.) when you don't specify the address type, make sure you have both a `A` and `AAAA` rules set for the same host, like this:
 
 ```ruby
-config.add_rule(/\.dev$/, "127.0.0.1")
-config.add_rule(/\.dev$/, "::1", :AAAA)
+config.add_rule(match: /\.dev$/, reply: "127.0.0.1")
+config.add_rule(match: /\.dev$/, reply: "::1", type: :AAAA)
 ```
 
 ## Advanced usage
@@ -95,7 +94,7 @@ You can, anyway, run the software as DNS server.
 
 ## Copyright
 
-This software have been made possible by the awesome job of [Samuel Williams](https://github.com/ioquatix), with his [RubyDNS](https://github.com/rubydns) and [RExec](https://github.com/rexec) gems.
+This software have been made possible by the awesome job of [Samuel Williams](https://github.com/ioquatix), with his [RubyDNS](https://github.com/rubydns) and [process-daemon](https://github.com/process-daemon) gems.
 
 Copyright (C) 2013 and above Shogun (shogun@cowtech.it).
 

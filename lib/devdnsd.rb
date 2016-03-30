@@ -4,23 +4,24 @@
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
-require "rubygems"
-require "bovem"
 require "rubydns"
-require "rexec/daemon"
+require "process/daemon"
 require "mustache"
 require "ipaddr"
-require "fiber"
 require "plist"
 require "tempfile"
+require "bovem"
 
-Lazier.load!(:object)
-
+require "devdnsd/version" unless defined?(DevDNSd::Version)
+require "devdnsd/aliases"
+require "devdnsd/server"
+require "devdnsd/system"
 require "devdnsd/application"
 require "devdnsd/configuration"
 require "devdnsd/errors"
 require "devdnsd/rule"
-require "devdnsd/version" if !defined?(DevDNSd::Version)
+
+Celluloid.logger = nil
 
 # DevDNSd is not supported on JRuby
 DevDNSd::Application.check_ruby_implementation

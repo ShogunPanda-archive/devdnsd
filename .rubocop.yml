@@ -1,0 +1,82 @@
+#
+# This file is part of the devdnsd gem. Copyright (C) 2013 and above Shogun <shogun@cowtech.it>.
+# Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
+#
+
+AllCops:
+  TargetRubyVersion: 2.3
+  Include:
+    - "*/**/.rb"
+    - "config.ru"
+    - "Rakefile"
+    - "Gemfile"
+  Exclude:
+    - "config/**/*"
+    - "db/**/*"
+    - "spec/**/*"
+
+Alias:
+  Enabled: false
+
+AsciiComments:
+  Enabled: false
+
+BracesAroundHashParameters:
+  Enabled: false
+
+CyclomaticComplexity:
+  Max: 15
+
+ClassLength:
+  Max: 150
+
+Documentation:
+  Enabled: false
+
+EachWithObject:
+  Enabled: false
+
+FormatString:
+  Enabled: false
+
+FrozenStringLiteralComment:
+  Enabled: false
+
+IndentationConsistency:
+  Enabled: false
+
+LineLength:
+  Max: 160
+
+MethodLength:
+  Max: 15
+
+ModuleLength:
+  Max: 200
+
+MultilineMethodCallIndentation:
+  Enabled: false
+
+ParameterLists:
+  Max: 8
+
+RegexpLiteral:
+  Enabled: false
+
+SignalException:
+  Enabled: false
+
+SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+StringLiterals:
+  Enabled: false
+
+StringLiteralsInInterpolation:
+  Enabled: false
+
+StringReplacement:
+  Enabled: false
+
+WordArray:
+  Enabled: false

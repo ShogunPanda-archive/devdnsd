@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; Documentation by YARD 0.8.7.6
   
 </title>
 
@@ -67,12 +67,11 @@
 <a href="https://gemnasium.com/ShogunPanda/devdnsd"><img src="https://gemnasium.com/ShogunPanda/devdnsd.png?travis" alt="Dependency Status" /></a>
 <a href="http://travis-ci.org/ShogunPanda/devdnsd"><img src="https://secure.travis-ci.org/ShogunPanda/devdnsd.png?branch=master" alt="Build Status" /></a>
 <a href="https://codeclimate.com/github/ShogunPanda/devdnsd"><img src="https://codeclimate.com/github/ShogunPanda/devdnsd.png" alt="Code Climate" /></a>
-<a href="https://coveralls.io/r/ShogunPanda/devdnsd"><img src="https://coveralls.io/repos/ShogunPanda/devdnsd/badge.png" alt="Coverage Status" /></a>
-<a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/ShogunPanda/devdnsd/trend.png" alt="Bitdeli Trend" /></a></p>
+<a href="https://coveralls.io/r/ShogunPanda/devdnsd"><img src="https://coveralls.io/repos/ShogunPanda/devdnsd/badge.png" alt="Coverage Status" /></a></p>
 
 <p>A small DNS server to enable local .dev domain resolution.</p>
 
-<p>http://sw.cow.tc/devdnsd</p>
+<p>http://sw.cowtech.it/devdnsd</p>
 
 <p>http://rdoc.info/gems/devdnsd</p>
 
@@ -104,8 +103,8 @@
 <p>If you experience slowness in resolving host from clients (Chrome, curl etc.) when you don’t specify the address type, make sure you have both a <code>A</code> and <code>AAAA</code> rules set for the same host, like this:</p>
 
 <p><code>ruby
-config.add_rule(/\.dev$/, "127.0.0.1")
-config.add_rule(/\.dev$/, "::1", :AAAA)
+config.add_rule(match: /\.dev$/, reply: "127.0.0.1")
+config.add_rule(match: /\.dev$/, reply: "::1", type: :AAAA)
 </code></p>
 
 <h2 id="advanced-usage">Advanced usage</h2>
@@ -167,7 +166,7 @@ This argument is ignored if you pass the block, as it assumes that the second ar
 
 <h2 id="copyright">Copyright</h2>
 
-<p>This software have been made possible by the awesome job of <a href="https://github.com/ioquatix">Samuel Williams</a>, with his <a href="https://github.com/rubydns">RubyDNS</a> and <a href="https://github.com/rexec">RExec</a> gems.</p>
+<p>This software have been made possible by the awesome job of <a href="https://github.com/ioquatix">Samuel Williams</a>, with his <a href="https://github.com/rubydns">RubyDNS</a> and <a href="https://github.com/process-daemon">process-daemon</a> gems.</p>
 
 <p>Copyright (C) 2013 and above Shogun (shogun@cowtech.it).</p>
 
@@ -175,9 +174,9 @@ This argument is ignored if you pass the block, as it assumes that the second ar
 </div></div>
 
     <div id="footer">
-  Generated on Sat Mar 29 11:53:13 2014 by
+  Generated on Wed Mar 30 18:49:05 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.4 (ruby-2.1.0).
+  0.8.7.6 (ruby-2.3.0).
 </div>
 
   </body>

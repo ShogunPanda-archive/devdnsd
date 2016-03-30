@@ -9,13 +9,7 @@ source "http://rubygems.org"
 gemspec
 
 # Testing
-gem "rspec", "~> 2.14.1"
-gem "rake", "~> 10.1.1"
-gem "simplecov", ">= 0.8.2"
-gem "coveralls", ">= 0.7.0", require: false
-
-platforms :rbx do
-  gem "racc"
-  gem "rubysl", "~> 2.0"
-  gem "psych"
-end
+gem "rspec", "~> 3.4"
+gem "rake", "~> 11.0"
+gem "simplecov", "~> 0.11"
+gem "coveralls", "~> 0.8", require: false

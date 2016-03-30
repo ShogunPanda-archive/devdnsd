@@ -24,19 +24,54 @@ module DevDNSd
     attr_accessor :options
     attr_accessor :block
 
-    include Lazier::I18n
+    # Class methods
+    class << self
+      # Creates a new rule.
+      #
+      # @param match [String|Regexp] The pattern to match.
+      # @param reply [String|Symbol] The IP or hostname to reply back to the client. It can be omitted (and it will be ignored) if a block is provided.
+      # @param type [Symbol] The type of request to match.
+      # @param options [Hash] A list of options for the request.
+      # @param block [Proc] An optional block to compute the reply instead of using the `reply` parameter.
+      # @return [Rule] The new rule.
+      def create(match: /.+/, reply: "127.0.0.1", type: :A, options: {}, &block)
+        new(match: match, reply: reply, type: type, options: options, &block)
+      end
+
+      # Converts a class to the correspondent symbol.
+      #
+      # @param klass [Class] The class to convert.
+      # @return [Symbol] The symbol representation of the class.
+      def resource_class_to_symbol(klass)
+        klass.to_s.gsub(/(.+::)?(.+)/, "\\2").to_sym
+      end
+
+      # Converts a symbol to the correspondent DNS resource class.
+      #
+      # @param symbol [Symbol] The symbol to convert.
+      # @param locale [Symbol] The locale to use for the messages.
+      # @return [Symbol] The class associated to the symbol.
+      def symbol_to_resource_class(symbol, locale = nil)
+        symbol = symbol.to_s.upcase
+
+        begin
+          "Resolv::DNS::Resource::IN::#{symbol}".constantize
+        rescue ::NameError
+          i18n = Bovem::I18n.new(locale, root: "devdnsd", path: ::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/")
+          raise(DevDNSd::Errors::InvalidRule, i18n.rule_invalid_resource(symbol))
+        end
+      end
+    end
 
     # Creates a new rule.
     #
     # @param match [String|Regexp] The pattern to match.
-    # @param reply [String] The IP or hostname to reply back to the client.
+    # @param reply [String|Symbol] The IP or hostname to reply back to the client. It can be omitted (and it will be ignored) if a block is provided.
     # @param type [Symbol] The type of request to match.
     # @param options [Hash] A list of options for the request.
     # @param block [Proc] An optional block to compute the reply instead of using the `reply` parameter.
     # @see .create
-    def initialize(match = /.+/, reply = "127.0.0.1", type = :A, options = {}, &block)
-      i18n_setup(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
-      self.i18n = options[:locale]
+    def initialize(match: /.+/, reply: "127.0.0.1", type: :A, options: {}, &block)
       setup(match, reply, type, options, block)
       validate_rule
     end
@@ -45,122 +80,58 @@ module DevDNSd
     #
     # @return [Array|Class] The class(es) for the current rule.
     def resource_class
-      classes = @type.ensure_array(nil, true, true, true) {|cls| self.class.symbol_to_resource_class(cls, options[:locale]) }
+      classes = @type.ensure_array(no_duplicates: true, compact: true, flatten: true) { |cls| self.class.symbol_to_resource_class(cls, options[:locale]) }
       classes.length == 1 ? classes.first : classes
     end
 
     # Checks if the rule is a regexp.
     #
     # @return [Boolean] `true` if the rule is a Regexp, `false` otherwise.
-    def is_regexp?
+    def regexp?
       @match.is_a?(::Regexp)
     end
+    alias_method :is_regexp?, :regexp?
 
     # Checks if the rule is a regexp.
     #
     # @return [Boolean] `true` if the rule has a block, `false` otherwise.
-    def has_block?
+    def block?
       @block.present?
     end
+    alias_method :has_block?, :block?
 
     # Matches a hostname to the rule.
     #
     # @param hostname [String] The hostname to match.
     # @return [MatchData|Boolean|Nil] Return `true` or MatchData (if the pattern is a regexp) if the rule matches, `false` or `nil` otherwise.
     def match_host(hostname)
-      is_regexp? ? @match.match(hostname) : (@match == hostname)
-    end
-
-    # Creates a new rule.
-    #
-    # @param match [String|Regexp] The pattern to match.
-    # @param reply_or_type [String|Symbol] The IP or hostname to reply back to the client (or the type of request to match, if a block is provided).
-    # @param type [Symbol] The type of request to match. This is ignored if a block is provided.
-    # @param options [Hash] A list of options for the request.
-    # @param block [Proc] An optional block to compute the reply instead of using the `reply_or_type` parameter. In this case `reply_or_type` is used for the type of the request and `type` is ignored.
-    # @return [Rule] The new rule.
-    def self.create(match, reply_or_type = nil, type = nil, options = {}, &block)
-      validate_options(reply_or_type, options, block, Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"), options.is_a?(Hash) ? options[:locale] : nil))
-      setup(new(match), reply_or_type, type, options, block)
-    end
-
-    # Converts a class to the correspondent symbol.
-    #
-    # @param klass [Class] The class to convert.
-    # @return [Symbol] The symbol representation of the class.
-    def self.resource_class_to_symbol(klass)
-      klass.to_s.gsub(/(.+::)?(.+)/, "\\2").to_sym
-    end
-
-    # Converts a symbol to the correspondent DNS resource class.
-    #
-    # @param symbol [Symbol] The symbol to convert.
-    # @param locale [Symbol] The locale to use for the messages.
-    # @return [Symbol] The class associated to the symbol.
-    def self.symbol_to_resource_class(symbol, locale = nil)
-      symbol = symbol.to_s.upcase
-
-      begin
-        "Resolv::DNS::Resource::IN::#{symbol}".constantize
-      rescue ::NameError
-        raise(DevDNSd::Errors::InvalidRule.new(Lazier::Localizer.new(:devdnsd, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"), locale).i18n.invalid_class(symbol)))
-      end
+      regexp? ? @match.match(hostname) : (@match == hostname)
     end
 
     private
-      # Setups a new rule.
-      #
-      # @param match [String|Regexp] The pattern to match.
-      # @param reply [String] The IP or hostname to reply back to the client.
-      # @param type [Symbol] The type of request to match.
-      # @param options [Hash] A list of options for the request.
-      # @param block [Proc] An optional block to compute the reply instead of using the `reply` parameter.
-      def setup(match, reply, type, options, block)
-        @match = match
+
+    # :nodoc:
+    def setup(match, reply, type, options, block)
+      @match = match
+
+      if block.present? # reply acts like a type, type is ignored
         @type = type || :A
-        @reply = block.blank? ? (reply || "127.0.0.1") : nil
-        @options = options
-        @block = block
+        @reply = nil
+      else # reply acts like a reply
+        @reply = reply || "127.0.0.1"
+        @type = type || :A
       end
 
-      # Validates a newly created rule.
-      def validate_rule
-        raise(DevDNSd::Errors::InvalidRule.new(i18n.rule_invalid_call)) if @reply.blank? && @block.nil?
-        raise(DevDNSd::Errors::InvalidRule.new(i18n.rule_invalid_options)) if !@options.is_a?(::Hash)
-      end
+      @options = options
+      @block = block
+      locale = options.is_a?(Hash) ? options[:locale] : :en
+      @i18n = Bovem::I18n.new(locale, root: "devdnsd", path: ::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/")
+    end
 
-      # Setups a new rule.
-      #
-      # @param rv [Rule] The rule that is been created.
-      # @param reply_or_type [String|Symbol] The IP or hostname to reply back to the client (or the type of request to match, if a block is provided).
-      # @param type [Symbol] The type of request to match. This is ignored if a block is provided.
-      # @param options [Hash] A list of options for the request.
-      # @param block [Proc] An optional block to compute the reply instead of using the `reply_or_type` parameter. In this case `reply_or_type` is used for the type of the request and `type` is ignored.
-      # @return [Rule] The new rule.
-      def self.setup(rv, reply_or_type, type, options = {}, block)
-        rv.options = options
-        rv.block = block
-
-        if block.present? then # reply_or_type acts like a type, type is ignored
-          rv.type = reply_or_type || :A
-          rv.reply = nil
-        else # reply_or_type acts like a reply
-          rv.reply = reply_or_type || "127.0.0.1"
-          rv.type = type || :A
-        end
-
-        rv
-      end
-
-      # Validate options for a new rule creation.
-      #
-      # @param reply_or_type [String|Symbol] The IP or hostname to reply back to the client (or the type of request to match, if a block is provided).
-      # @param options [Hash] A list of options for the request.
-      # @param block [Proc] An optional block to compute the reply instead of using the `reply_or_type` parameter. In this case `reply_or_type` is used for the type of the request and `type` is ignored.
-      # @param localizer [Localizer] A localizer object.
-      def self.validate_options(reply_or_type, options, block, localizer)
-        raise(DevDNSd::Errors::InvalidRule.new(localizer.i18n.rule_invalid_call)) if reply_or_type.blank? && block.nil?
-        raise(DevDNSd::Errors::InvalidRule.new(localizer.i18n.rule_invalid_options)) if !options.is_a?(::Hash)
-      end
+    # Validates a newly created rule.
+    def validate_rule
+      raise(DevDNSd::Errors::InvalidRule, @i18n.rule_invalid_call) if @reply.blank? && @block.nil?
+      raise(DevDNSd::Errors::InvalidRule, @i18n.rule_invalid_options) unless @options.is_a?(::Hash)
+    end
   end
 end

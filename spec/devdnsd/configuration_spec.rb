@@ -29,13 +29,13 @@ describe DevDNSd::Configuration do
   describe "#add_rule" do
     it "should add a good rule" do
       config = DevDNSd::Configuration.new
-      config.add_rule("RULE", "127.0.0.1")
+      config.add_rule(match: "RULE", reply: "127.0.0.1")
       expect(config.rules.count).to eq(2)
     end
 
     it "should reject a bad rule" do
       config = DevDNSd::Configuration.new
-      expect { config.add_rule("RULE") }.to raise_error(DevDNSd::Errors::InvalidRule)
+      expect { config.add_rule(match: "RULE", options: "ARG") }.to raise_error(DevDNSd::Errors::InvalidRule)
     end
   end
 end

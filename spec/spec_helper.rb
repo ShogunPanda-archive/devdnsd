@@ -4,13 +4,27 @@
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
-require "rubygems"
 require "bundler/setup"
-require "devdnsd"
-require "resolver_helper"
 
-RSpec.configure do |config|
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
+if ENV["COVERAGE"]
+  require "simplecov"
+  require "coveralls"
+
+  Coveralls.wear! if ENV["CI"]
+
+  SimpleCov.start do
+    root = Pathname.new(File.dirname(__FILE__)) + ".."
+
+    add_filter do |src_file|
+      path = Pathname.new(src_file.filename).relative_path_from(root).to_s
+      path !~ /^lib/
+    end
   end
 end
+
+require "i18n"
+::I18n.enforce_available_locales = false
+require File.dirname(__FILE__) + "/../lib/devdnsd"
+Lazier::I18n.default_locale = :en
+
+require "resolver_helper"
