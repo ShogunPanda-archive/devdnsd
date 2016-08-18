@@ -4,13 +4,11 @@
 [![Dependency Status](https://gemnasium.com/ShogunPanda/devdnsd.png?travis)](https://gemnasium.com/ShogunPanda/devdnsd)
 [![Build Status](https://secure.travis-ci.org/ShogunPanda/devdnsd.png?branch=master)](http://travis-ci.org/ShogunPanda/devdnsd)
 [![Code Climate](https://codeclimate.com/github/ShogunPanda/devdnsd.png)](https://codeclimate.com/github/ShogunPanda/devdnsd)
-[![Coverage Status](https://coveralls.io/repos/ShogunPanda/devdnsd/badge.png)](https://coveralls.io/r/ShogunPanda/devdnsd)
+[![Coverage Status](https://coveralls.io/repos/github/ShogunPanda/devdnsd/badge.svg?branch=master)](https://coveralls.io/github/ShogunPanda/devdnsd?branch=master)
 
 A small DNS server to enable local .dev domain resolution.
 
-http://sw.cowtech.it/devdnsd
-
-http://rdoc.info/gems/devdnsd
+https://sw.cowtech.it/devdnsd
 
 ## Description
 
@@ -81,6 +79,10 @@ For some examples of rules, see the `config/devdnsd_config.sample` file into the
 DevDNSd as a local resolver is tightly coupled with the OSX name resolution system, so it is only available for MacOSX.
 
 You can, anyway, run the software as DNS server.
+
+## API Documentation
+
+The API documentation can be found [here](https://sw.cowtech.it/devdnsd/docs).
 
 ## Contributing to devdnsd
 
