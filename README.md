@@ -1,10 +1,9 @@
 # devdnsd
 
-[![Gem Version](https://badge.fury.io/rb/devdnsd.png)](http://badge.fury.io/rb/devdnsd)
-[![Dependency Status](https://gemnasium.com/ShogunPanda/devdnsd.png?travis)](https://gemnasium.com/ShogunPanda/devdnsd)
-[![Build Status](https://secure.travis-ci.org/ShogunPanda/devdnsd.png?branch=master)](http://travis-ci.org/ShogunPanda/devdnsd)
-[![Code Climate](https://codeclimate.com/github/ShogunPanda/devdnsd.png)](https://codeclimate.com/github/ShogunPanda/devdnsd)
-[![Coverage Status](https://coveralls.io/repos/github/ShogunPanda/devdnsd/badge.svg?branch=master)](https://coveralls.io/github/ShogunPanda/devdnsd?branch=master)
+[![Gem Version](https://img.shields.io/gem/v/devdnsd.svg)](https://rubygems.org/gems/devdnsd)
+[![Dependency Status](https://img.shields.io/gemnasium/ShogunPanda/devdnsd.svg)](https://gemnasium.com/ShogunPanda/devdnsd)
+[![Build Status](https://img.shields.io/travis/ShogunPanda/devdnsd.svg)](http://travis-ci.org/ShogunPanda/devdnsd)
+[![Coverage Status](https://img.shields.io/coveralls/github/ShogunPanda/devdnsd.svg)](https://coveralls.io/github/ShogunPanda/devdnsd)
 
 A small DNS server to enable local .dev domain resolution.
 
@@ -100,4 +99,4 @@ This software have been made possible by the awesome job of [Samuel Williams](ht
 
 Copyright (C) 2013 and above Shogun (shogun@cowtech.it).
 
-Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
+Licensed under the MIT license, which can be found at https://choosealicense.com/licenses/mit.
