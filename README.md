@@ -1,17 +1,12 @@
 # devdnsd
 
-[![Gem Version](https://img.shields.io/gem/v/devdnsd.svg)](https://rubygems.org/gems/devdnsd)
-[![Dependency Status](https://img.shields.io/gemnasium/ShogunPanda/devdnsd.svg)](https://gemnasium.com/ShogunPanda/devdnsd)
-[![Build Status](https://img.shields.io/travis/ShogunPanda/devdnsd.svg)](http://travis-ci.org/ShogunPanda/devdnsd)
-[![Coverage Status](https://img.shields.io/coveralls/github/ShogunPanda/devdnsd.svg)](https://coveralls.io/github/ShogunPanda/devdnsd)
+## END OF DEVELOPMENT NOTICE - This gem has been discontinued
 
 A small DNS server to enable local .dev domain resolution.
 
-https://sw.cowtech.it/devdnsd
-
 ## Description
 
-DevDNSd is a small DNS server which add a resolver to the system only for single TLD (by default, **.dev**). This way you can access your local application by typing every kind of url, i.e. *locallapp.dev*.
+DevDNSd is a small DNS server which add a resolver to the system only for single TLD (by default, **.dev**). This way you can access your local application by typing every kind of url, i.e. _locallapp.dev_.
 
 Of course, DevDNSd is inspired by [pow](https://github.com/37signals/pow), but it only provides DNS features, delegating the setup of a web-server to the user.
 
@@ -19,11 +14,11 @@ Of course, DevDNSd is inspired by [pow](https://github.com/37signals/pow), but i
 
 1. Install the gem:
 
-	`gem install devdnsd`
+   `gem install devdnsd`
 
 2. Install the service:
 
-	`devdnsd install`
+   `devdnsd install`
 
 **You're done!**
 
@@ -46,14 +41,14 @@ By defaults, DevDNSd uses a configuration file in `~/.devdnsd/default.conf`, but
 
 The file is a plain Ruby file with a single `config` object that supports the following directives.
 
-* `foreground`: If run the application in foreground.
-* `address`: The IP to bind, 0.0.0.0 by default.
-* `port`: The port to bind, 7771 by default.
-* `pid_file`: The PID file to use.
-* `tld`: The TLD to handle.
-* `log_file`: The default log file. Not used if run in foreground.
-* `log_level`: The default log level. Valid values are from 0 to 5 where 0 means "all messages".
-* `add_rule`: Add a rule to the server. See section *Rules* below.
+- `foreground`: If run the application in foreground.
+- `address`: The IP to bind, 0.0.0.0 by default.
+- `port`: The port to bind, 7771 by default.
+- `pid_file`: The PID file to use.
+- `tld`: The TLD to handle.
+- `log_file`: The default log file. Not used if run in foreground.
+- `log_level`: The default log level. Valid values are from 0 to 5 where 0 means "all messages".
+- `add_rule`: Add a rule to the server. See section _Rules_ below.
 
 ## Rules
 
@@ -85,13 +80,13 @@ The API documentation can be found [here](https://sw.cowtech.it/devdnsd/docs).
 
 ## Contributing to devdnsd
 
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
-* Fork the project.
-* Start a feature/bugfix branch.
-* Commit and push until you are happy with your contribution.
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+- Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
+- Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
+- Fork the project.
+- Start a feature/bugfix branch.
+- Commit and push until you are happy with your contribution.
+- Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
+- Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
 ## Copyright
 
